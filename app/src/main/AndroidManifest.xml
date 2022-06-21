@@ -8,13 +8,17 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.GitHub">
         <activity
-            android:name=".MainActivity"
+            android:name=".DummyActivity"
             android:exported="true"
-            android:theme="@style/Theme.GitHub">
+            android:theme="@style/Theme.AppSplashTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity
+            android:name=".MainActivity"
+            android:theme="@style/Theme.GitHub">
         </activity>
     </application>
 </manifest>
