@@ -5,12 +5,14 @@ import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Button
 import androidx.compose.material.Text
 import androidx.compose.material.TextField
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.pointer.pointerInput
@@ -18,10 +20,7 @@ import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.input.ImeAction
-import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.text.input.PasswordVisualTransformation
-import androidx.compose.ui.text.input.VisualTransformation
+import androidx.compose.ui.text.input.*
 import androidx.compose.ui.unit.dp
 import com.example.github.R
 import com.example.github.ui.theme.Typography
@@ -31,6 +30,9 @@ import com.example.github.util.Constants
 @Composable
 fun LoginScreen() {
     val focusManager = LocalFocusManager.current
+
+    var username by rememberSaveable { mutableStateOf(Constants.EMPTY_STRING) }
+    var password by rememberSaveable { mutableStateOf(Constants.EMPTY_STRING) }
 
     Column(
         modifier = Modifier
@@ -58,7 +60,9 @@ fun LoginScreen() {
 
         LoginTextField(
             label = stringResource(R.string.username),
-            onValueChange = { },
+            value = username,
+            onValueChange = { username = it },
+            onDone = { },
             imeAction = ImeAction.Next,
             keyboardType = KeyboardType.Text,
             visualTransformation = VisualTransformation.None)
@@ -67,7 +71,9 @@ fun LoginScreen() {
 
         LoginTextField(
             label = stringResource(R.string.password),
-            onValueChange = { },
+            value = password,
+            onValueChange = { password = it },
+            onDone = null,
             imeAction = ImeAction.Done,
             keyboardType = KeyboardType.Password,
             visualTransformation = PasswordVisualTransformation())
@@ -89,14 +95,16 @@ fun LoginScreen() {
 @Composable
 private fun LoginTextField(
     label: String,
+    value: String,
     onValueChange: (value: String) -> Unit,
+    onDone: (() -> Unit)?,
     imeAction: ImeAction,
     keyboardType: KeyboardType,
     visualTransformation: VisualTransformation) {
 
     TextField(
         label = { Text(text = label) },
-        value = Constants.EMPTY_STRING,
+        value = value,
         onValueChange = onValueChange,
         maxLines = 1,
         singleLine = true,
@@ -104,6 +112,7 @@ private fun LoginTextField(
         keyboardOptions = KeyboardOptions(
             imeAction = imeAction,
             keyboardType = keyboardType
-        )
+        ),
+        keyboardActions = KeyboardActions(onDone = { onDone?.invoke() })
     )
 }
