@@ -26,8 +26,8 @@ class LoginViewModel(
     private val _isLoading = MutableStateFlow(false)
     val isLoading: StateFlow<Boolean> = _isLoading
 
-    private val _error: MutableStateFlow<ResponseResult.ResponseError?> = MutableStateFlow(null)
-    val error: StateFlow<ResponseResult.ResponseError?> = _error
+    private val _responseError: MutableStateFlow<ResponseResult.ResponseError?> = MutableStateFlow(null)
+    val responseError: StateFlow<ResponseResult.ResponseError?> = _responseError
 
     private val _validationError: MutableStateFlow<UsernameValidationError?> = MutableStateFlow(null)
     val validationError: StateFlow<UsernameValidationError?> = _validationError
@@ -74,7 +74,7 @@ class LoginViewModel(
                 }
                 is ResponseResult.ResponseError -> {
                     AppLogger.log(TAG, "Unable to login: $result", logType = LogType.Error)
-                    _error.value = result
+                    _responseError.value = result
                 }
             }
         }
