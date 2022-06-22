@@ -15,7 +15,7 @@ class LoginHelper private constructor() {
                     (responseError.code == HTTP_ERROR_NOT_FOUND)
 
         fun validateUsername(username: String): UsernameValidationError? {
-            if (username.isEmpty())
+            if (username.isBlank())
                 return UsernameValidationError.EmptyUsernameValidationError
 
             if (!USER_NAME_VALIDATION_REGEX.matches(username))

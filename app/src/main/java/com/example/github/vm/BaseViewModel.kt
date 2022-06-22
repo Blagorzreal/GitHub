@@ -33,15 +33,13 @@ abstract class BaseViewModel<Data, Model>(
 
     open fun onError(error: ResponseResult.ResponseError) { }
 
-    protected fun fetchData(fetchAction: suspend () -> ResponseResult<Model>) {
+    protected fun fetchData(fetch: suspend () -> ResponseResult<Model>) {
         AppLogger.log(tag, "Fetching data")
 
         _isLoading.value = true
 
         viewModelScope.launch {
-            val result = withContext(coroutineScope) {
-                fetchAction()
-            }
+            val result = withContext(coroutineScope) { fetch() }
 
             _isLoading.value = false
 
