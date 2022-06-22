@@ -1,6 +1,7 @@
 package com.example.github.data.remote
 
 import com.example.github.BuildConfig
+import com.example.github.data.remote.auth.AuthApi
 import com.google.gson.GsonBuilder
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
@@ -19,5 +20,7 @@ class ApiProvider private constructor() {
                 .baseUrl(BuildConfig.GITHUB_API_URL)
                 .build()
         }
+
+        val authApi by lazy { AuthApi() }
     }
 }
