@@ -32,7 +32,6 @@ fun LoginScreen() {
     val focusManager = LocalFocusManager.current
 
     var username by rememberSaveable { mutableStateOf(Constants.EMPTY_STRING) }
-    var password by rememberSaveable { mutableStateOf(Constants.EMPTY_STRING) }
 
     Column(
         modifier = Modifier
@@ -64,19 +63,9 @@ fun LoginScreen() {
             onValueChange = { username = it },
             onDone = { },
             imeAction = ImeAction.Next,
-            keyboardType = KeyboardType.Text,
-            visualTransformation = VisualTransformation.None)
+            keyboardType = KeyboardType.Text)
 
         Spacer(modifier = Modifier.height(8.dp))
-
-        LoginTextField(
-            label = stringResource(R.string.password),
-            value = password,
-            onValueChange = { password = it },
-            onDone = null,
-            imeAction = ImeAction.Done,
-            keyboardType = KeyboardType.Password,
-            visualTransformation = PasswordVisualTransformation())
 
         CommonSpacer()
 
@@ -99,8 +88,7 @@ private fun LoginTextField(
     onValueChange: (value: String) -> Unit,
     onDone: (() -> Unit)?,
     imeAction: ImeAction,
-    keyboardType: KeyboardType,
-    visualTransformation: VisualTransformation) {
+    keyboardType: KeyboardType) {
 
     TextField(
         label = { Text(text = label) },
@@ -108,7 +96,6 @@ private fun LoginTextField(
         onValueChange = onValueChange,
         maxLines = 1,
         singleLine = true,
-        visualTransformation = visualTransformation,
         keyboardOptions = KeyboardOptions(
             imeAction = imeAction,
             keyboardType = keyboardType
