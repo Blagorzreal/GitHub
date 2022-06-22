@@ -41,7 +41,7 @@ class LoginViewModel(private val authApi: IAuthApi = ApiProvider.authApi)
         val usernameTrimmed = _username.value.trim().lowercase()
 
         LoginHelper.validateUsername(usernameTrimmed)?.let {
-            AppLogger.log(TAG, "invalid username = $usernameTrimmed", logType = LogType.Warning)
+            AppLogger.log(TAG, "invalid username = $usernameTrimmed", LogType.Warning)
             _validationError.value = it
             return
         }

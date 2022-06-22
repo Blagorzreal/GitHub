@@ -11,8 +11,8 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-abstract class BaseViewModel<D, M>(
-    private val mapper: (M) -> D,
+abstract class BaseViewModel<Data, Model>(
+    private val mapper: (Model) -> Data,
     private val tag: String,
     protected val coroutineScope: CoroutineDispatcher = Dispatchers.IO): ViewModel() {
 
@@ -22,18 +22,18 @@ abstract class BaseViewModel<D, M>(
     protected val _responseError: MutableStateFlow<ResponseResult.ResponseError?> = MutableStateFlow(null)
     val responseError: StateFlow<ResponseResult.ResponseError?> = _responseError
 
-    protected val _data: MutableStateFlow<D?> = MutableStateFlow(null)
-    val data: StateFlow<D?> = _data
+    protected val _data: MutableStateFlow<Data?> = MutableStateFlow(null)
+    val data: StateFlow<Data?> = _data
 
     init {
         AppLogger.log(tag, "Initialized")
     }
 
-    open fun onData(data: D) { }
+    open fun onData(data: Data) { }
 
     open fun onError(error: ResponseResult.ResponseError) { }
 
-    protected fun fetchData(fetchAction: suspend () -> ResponseResult<M>) {
+    protected fun fetchData(fetchAction: suspend () -> ResponseResult<Model>) {
         AppLogger.log(tag, "Fetching data")
 
         _isLoading.value = true
