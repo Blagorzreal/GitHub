@@ -1,5 +1,6 @@
 package com.example.github.vm
 
+import com.example.github.data.LoginSession
 import com.example.github.data.data.UserData
 import com.example.github.data.remote.ApiProvider
 import com.example.github.data.remote.auth.IAuthApi
@@ -47,5 +48,10 @@ class LoginViewModel(private val authApi: IAuthApi = ApiProvider.authApi)
         }
 
         fetchData { authApi.login(usernameTrimmed) }
+    }
+
+    override fun onData(data: UserData) {
+        super.onData(data)
+        LoginSession.setUserData(data)
     }
 }
