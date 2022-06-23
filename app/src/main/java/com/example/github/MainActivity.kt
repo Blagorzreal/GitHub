@@ -18,8 +18,13 @@ import com.example.github.ui.navigation.Route
 import com.example.github.ui.screen.login.LoginScreen
 import com.example.github.ui.screen.profile.ProfileScreen
 import com.example.github.ui.theme.GitHubTheme
+import com.example.github.util.log.AppLogger
 
 class MainActivity: ComponentActivity() {
+    companion object {
+        private const val TAG = "Main activity"
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
@@ -28,7 +33,11 @@ class MainActivity: ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
                 ) {
-                    val startDestination = if (LoginSession.isActive) Route.Profile else Route.Login
+                    val startDestination =
+                        if (LoginSession.isActive)
+                            Route.Profile
+                        else
+                            Route.Login
 
                     val navController = rememberNavController()
                     NavHost(navController = navController, startDestination = startDestination.route) {
@@ -47,6 +56,21 @@ class MainActivity: ComponentActivity() {
                 }
             }
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        AppLogger.log(TAG, "Resume")
+    }
+
+    override fun onPause() {
+        AppLogger.log(TAG, "Pause")
+        super.onPause()
+    }
+
+    override fun onDestroy() {
+        AppLogger.log(TAG, "Destroy")
+        super.onDestroy()
     }
 }
 
