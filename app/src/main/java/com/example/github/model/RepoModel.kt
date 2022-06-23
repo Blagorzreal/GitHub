@@ -1,9 +1,13 @@
 package com.example.github.model
 
+import androidx.room.Embedded
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
 import org.jetbrains.annotations.NotNull
 
+@Entity
 data class RepoModel(
-    @NotNull @SerializedName("id") val id: Long,
+    @NotNull @PrimaryKey @SerializedName("id") val id: Long,
     @NotNull @SerializedName("name") val name: String,
-    @SerializedName("owner") val owner: UserModel?)
+    @Embedded @SerializedName("owner") val owner: UserModel?)
