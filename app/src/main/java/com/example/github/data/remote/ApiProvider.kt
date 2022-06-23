@@ -43,15 +43,11 @@ class ApiProvider private constructor() {
 
                 val result = response.body() ?: return ResponseResult.NullBodyResponseError
 
-                return if (validateData == null)
+                return if ((validateData == null) || validateData(result))
                     loggedSuccessResponse(result)
                 else {
-                    if (validateData(result))
-                        loggedSuccessResponse(result)
-                    else {
-                        AppLogger.log(tag, "Unable to fetch since invalid data", LogType.Warning)
-                        ResponseResult.InvalidResponseError
-                    }
+                    AppLogger.log(tag, "Unable to fetch since invalid data", LogType.Warning)
+                    ResponseResult.InvalidResponseError
                 }
             } catch (ex: Exception) {
                 AppLogger.log(tag, "Unable to fetch: ${ex.message}", LogType.Error)
