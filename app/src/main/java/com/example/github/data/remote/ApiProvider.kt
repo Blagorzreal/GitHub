@@ -40,7 +40,7 @@ class ApiProvider private constructor() {
 
                 return if ((validateData == null) || validateData(result)) {
                     AppLogger.log(tag, "Fetch successfully")
-                    return ResponseResult.Success(result)
+                    ResponseResult.Success(result)
                 } else {
                     AppLogger.log(tag, "Unable to fetch since invalid data", LogType.Warning)
                     ResponseResult.InvalidResponseError
