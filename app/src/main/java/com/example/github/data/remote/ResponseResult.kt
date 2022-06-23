@@ -7,5 +7,5 @@ sealed class ResponseResult<out T> {
     object NullBodyResponseError: ResponseError()
     data class ExceptionResponseError(val exception: Exception): ResponseError()
     data class UnsuccessfulResponseError(val code: Int): ResponseError()
-    data class Success<out T>(val data: T): ResponseResult<T>()
+    data class Success<out T>(val model: T): ResponseResult<T>()
 }

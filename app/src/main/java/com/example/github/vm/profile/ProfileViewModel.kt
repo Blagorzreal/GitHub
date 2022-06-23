@@ -17,8 +17,7 @@ import kotlinx.coroutines.launch
 class ProfileViewModel(
     private val userData: UserData,
     private val profileRepository: ProfileRepository = ProfileRepository()
-)
-    : BaseViewModel<List<RepoData>, List<RepoModel>>(TAG, ProfileHelper::repoModelListToRepoDataList) {
+) : BaseViewModel<List<RepoData>, List<RepoModel>>(TAG, ProfileHelper::repoModelListToRepoDataList) {
 
     companion object {
         private const val TAG = "ProfileVM"

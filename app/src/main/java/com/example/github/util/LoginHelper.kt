@@ -24,9 +24,10 @@ class LoginHelper private constructor() {
             return null
         }
 
-        fun userModelToUserData(userModel: UserModel) = UserData(
-            userModel.id,
-            userModel.login,
-            userModel.avatarUrl)
+        fun userModelToUserData(userModel: UserModel) =
+            UserData(
+                userModel.id,
+                userModel.login,
+                userModel.avatarUrl)
     }
 }

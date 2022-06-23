@@ -23,8 +23,8 @@ class ProfileRepository(
 
         val result = profileApi.getRepos(username)
         if (result is ResponseResult.Success) {
-            AppLogger.log(TAG, "Insert remote data to the db")
-            profileDao.deleteAllAndInsertNew(result.data)
+            AppLogger.log(TAG, "Insert remote repos to the db")
+            profileDao.deleteAllAndInsertNew(result.model)
         }
 
         return result
