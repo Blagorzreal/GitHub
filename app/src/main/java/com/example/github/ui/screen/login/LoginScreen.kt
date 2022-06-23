@@ -29,6 +29,7 @@ import androidx.navigation.NavHostController
 import com.example.github.R
 import com.example.github.data.data.UserData
 import com.example.github.data.remote.ResponseResult
+import com.example.github.ui.navigation.Route
 import com.example.github.ui.theme.Typography
 import com.example.github.ui.view.CommonSpacer
 import com.example.github.util.LoginHelper
@@ -78,8 +79,8 @@ fun LoginScreen(navController: NavHostController, loginViewModel: LoginViewModel
 private fun HandleLogin(navController: NavHostController, userData: State<UserData?>) {
     if (userData.value != null) {
         LaunchedEffect(key1 = true) {
-            navController.navigate("profile") {
-                popUpTo("login") {
+            navController.navigate(Route.Profile.route) {
+                popUpTo(Route.Login.route) {
                     inclusive = true
                     saveState = false
                 }

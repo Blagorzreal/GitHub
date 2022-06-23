@@ -14,6 +14,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.github.data.LoginSession
+import com.example.github.ui.navigation.Route
 import com.example.github.ui.screen.login.LoginScreen
 import com.example.github.ui.screen.profile.ProfileScreen
 import com.example.github.ui.theme.GitHubTheme
@@ -27,15 +28,15 @@ class MainActivity: ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
                 ) {
-                    val startDestination = if (LoginSession.isActive) "profile" else "login"
+                    val startDestination = if (LoginSession.isActive) Route.Profile else Route.Login
 
                     val navController = rememberNavController()
-                    NavHost(navController = navController, startDestination = startDestination) {
-                        composable("login") {
+                    NavHost(navController = navController, startDestination = startDestination.route) {
+                        composable(Route.Login.route) {
                             LoginScreen(navController)
                         }
 
-                        composable("profile") {
+                        composable(Route.Profile.route) {
                             BackHandler(true) {
                                 moveTaskToBack(true)
                             }
