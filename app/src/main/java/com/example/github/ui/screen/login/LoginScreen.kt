@@ -32,6 +32,7 @@ import com.example.github.data.remote.ResponseResult
 import com.example.github.ui.navigation.Route
 import com.example.github.ui.theme.Typography
 import com.example.github.ui.view.CommonSpacer
+import com.example.github.ui.view.InclusiveNavigation
 import com.example.github.util.LoginHelper
 import com.example.github.vm.LoginViewModel
 
@@ -77,16 +78,8 @@ fun LoginScreen(navController: NavHostController, loginViewModel: LoginViewModel
 
 @Composable
 private fun HandleLogin(navController: NavHostController, userData: State<UserData?>) {
-    if (userData.value != null) {
-        LaunchedEffect(true) {
-            navController.navigate(Route.Profile.route) {
-                popUpTo(Route.Login.route) {
-                    inclusive = true
-                    saveState = false
-                }
-            }
-        }
-    }
+    if (userData.value != null)
+        InclusiveNavigation(navController, Route.Profile, Route.Login)
 }
 
 private fun clearFocusAndLogin(focusManager: FocusManager, login: () -> Unit) {
