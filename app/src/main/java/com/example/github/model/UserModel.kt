@@ -15,4 +15,6 @@ data class UserModel(
 
     @NotNull
     @SerializedName("login")
-    val login: String)
+    val login: String,
+
+    @SerializedName("avatar_url") val avatarUrl: String)
