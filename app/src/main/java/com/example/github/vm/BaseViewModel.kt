@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.github.data.remote.ResponseResult
 import com.example.github.util.log.AppLogger
+import com.example.github.util.log.LogType
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -54,9 +55,11 @@ abstract class BaseViewModel<Data, Model>(
         }
     }
 
-    open fun onData(data: Data) { }
+    open fun onData(data: Data) =
+        AppLogger.log(tag, "Fetched data: $data")
 
-    open fun onError(error: ResponseResult.ResponseError) { }
+    open fun onError(error: ResponseResult.ResponseError) =
+        AppLogger.log(tag, "Fetched error: $error", LogType.Error)
 
     override fun onCleared() {
         AppLogger.log(tag, "Clear VM")
