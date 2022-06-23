@@ -78,7 +78,7 @@ fun LoginScreen(navController: NavHostController, loginViewModel: LoginViewModel
 @Composable
 private fun HandleLogin(navController: NavHostController, userData: State<UserData?>) {
     if (userData.value != null) {
-        LaunchedEffect(key1 = true) {
+        LaunchedEffect(true) {
             navController.navigate(Route.Profile.route) {
                 popUpTo(Route.Login.route) {
                     inclusive = true

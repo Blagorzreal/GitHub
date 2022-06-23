@@ -50,7 +50,12 @@ class MainActivity: ComponentActivity() {
                                 moveTaskToBack(true)
                             }
 
-                            ProfileScreen(navController)
+                            val userData = LoginSession.userData
+                            if (userData != null)
+                                ProfileScreen(navController, userData)
+                            else {
+                                // TODO
+                            }
                         }
                     }
                 }

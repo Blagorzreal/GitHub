@@ -2,6 +2,7 @@ package com.example.github.data.remote
 
 import com.example.github.BuildConfig
 import com.example.github.data.remote.auth.AuthApi
+import com.example.github.data.remote.profile.ProfileApi
 import com.google.gson.GsonBuilder
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
@@ -22,5 +23,7 @@ class ApiProvider private constructor() {
         }
 
         val authApi by lazy { AuthApi() }
+
+        val profileApi by lazy { ProfileApi() }
     }
 }

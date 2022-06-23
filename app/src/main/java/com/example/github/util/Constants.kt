@@ -7,5 +7,6 @@ class Constants private constructor() {
         const val EMPTY_STRING = ""
         const val HTTP_ERROR_NOT_FOUND = 404
         val GSON = Gson()
+        const val VIEW_MODEL_ERROR = "ViewModel Not Found"
     }
 }
