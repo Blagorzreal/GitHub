@@ -23,5 +23,5 @@ class ProfileApi: IProfileApi {
     }
 
     override suspend fun getRepos(username: String): ResponseResult<List<RepoModel>> =
-        ApiProvider.fetch(TAG, profileApi.getRepos(username)) { true }
+        ApiProvider.fetch(TAG, profileApi.getRepos(username))
 }

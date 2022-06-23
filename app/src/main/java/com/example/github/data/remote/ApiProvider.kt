@@ -28,7 +28,12 @@ class ApiProvider private constructor() {
         fun <T> fetch(
             tag: String,
             response: Response<T>,
-            validateData: (data: T?) -> Boolean): ResponseResult<T> {
+            validateData: ((data: T?) -> Boolean)? = null): ResponseResult<T> {
+
+            fun <T> loggedSuccessResponse(result: T): ResponseResult<T> {
+                AppLogger.log(tag, "Fetch successfully")
+                return ResponseResult.Success(result)
+            }
 
             try {
                 if (!response.isSuccessful) {
@@ -37,12 +42,16 @@ class ApiProvider private constructor() {
                 }
 
                 val result = response.body() ?: return ResponseResult.NullBodyResponseError
-                return if (validateData(result)) {
-                    AppLogger.log(tag, "Fetch successfully")
-                    ResponseResult.Success(result)
-                } else {
-                    AppLogger.log(tag, "Unable to fetch since invalid data", LogType.Warning)
-                    ResponseResult.EmptyResponseError
+
+                return if (validateData == null)
+                    loggedSuccessResponse(result)
+                else {
+                    if (validateData(result))
+                        loggedSuccessResponse(result)
+                    else {
+                        AppLogger.log(tag, "Unable to fetch since invalid data", LogType.Warning)
+                        ResponseResult.InvalidResponseError
+                    }
                 }
             } catch (ex: Exception) {
                 AppLogger.log(tag, "Unable to fetch: ${ex.message}", LogType.Error)
