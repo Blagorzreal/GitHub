@@ -12,8 +12,8 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 abstract class BaseViewModel<Data, Model>(
-    private val mapper: (Model) -> Data,
-    private val tag: String,
+    protected val tag: String,
+    protected val mapper: (Model) -> Data,
     protected val coroutineScope: CoroutineDispatcher = Dispatchers.IO): ViewModel() {
 
     protected val _isLoading = MutableStateFlow(false)
@@ -29,17 +29,14 @@ abstract class BaseViewModel<Data, Model>(
         AppLogger.log(tag, "Init VM")
     }
 
-    open fun onData(data: Data) { }
-
-    open fun onError(error: ResponseResult.ResponseError) { }
-
-    protected fun fetchData(fetch: suspend () -> ResponseResult<Model>) {
+    fun fetchData(fetch: suspend () -> ResponseResult<Model>) {
         AppLogger.log(tag, "Fetching data")
 
         _isLoading.value = true
 
         viewModelScope.launch {
             val result = withContext(coroutineScope) { fetch() }
+
             _isLoading.value = false
 
             when (result) {
@@ -60,6 +57,10 @@ abstract class BaseViewModel<Data, Model>(
             }
         }
     }
+
+    open fun onData(data: Data) { }
+
+    open fun onError(error: ResponseResult.ResponseError) { }
 
     override fun onCleared() {
         AppLogger.log(tag, "Clear VM")

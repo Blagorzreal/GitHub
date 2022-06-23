@@ -14,7 +14,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 
 class LoginViewModel(private val authApi: IAuthApi = ApiProvider.authApi)
-    : BaseViewModel<UserData, UserModel>(LoginHelper::userModelToUserData, TAG) {
+    : BaseViewModel<UserData, UserModel>(TAG, LoginHelper::userModelToUserData) {
 
     companion object {
         private const val TAG = "LoginVM"
