@@ -23,6 +23,8 @@ class LoginSession {
             loginPreferences.setUserData(userData)
         }
 
+        val isActive get() = !userData?.username.isNullOrBlank()
+
         fun clean() = loginPreferences.clean()
     }
 }

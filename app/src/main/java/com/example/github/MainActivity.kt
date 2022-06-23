@@ -2,6 +2,7 @@ package com.example.github
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
+import androidx.activity.compose.BackHandler
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.MaterialTheme
@@ -9,7 +10,12 @@ import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import com.example.github.ui.screen.LoginScreen
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
+import com.example.github.data.LoginSession
+import com.example.github.ui.screen.login.LoginScreen
+import com.example.github.ui.screen.profile.ProfileScreen
 import com.example.github.ui.theme.GitHubTheme
 
 class MainActivity: ComponentActivity() {
@@ -21,7 +27,22 @@ class MainActivity: ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
                 ) {
-                    LoginScreen()
+                    val startDestination = if (LoginSession.isActive) "profile" else "login"
+
+                    val navController = rememberNavController()
+                    NavHost(navController = navController, startDestination = startDestination) {
+                        composable("login") {
+                            LoginScreen(navController)
+                        }
+
+                        composable("profile") {
+                            BackHandler(true) {
+                                moveTaskToBack(true)
+                            }
+
+                            ProfileScreen(navController)
+                        }
+                    }
                 }
             }
         }
@@ -32,6 +53,6 @@ class MainActivity: ComponentActivity() {
 @Composable
 fun DefaultPreview() {
     GitHubTheme {
-        LoginScreen()
+        LoginScreen(rememberNavController())
     }
 }

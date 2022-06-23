@@ -5,7 +5,7 @@ import com.example.github.data.data.UserData
 import com.example.github.data.remote.ApiProvider
 import com.example.github.data.remote.auth.IAuthApi
 import com.example.github.model.UserModel
-import com.example.github.ui.screen.UsernameValidationError
+import com.example.github.ui.screen.login.UsernameValidationError
 import com.example.github.util.Constants.Companion.EMPTY_STRING
 import com.example.github.util.LoginHelper
 import com.example.github.util.log.AppLogger

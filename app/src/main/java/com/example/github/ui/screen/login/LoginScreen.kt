@@ -1,4 +1,4 @@
-package com.example.github.ui.screen
+package com.example.github.ui.screen.login
 
 import android.widget.Toast
 import androidx.compose.foundation.Image
@@ -25,7 +25,9 @@ import androidx.compose.ui.text.input.*
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavHostController
 import com.example.github.R
+import com.example.github.data.data.UserData
 import com.example.github.data.remote.ResponseResult
 import com.example.github.ui.theme.Typography
 import com.example.github.ui.view.CommonSpacer
@@ -33,8 +35,10 @@ import com.example.github.util.LoginHelper
 import com.example.github.vm.LoginViewModel
 
 @Composable
-fun LoginScreen(loginViewModel: LoginViewModel = viewModel()) {
+fun LoginScreen(navController: NavHostController, loginViewModel: LoginViewModel = viewModel()) {
     val focusManager = LocalFocusManager.current
+
+    HandleLogin(navController, loginViewModel.data.collectAsState())
 
     Column(
         modifier = Modifier
@@ -60,9 +64,27 @@ fun LoginScreen(loginViewModel: LoginViewModel = viewModel()) {
 
         CommonSpacer()
 
-        LoginComponentsWithLoading(focusManager, loginViewModel, loginViewModel.isLoading.collectAsState())
+        LoginComponentsWithLoading(
+            focusManager,
+            loginViewModel,
+            loginViewModel.isLoading.collectAsState(),
+            loginViewModel.data.collectAsState())
 
         HandleResponseError(loginViewModel.responseError.collectAsState())
+    }
+}
+
+@Composable
+private fun HandleLogin(navController: NavHostController, userData: State<UserData?>) {
+    if (userData.value != null) {
+        LaunchedEffect(key1 = true) {
+            navController.navigate("profile") {
+                popUpTo("login") {
+                    inclusive = true
+                    saveState = false
+                }
+            }
+        }
     }
 }
 
@@ -72,13 +94,18 @@ private fun clearFocusAndLogin(focusManager: FocusManager, login: () -> Unit) {
 }
 
 @Composable
-private fun LoginComponentsWithLoading(focusManager: FocusManager, loginViewModel: LoginViewModel, isLoading: State<Boolean>) {
+private fun LoginComponentsWithLoading(
+    focusManager: FocusManager,
+    loginViewModel: LoginViewModel,
+    isLoading: State<Boolean>,
+    userData: State<UserData?>) {
+
     Column(
         modifier = Modifier.fillMaxWidth(),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        if (isLoading.value)
+        if (isLoading.value || (userData.value != null))
             CircularProgressIndicator()
         else {
             LoginTextField(

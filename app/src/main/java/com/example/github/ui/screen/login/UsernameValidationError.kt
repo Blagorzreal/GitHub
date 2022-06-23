@@ -1,4 +1,4 @@
-package com.example.github.ui.screen
+package com.example.github.ui.screen.login
 
 sealed class UsernameValidationError {
     object EmptyUsernameValidationError: UsernameValidationError()
