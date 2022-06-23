@@ -1,10 +1,9 @@
-package com.example.github.ui.screen.profile
+package com.example.github.vm.profile
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.example.github.data.data.UserData
 import com.example.github.util.Constants.Companion.VIEW_MODEL_ERROR
-import com.example.github.vm.ProfileViewModel
 
 @Suppress("UNCHECKED_CAST")
 class ProfileViewModelFactory(private val userData: UserData): ViewModelProvider.Factory {

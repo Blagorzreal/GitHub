@@ -23,7 +23,8 @@ import com.example.github.ui.navigation.Route
 import com.example.github.ui.view.CommonSpacer
 import com.example.github.ui.view.EllipsesText
 import com.example.github.ui.view.InclusiveNavigation
-import com.example.github.vm.ProfileViewModel
+import com.example.github.vm.profile.ProfileViewModel
+import com.example.github.vm.profile.ProfileViewModelFactory
 
 @Composable
 fun ProfileScreen(

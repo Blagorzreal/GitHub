@@ -1,4 +1,4 @@
-package com.example.github.vm
+package com.example.github.vm.profile
 
 import androidx.lifecycle.viewModelScope
 import com.example.github.data.LoginSession
@@ -8,6 +8,7 @@ import com.example.github.data.data.UserData
 import com.example.github.model.RepoModel
 import com.example.github.util.ProfileHelper
 import com.example.github.util.log.AppLogger
+import com.example.github.vm.BaseViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collectLatest
@@ -15,7 +16,8 @@ import kotlinx.coroutines.launch
 
 class ProfileViewModel(
     private val userData: UserData,
-    private val profileRepository: ProfileRepository = ProfileRepository())
+    private val profileRepository: ProfileRepository = ProfileRepository()
+)
     : BaseViewModel<List<RepoData>, List<RepoModel>>(TAG, ProfileHelper::repoModelListToRepoDataList) {
 
     companion object {
