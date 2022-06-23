@@ -28,30 +28,28 @@ class ApiProvider private constructor() {
         fun <T> fetch(
             tag: String,
             response: Response<T>,
-            validateData: ((data: T?) -> Boolean)? = null
-        ) = try {
+            validateData: ((data: T?) -> Boolean)? = null): ResponseResult<T> {
+
+            try {
                 if (!response.isSuccessful) {
                     AppLogger.log(tag, "Unable to fetch: ${response.code()}", LogType.Warning)
-                    ResponseResult.UnsuccessfulResponseError(response.code())
+                    return ResponseResult.UnsuccessfulResponseError(response.code())
                 }
 
-                when(val result = response.body()) {
-                    (result == null) -> ResponseResult.NullBodyResponseError
+                val result = response.body() ?: return ResponseResult.NullBodyResponseError
 
-                    ((validateData == null) || validateData(result)) -> {
-                        AppLogger.log(tag, "Fetch successfully")
-                        ResponseResult.Success(result)
-                    }
-
-                    else -> {
-                        AppLogger.log(tag, "Unable to fetch since invalid data", LogType.Warning)
-                        ResponseResult.InvalidResponseError
-                    }
+                return if ((validateData == null) || validateData(result)) {
+                    AppLogger.log(tag, "Fetch successfully")
+                    ResponseResult.Success(result)
+                } else {
+                    AppLogger.log(tag, "Unable to fetch since invalid data", LogType.Warning)
+                    ResponseResult.InvalidResponseError
                 }
             } catch (ex: Exception) {
                 AppLogger.log(tag, "Unable to fetch: ${ex.message}", LogType.Error)
-                ResponseResult.ExceptionResponseError(ex)
+                return ResponseResult.ExceptionResponseError(ex)
             }
+        }
 
         val authApi by lazy { AuthApi() }
 
