@@ -49,7 +49,7 @@ fun LoginScreen(navController: NavHostController, loginViewModel: LoginViewModel
                 detectTapGestures(onTap = { focusManager.clearFocus() })
             },
         verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally,
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Image(
             modifier = Modifier.width(80.dp).height(80.dp),
