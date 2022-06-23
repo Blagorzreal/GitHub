@@ -17,7 +17,7 @@ class LoginSession {
             loginPreferences = LoginPreferences(context, LOGIN_SHARED_PREFERENCES)
         }
 
-        val userData by lazy { loginPreferences.userData }
+        val userData get() = loginPreferences.userData
 
         fun setUserData(userData: UserData?) {
             loginPreferences.setUserData(userData)
