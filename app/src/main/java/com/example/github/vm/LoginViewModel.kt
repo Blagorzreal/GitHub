@@ -52,6 +52,8 @@ class LoginViewModel(private val authApi: IAuthApi = ApiProvider.authApi)
 
     override fun onData(data: UserData) {
         super.onData(data)
+
+        _data.value = data
         LoginSession.setUserData(data)
     }
 }

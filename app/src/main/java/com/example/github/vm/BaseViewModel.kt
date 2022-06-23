@@ -42,11 +42,7 @@ abstract class BaseViewModel<Data, Model>(
             when (result) {
                 is ResponseResult.Success -> {
                     AppLogger.log(tag, "Fetched data successfully")
-
-                    mapper(result.data).let {
-                        _data.value = it
-                        onData(it)
-                    }
+                    onData(mapper(result.model))
                 }
                 is ResponseResult.ResponseError -> {
                     AppLogger.log(tag, "Unable to fetch the data: $result")
