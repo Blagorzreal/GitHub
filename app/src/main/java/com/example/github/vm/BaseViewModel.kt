@@ -26,7 +26,7 @@ abstract class BaseViewModel<Data, Model>(
     val data: StateFlow<Data?> = _data
 
     init {
-        AppLogger.log(tag, "Initialized")
+        AppLogger.log(tag, "Init VM")
     }
 
     open fun onData(data: Data) { }
@@ -59,5 +59,10 @@ abstract class BaseViewModel<Data, Model>(
                 }
             }
         }
+    }
+
+    override fun onCleared() {
+        AppLogger.log(tag, "Clear VM")
+        super.onCleared()
     }
 }
