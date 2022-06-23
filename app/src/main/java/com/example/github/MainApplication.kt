@@ -2,6 +2,7 @@ package com.example.github
 
 import android.app.Application
 import com.example.github.data.LoginSession
+import com.example.github.data.local.DaoProvider
 import com.example.github.util.log.AppLogger
 import com.example.github.util.log.LogType
 
@@ -12,6 +13,8 @@ class MainApplication: Application() {
 
     override fun onCreate() {
         super.onCreate()
+
+        DaoProvider.init(this)
         LoginSession.init(this)
     }
 
