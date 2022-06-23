@@ -23,6 +23,10 @@ class ProfileViewModel(
     private val _isLoggedOut = MutableStateFlow(false)
     val isLoggedOut: StateFlow<Boolean> = _isLoggedOut
 
+    init {
+        getRepos()
+    }
+
     fun getRepos() {
         AppLogger.log(TAG, "Get repos")
         fetchData { profileApi.getRepos(userData.username) }

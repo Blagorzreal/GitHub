@@ -11,4 +11,6 @@
     <string name="empty_username_message">Please enter an username.</string>
     <string name="invalid_username_message">Please enter a valid username.</string>
     <string name="username_not_found_error">Username was not found.</string>
+
+    <string name="no_repos_available">No repositories available.</string>
 </resources>
