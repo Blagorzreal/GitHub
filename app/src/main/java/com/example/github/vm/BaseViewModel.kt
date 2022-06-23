@@ -39,9 +39,11 @@ abstract class BaseViewModel<Data, Model>(
         _isLoading.value = true
 
         viewModelScope.launch {
-            when (val result = withContext(coroutineScope) { fetch() }) {
+            val result = withContext(coroutineScope) { fetch() }
+            _isLoading.value = false
+
+            when (result) {
                 is ResponseResult.Success -> {
-                    _isLoading.value = false
                     AppLogger.log(tag, "Fetched data successfully")
 
                     mapper(result.data).let {
@@ -50,7 +52,6 @@ abstract class BaseViewModel<Data, Model>(
                     }
                 }
                 is ResponseResult.ResponseError -> {
-                    _isLoading.value = false
                     AppLogger.log(tag, "Unable to fetch the data: $result")
 
                     _responseError.value = result
