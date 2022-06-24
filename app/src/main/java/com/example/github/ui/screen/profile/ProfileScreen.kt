@@ -12,6 +12,7 @@ import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -26,6 +27,8 @@ import com.example.github.ui.view.EllipsesText
 import com.example.github.ui.view.InclusiveNavigation
 import com.example.github.vm.profile.ProfileViewModel
 import com.example.github.vm.profile.ProfileViewModelFactory
+import com.google.accompanist.swiperefresh.SwipeRefresh
+import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 
 @Composable
 fun ProfileScreen(
@@ -64,53 +67,72 @@ fun ProfileScreen(
             )
         }
     ) {
-        RepoItems(
+        OwnRepoItems(
             Modifier.padding(bottom = it.calculateBottomPadding()),
             navController,
+            rememberLazyListState(),
             profileViewModel.data.collectAsState(),
-            rememberLazyListState())
+            profileViewModel.isLoading.collectAsState(),
+            profileViewModel::updateRepos)
     }
 
     HandleLogout(navController, profileViewModel.isLoggedOut.collectAsState())
 }
 
 @Composable
-fun RepoItems(
+fun OwnRepoItems(
     modifier: Modifier,
     navController: NavHostController,
+    lazyListState: LazyListState,
     reposState: State<List<RepoData>?>,
-    lazyListState: LazyListState) {
+    isLoadingState: State<Boolean>,
+    refresh: () -> Unit) {
 
-    val repos = reposState.value
-    if (!repos.isNullOrEmpty()) {
+    SwipeRefresh(
+        state = rememberSwipeRefreshState(isLoadingState.value),
+        onRefresh = refresh
+    ) {
+        val repos = reposState.value
         LazyColumn(modifier = modifier.then(Modifier.fillMaxSize()), state = lazyListState) {
-            item {
-                Text(text = stringResource(R.string.own_repos))
-                CommonSpacer()
-            }
-
-            items(repos) {
-                Column(
-                    Modifier
-                        .padding(top = 10.dp, bottom = 10.dp)
-                        .fillMaxWidth()
-                        .clickable {
-
-                        }
-                ) {
-                    EllipsesText(it.name)
-                }
-            }
-        }
-    } else {
-        LazyColumn(modifier = modifier.then(Modifier.fillMaxSize())) {
-            if (repos != null) {
+            if (!repos.isNullOrEmpty()) {
                 item {
-                    Text(text = stringResource(R.string.no_own_repos_available))
-                    CommonSpacer()
+                    ItemsHeader(text = stringResource(R.string.own_repos))
+                }
+
+                items(repos) {
+                    Column(
+                        Modifier
+                            .fillMaxWidth()
+                            .clickable {
+
+                            }
+                    ) {
+                        Box(Modifier.padding(top = 10.dp, bottom = 10.dp)) {
+                            EllipsesText(it.name)
+                        }
+                    }
+                }
+            } else if (!isLoadingState.value) {
+                item {
+                    if (repos != null)
+                        ItemsHeader(stringResource(R.string.no_own_repos_available))
                 }
             }
         }
+    }
+}
+
+@Composable
+private fun ItemsHeader(text: String) {
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(top = 6.dp),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Text(text = text)
+        CommonSpacer()
     }
 }
 
