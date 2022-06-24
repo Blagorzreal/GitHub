@@ -55,7 +55,7 @@ fun LoginScreen(navController: NavHostController, loginViewModel: LoginViewModel
         Image(
             modifier = Modifier.width(80.dp).height(80.dp),
             painter = painterResource(R.drawable.ic_git_hub),
-            contentDescription = stringResource(R.string.git_hub_logo)
+            contentDescription = null
         )
 
         Text(

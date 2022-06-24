@@ -6,11 +6,12 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.State
-import androidx.compose.runtime.collectAsState
-import androidx.compose.ui.Alignment
+import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.AccountCircle
+import androidx.compose.material.icons.filled.Search
+import androidx.compose.runtime.*
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -32,20 +33,59 @@ fun ProfileScreen(
     userData: UserData,
     profileViewModel: ProfileViewModel = viewModel(factory = ProfileViewModelFactory(userData))) {
 
-    val lazyListState = rememberLazyListState()
+    var showPopup by rememberSaveable { mutableStateOf(false) }
 
-    RepoItems(navController, profileViewModel.data.collectAsState(), lazyListState)
+    Scaffold(
+        topBar = {
+            TopAppBar(
+                title = { Text( text = userData.username) },
+                actions = {
+                    IconButton(onClick = { showPopup = true }) {
+                        Icon(
+                            imageVector = Icons.Filled.AccountCircle,
+                            contentDescription = null
+                        )
+
+                        DropdownMenu(
+                            expanded = showPopup,
+                            onDismissRequest = { showPopup = false }) {
+                            DropdownMenuItem(onClick = profileViewModel::logOut) {
+                                Text(text = stringResource(R.string.logout))
+                            }
+                        }
+                    }
+                    IconButton(onClick = { },) {
+                        Icon(
+                            imageVector = Icons.Filled.Search,
+                            contentDescription = null
+                        )
+                    }
+                }
+            )
+        }
+    ) {
+        RepoItems(
+            Modifier.padding(bottom = it.calculateBottomPadding()),
+            navController,
+            profileViewModel.data.collectAsState(),
+            rememberLazyListState())
+    }
 
     HandleLogout(navController, profileViewModel.isLoggedOut.collectAsState())
 }
 
 @Composable
-fun RepoItems(navController: NavHostController, reposState: State<List<RepoData>?>, lazyListState: LazyListState) {
+fun RepoItems(
+    modifier: Modifier,
+    navController: NavHostController,
+    reposState: State<List<RepoData>?>,
+    lazyListState: LazyListState) {
+
     val repos = reposState.value
     if (!repos.isNullOrEmpty()) {
-        LazyColumn(modifier = Modifier.fillMaxSize(), state = lazyListState) {
+        LazyColumn(modifier = modifier.then(Modifier.fillMaxSize()), state = lazyListState) {
             item {
-                Text("Own")
+                Text(text = stringResource(R.string.own_repos))
                 CommonSpacer()
             }
 
@@ -63,11 +103,11 @@ fun RepoItems(navController: NavHostController, reposState: State<List<RepoData>
             }
         }
     } else {
-        LazyColumn(modifier = Modifier.fillMaxSize()) {
-            items(1) {
-                Box(modifier = Modifier.fillParentMaxSize(), contentAlignment = Alignment.Center) {
-                    if (repos != null)
-                        Text(text = stringResource(R.string.no_repos_available))
+        LazyColumn(modifier = modifier.then(Modifier.fillMaxSize())) {
+            if (repos != null) {
+                item {
+                    Text(text = stringResource(R.string.no_own_repos_available))
+                    CommonSpacer()
                 }
             }
         }

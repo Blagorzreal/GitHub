@@ -5,10 +5,12 @@ import com.example.github.data.LoginSession
 import com.example.github.data.ProfileRepository
 import com.example.github.data.data.RepoData
 import com.example.github.data.data.UserData
+import com.example.github.data.local.DaoProvider
 import com.example.github.model.RepoModel
 import com.example.github.util.ProfileHelper
 import com.example.github.util.log.AppLogger
 import com.example.github.vm.BaseViewModel
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collectLatest
@@ -44,7 +46,10 @@ class ProfileViewModel(
 
     fun logOut() {
         AppLogger.log(tag, "Log out")
+
         LoginSession.clean()
+        CoroutineScope(coroutineScope).launch { DaoProvider.clean() }
+
         _isLoggedOut.value = true
     }
 }
