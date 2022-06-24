@@ -2,12 +2,13 @@ package com.example.github.data.local.profile
 
 import androidx.room.*
 import com.example.github.model.RepoModel
+import com.example.github.model.UserModel
 import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface ProfileDao: IProfileDao {
-    @Query("SELECT * FROM RepoModel")
-    override fun getAll(): Flow<List<RepoModel>>
+    @Query("SELECT * FROM RepoModel WHERE owner_id = :ownerId")
+    override fun getAll(ownerId: Long): Flow<List<RepoModel>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     override suspend fun insertRepos(repos: List<RepoModel>)
@@ -15,9 +16,12 @@ interface ProfileDao: IProfileDao {
     @Query("DELETE FROM RepoModel")
     override suspend fun deleteAll()
 
+    @Query("DELETE FROM RepoModel WHERE owner_id = :ownerId")
+    override suspend fun deleteAllByOwner(ownerId: Long)
+
     @Transaction
-    override suspend fun deleteAllAndInsertNew(repos: List<RepoModel>) {
-        deleteAll()
+    override suspend fun deleteAllAndInsertNew(repos: List<RepoModel>, ownerId: Long) {
+        deleteAllByOwner(ownerId)
         insertRepos(repos)
     }
 }
