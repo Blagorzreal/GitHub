@@ -6,6 +6,7 @@ class Constants private constructor() {
     companion object {
         const val EMPTY_STRING = ""
         const val HTTP_ERROR_NOT_FOUND = 404
+        const val HTTP_FORBIDDEN = 403
         val GSON = Gson()
         const val VIEW_MODEL_ERROR = "ViewModel Not Found"
     }

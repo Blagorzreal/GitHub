@@ -33,6 +33,7 @@ import com.example.github.ui.navigation.Route
 import com.example.github.ui.theme.Typography
 import com.example.github.ui.view.CommonSpacer
 import com.example.github.ui.view.InclusiveNavigation
+import com.example.github.util.ErrorHelper
 import com.example.github.util.LoginHelper
 import com.example.github.vm.LoginViewModel
 
@@ -176,11 +177,11 @@ fun HandleResponseError(responseError: State<ResponseResult.ResponseError?>) {
 
     val context = LocalContext.current
 
-    val responseErrorMessage =
-        if (LoginHelper.isUsernameNotFoundError(error))
-            stringResource(R.string.username_not_found_error)
-        else
-            stringResource(R.string.common_error)
+    val responseErrorMessage = when {
+        ErrorHelper.isUsernameNotFoundError(error) -> stringResource(R.string.username_not_found_error)
+        ErrorHelper.isForbiddenError(error) -> stringResource(R.string.forbidden_error)
+        else -> stringResource(R.string.common_error)
+    }
 
     Toast.makeText(context, responseErrorMessage, Toast.LENGTH_LONG).show()
 }

@@ -1,4 +1,5 @@
 <resources>
+    <string name="forbidden_error">Too many public API Requests.</string>
     <string name="common_error">Something went wrong. Please try again later.</string>
 
     <string name="app_name">GitHub</string>
