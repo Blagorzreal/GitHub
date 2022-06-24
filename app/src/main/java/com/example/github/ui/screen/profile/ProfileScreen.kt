@@ -8,16 +8,18 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
+import coil.compose.AsyncImage
 import com.example.github.R
 import com.example.github.data.data.RepoData
 import com.example.github.data.data.UserData
@@ -44,9 +46,13 @@ fun ProfileScreen(
                 title = { Text( text = userData.username) },
                 actions = {
                     IconButton(onClick = { showPopup = true }) {
-                        Icon(
-                            imageVector = Icons.Filled.AccountCircle,
-                            contentDescription = null
+                        AsyncImage(
+                            modifier = Modifier.padding(4.dp),
+                            model = userData.avatarUrl,
+                            contentDescription = null,
+                            contentScale = ContentScale.FillHeight,
+                            placeholder = painterResource(R.drawable.ic_avatar),
+                            error = painterResource(R.drawable.ic_avatar)
                         )
 
                         DropdownMenu(
