@@ -25,29 +25,24 @@ class ApiProvider private constructor() {
                 .build()
         }
 
-        fun <T> fetch(
+        fun <T> requestUnsafe(
             tag: String,
             response: Response<T>,
             validateData: ((data: T?) -> Boolean)? = null): ResponseResult<T> {
 
-            try {
-                if (!response.isSuccessful) {
-                    AppLogger.log(tag, "Unable to fetch: ${response.code()}", LogType.Warning)
-                    return ResponseResult.UnsuccessfulResponseError(response.code())
-                }
+            if (!response.isSuccessful) {
+                AppLogger.log(tag, "Bad response: ${response.code()}", LogType.Warning)
+                return ResponseResult.UnsuccessfulResponseError(response.code())
+            }
 
-                val result = response.body() ?: return ResponseResult.NullBodyResponseError
+            val result = response.body() ?: return ResponseResult.NullBodyResponseError
 
-                return if ((validateData == null) || validateData(result)) {
-                    AppLogger.log(tag, "Fetch successfully")
-                    ResponseResult.Success(result)
-                } else {
-                    AppLogger.log(tag, "Unable to fetch since invalid data", LogType.Warning)
-                    ResponseResult.InvalidResponseError
-                }
-            } catch (ex: Exception) {
-                AppLogger.log(tag, "Unable to fetch: ${ex.message}", LogType.Error)
-                return ResponseResult.ExceptionResponseError(ex)
+            return if ((validateData == null) || validateData(result)) {
+                AppLogger.log(tag, "Successful response")
+                ResponseResult.Success(result)
+            } else {
+                AppLogger.log(tag, "Invalid response", LogType.Warning)
+                ResponseResult.InvalidResponseError
             }
         }
 

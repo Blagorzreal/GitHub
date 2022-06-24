@@ -36,7 +36,14 @@ abstract class BaseViewModel<Data, Model>(
         _isLoading.value = true
 
         viewModelScope.launch {
-            val result = withContext(coroutineScope) { fetch() }
+            val result = withContext(coroutineScope) {
+                try {
+                    fetch()
+                } catch (ex: Exception) {
+                    AppLogger.log(tag, "Exception: ${ex.message}", LogType.Error)
+                    ResponseResult.ExceptionResponseError(ex)
+                }
+            }
 
             _isLoading.value = false
 
