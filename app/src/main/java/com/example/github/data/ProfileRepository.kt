@@ -20,6 +20,8 @@ class ProfileRepository(
 
     val localRepos = profileDao.getAll(owner.id)
 
+    val starredRepos = profileDao.getAllStarred()
+
     suspend fun updateRepos(username: String): ResponseResult<List<RepoModel>> {
         AppLogger.log(TAG, "Update repos")
 

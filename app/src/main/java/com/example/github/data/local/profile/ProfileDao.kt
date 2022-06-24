@@ -2,13 +2,15 @@ package com.example.github.data.local.profile
 
 import androidx.room.*
 import com.example.github.model.RepoModel
-import com.example.github.model.UserModel
 import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface ProfileDao: IProfileDao {
     @Query("SELECT * FROM RepoModel WHERE owner_id = :ownerId")
     override fun getAll(ownerId: Long): Flow<List<RepoModel>>
+
+    @Query("SELECT * FROM RepoModel WHERE starred = 1")
+    override fun getAllStarred(): Flow<List<RepoModel>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     override suspend fun insertRepos(repos: List<RepoModel>)

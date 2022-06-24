@@ -5,6 +5,7 @@ import kotlinx.coroutines.flow.Flow
 
 interface IProfileDao {
     fun getAll(ownerId: Long): Flow<List<RepoModel>>
+    fun getAllStarred(): Flow<List<RepoModel>>
     suspend fun insertRepos(repos: List<RepoModel>)
     suspend fun deleteAll()
     suspend fun deleteAllByOwner(ownerId: Long)

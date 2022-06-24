@@ -1,5 +1,6 @@
 package com.example.github.model
 
+import androidx.room.ColumnInfo
 import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.PrimaryKey
@@ -10,4 +11,5 @@ import org.jetbrains.annotations.NotNull
 data class RepoModel(
     @NotNull @PrimaryKey @SerializedName("id") val id: Long,
     @NotNull @SerializedName("name") val name: String,
-    @Embedded @SerializedName("owner") val owner: UserModel?)
+    @Embedded @SerializedName("owner") val owner: UserModel?,
+    @ColumnInfo(name = "starred") val starred: Boolean = false)

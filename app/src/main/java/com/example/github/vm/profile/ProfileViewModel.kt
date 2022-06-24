@@ -28,11 +28,21 @@ class ProfileViewModel(
     private val _isLoggedOut = MutableStateFlow(false)
     val isLoggedOut: StateFlow<Boolean> = _isLoggedOut
 
+    private val _starredRepos: MutableStateFlow<List<RepoData>?> = MutableStateFlow(null)
+    val starredRepos: StateFlow<List<RepoData>?> = _starredRepos
+
     init {
         viewModelScope.launch {
             profileRepository.localRepos.collectLatest { repos ->
                 AppLogger.log(tag, "Local repos changed: ${repos.size}")
                 _data.value = mapper(repos)
+            }
+        }
+
+        viewModelScope.launch {
+            profileRepository.starredRepos.collectLatest { repos ->
+                AppLogger.log(tag, "Starred repos changed: ${repos.size}")
+                _starredRepos.value = mapper(repos)
             }
         }
 
