@@ -1,5 +1,6 @@
 package com.example.github
 
+import android.content.Context
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.ComponentActivity
@@ -65,11 +66,7 @@ class MainActivity: ComponentActivity() {
                             if (userData != null)
                                 ProfileScreen(navController, userData)
                             else {
-                                Toast.makeText(
-                                    LocalContext.current,
-                                    getString(R.string.common_error),
-                                    Toast.LENGTH_LONG
-                                ).show()
+                                showCommonError(this@MainActivity)
                                 InclusiveNavigation(navController, Route.Login, Route.Profile)
                             }
                         }
@@ -84,14 +81,10 @@ class MainActivity: ComponentActivity() {
                             val owner = it.arguments?.getString(OWNER)
                             val repo = it.arguments?.getString(REPO)
 
-                            if (!owner.isNullOrBlank() && !repo.isNullOrBlank()) {
-                                RepositoryScreen(owner, repo)
-                            } else {
-                                Toast.makeText(
-                                    LocalContext.current,
-                                    getString(R.string.common_error),
-                                    Toast.LENGTH_LONG
-                                ).show()
+                            if (!owner.isNullOrBlank() && !repo.isNullOrBlank())
+                                RepositoryScreen(navController, owner, repo)
+                            else {
+                                showCommonError(this@MainActivity)
                                 navController.popBackStack()
                             }
                         }
@@ -99,6 +92,14 @@ class MainActivity: ComponentActivity() {
                 }
             }
         }
+    }
+
+    private fun showCommonError(context: Context) {
+        Toast.makeText(
+            context,
+            getString(R.string.common_error),
+            Toast.LENGTH_LONG
+        ).show()
     }
 
     override fun onResume() {
