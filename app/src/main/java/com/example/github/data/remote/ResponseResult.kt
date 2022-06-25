@@ -1,7 +1,7 @@
 package com.example.github.data.remote
 
 sealed class ResponseResult<out T> {
-    abstract class ResponseError(var handled: Boolean = false): ResponseResult<Nothing>()
+    abstract class ResponseError: ResponseResult<Nothing>()
 
     object InvalidResponseError: ResponseError()
     object NullBodyResponseError: ResponseError()
