@@ -2,7 +2,7 @@ package com.example.github.data.remote
 
 import com.example.github.BuildConfig
 import com.example.github.data.remote.auth.AuthApi
-import com.example.github.data.remote.profile.ProfileApi
+import com.example.github.data.remote.repos.ReposApi
 import com.example.github.util.log.AppLogger
 import com.example.github.util.log.LogType
 import com.google.gson.GsonBuilder
@@ -48,6 +48,6 @@ class ApiProvider private constructor() {
 
         val authApi by lazy { AuthApi() }
 
-        val profileApi by lazy { ProfileApi() }
+        val reposApi by lazy { ReposApi() }
     }
 }

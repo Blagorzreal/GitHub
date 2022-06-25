@@ -1,4 +1,4 @@
-package com.example.github.data.remote.profile
+package com.example.github.data.remote.repos
 
 import com.example.github.data.remote.ApiProvider
 import com.example.github.data.remote.ResponseResult
@@ -7,21 +7,21 @@ import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Path
 
-class ProfileApi: IProfileApi {
+class ReposApi: IReposApi {
     companion object {
         private const val USERNAME = "username"
-        private const val TAG = "ProfileApi"
+        private const val TAG = "ReposApi"
     }
 
-    private interface RetrofitProfileApi {
+    private interface RetrofitReposApi {
         @GET("/users/{$USERNAME}/repos")
         suspend fun getRepos(@Path(USERNAME) username: String): Response<List<RepoModel>>
     }
 
-    private val profileApi: RetrofitProfileApi by lazy {
-        ApiProvider.retrofit.create(RetrofitProfileApi::class.java)
+    private val reposApi: RetrofitReposApi by lazy {
+        ApiProvider.retrofit.create(RetrofitReposApi::class.java)
     }
 
     override suspend fun getRepos(username: String): ResponseResult<List<RepoModel>> =
-        ApiProvider.requestUnsafe(TAG, profileApi.getRepos(username))
+        ApiProvider.requestUnsafe(TAG, reposApi.getRepos(username))
 }

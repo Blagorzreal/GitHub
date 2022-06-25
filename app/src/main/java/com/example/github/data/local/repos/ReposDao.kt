@@ -1,11 +1,11 @@
-package com.example.github.data.local.profile
+package com.example.github.data.local.repos
 
 import androidx.room.*
 import com.example.github.model.RepoModel
 import kotlinx.coroutines.flow.Flow
 
 @Dao
-interface ProfileDao: IProfileDao {
+interface ReposDao: IReposDao {
     @Query("SELECT * FROM RepoModel WHERE owner_id = :ownerId")
     override fun getAll(ownerId: Long): Flow<List<RepoModel>>
 

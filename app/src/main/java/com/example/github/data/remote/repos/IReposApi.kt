@@ -1,8 +1,8 @@
-package com.example.github.data.remote.profile
+package com.example.github.data.remote.repos
 
 import com.example.github.data.remote.ResponseResult
 import com.example.github.model.RepoModel
 
-interface IProfileApi {
+interface IReposApi {
     suspend fun getRepos(username: String): ResponseResult<List<RepoModel>>
 }

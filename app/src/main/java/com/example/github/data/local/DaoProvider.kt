@@ -1,19 +1,19 @@
 package com.example.github.data.local
 
 import android.content.Context
-import com.example.github.data.local.profile.IProfileDao
-import com.example.github.data.local.profile.ProfileDBProvider
+import com.example.github.data.local.repos.IReposDao
+import com.example.github.data.local.repos.ReposDBProvider
 
 class DaoProvider private constructor() {
     companion object {
         fun init(context: Context) {
-            ProfileDBProvider.init(context)
+            ReposDBProvider.init(context)
         }
 
-        val profileDao: IProfileDao by lazy { ProfileDBProvider.instance.profileDao() }
+        val reposDao: IReposDao by lazy { ReposDBProvider.instance.reposDao() }
 
         suspend fun clean() {
-            profileDao.deleteAll()
+            reposDao.deleteAll()
         }
     }
 }

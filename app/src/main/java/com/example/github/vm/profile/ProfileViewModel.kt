@@ -2,7 +2,7 @@ package com.example.github.vm.profile
 
 import androidx.lifecycle.viewModelScope
 import com.example.github.data.LoginSession
-import com.example.github.data.ProfileRepository
+import com.example.github.data.ReposRepository
 import com.example.github.data.data.RepoData
 import com.example.github.data.data.UserData
 import com.example.github.data.local.DaoProvider
@@ -19,7 +19,7 @@ import kotlinx.coroutines.withContext
 
 class ProfileViewModel(
     private val userData: UserData,
-    private val profileRepository: ProfileRepository = ProfileRepository(userData)
+    private val reposRepository: ReposRepository = ReposRepository(userData)
 ) : BaseViewModel<List<RepoData>, List<RepoModel>>(TAG, ProfileHelper::repoModelListToRepoDataList) {
 
     companion object {
@@ -37,14 +37,14 @@ class ProfileViewModel(
 
     init {
         viewModelScope.launch {
-            profileRepository.localRepos.collectLatest { repos ->
+            reposRepository.localRepos.collectLatest { repos ->
                 AppLogger.log(tag, "Local repos changed: ${repos.size}")
                 _data.value = mapper(repos)
             }
         }
 
         viewModelScope.launch {
-            profileRepository.starredRepos.collectLatest { repos ->
+            reposRepository.starredRepos.collectLatest { repos ->
                 AppLogger.log(tag, "Starred repos changed: ${repos.size}")
                 _starredRepos.value = mapper(repos)
             }
@@ -58,7 +58,7 @@ class ProfileViewModel(
 
         viewModelScope.launch {
             val result = withContext(coroutineScope) {
-                profileRepository.updateStarred(repoData, starred)
+                reposRepository.updateStarred(repoData, starred)
             }
 
             if (result)
@@ -70,7 +70,7 @@ class ProfileViewModel(
 
     fun updateRepos() {
         AppLogger.log(tag, "Get repos")
-        fetchData { profileRepository.updateRepos(userData.username) }
+        fetchData { reposRepository.updateRepos(userData.username) }
     }
 
     fun logOut() {
