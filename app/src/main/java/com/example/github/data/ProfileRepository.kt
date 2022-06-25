@@ -25,7 +25,6 @@ class ProfileRepository(
 
     suspend fun updateStarred(repoData: RepoData, starred: Boolean): Boolean {
         return try {
-            throw Exception("Bla bla gla")
             profileDao.update(repoData.id, if (starred) 1 else 0)
             AppLogger.log(TAG, "Updated repo ${repoData.id} with starred=$starred")
             true
