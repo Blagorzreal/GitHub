@@ -19,6 +19,7 @@ class RepoRepository(
 
         return try {
             reposDao.update(repoData.id, if (starred) 1 else 0)
+            repoData.starred = starred
             AppLogger.log(TAG, "Updated repos ${repoData.id} with starred=$starred")
             true
         } catch (error: Exception) {
