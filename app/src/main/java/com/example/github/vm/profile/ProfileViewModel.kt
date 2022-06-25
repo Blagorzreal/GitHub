@@ -15,7 +15,6 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 class ProfileViewModel(
     private val userData: UserData,
@@ -31,9 +30,6 @@ class ProfileViewModel(
 
     private val _starredRepos: MutableStateFlow<List<RepoData>?> = MutableStateFlow(null)
     val starredRepos: StateFlow<List<RepoData>?> = _starredRepos
-
-    private val _updateStarredFailed = MutableStateFlow<RepoData?>(null)
-    val updateStarredFailed: StateFlow<RepoData?> = _updateStarredFailed
 
     init {
         viewModelScope.launch {
@@ -51,21 +47,6 @@ class ProfileViewModel(
         }
 
         updateRepos()
-    }
-
-    fun updateStarred(repoData: RepoData, starred: Boolean) {
-        AppLogger.log(tag, "updateStarred")
-
-        viewModelScope.launch {
-            val result = withContext(coroutineScope) {
-                reposRepository.updateStarred(repoData, starred)
-            }
-
-            if (result)
-                repoData.starred = starred
-            else
-                _updateStarredFailed.value = repoData
-        }
     }
 
     fun updateRepos() {

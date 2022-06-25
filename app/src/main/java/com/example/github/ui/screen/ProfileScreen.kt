@@ -129,24 +129,12 @@ fun ProfileScreen(
         navController = navController,
         isLoggedOutState = profileViewModel.isLoggedOut.collectAsState())
 
-    UpdateStarredFailed(updateStarredFailedState = profileViewModel.updateStarredFailed.collectAsState())
-
     ResponseError(responseErrorState = profileViewModel.responseError.collectAsState())
 }
 
 private fun navigateToRepositoryScreen(navController: NavHostController, repoData: RepoData) {
     navController.navigate(Route.Repository.route)
     navController.currentBackStackEntry?.savedStateHandle?.set(REPO_DATA, repoData)
-}
-
-@Composable
-fun UpdateStarredFailed(updateStarredFailedState: State<RepoData?>) {
-    val updateStarredFailed = updateStarredFailedState.value
-    if (updateStarredFailed != null)
-        Toast.makeText(
-            LocalContext.current,
-            stringResource(R.string.starred_update_error, updateStarredFailed.id),
-            Toast.LENGTH_SHORT).show()
 }
 
 @Composable
