@@ -1,4 +1,4 @@
-package com.example.github.ui.screen.profile
+package com.example.github.ui.screen
 
 import android.widget.Toast
 import androidx.compose.foundation.clickable

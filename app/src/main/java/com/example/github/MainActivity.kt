@@ -16,7 +16,7 @@ import androidx.navigation.compose.rememberNavController
 import com.example.github.data.LoginSession
 import com.example.github.ui.navigation.Route
 import com.example.github.ui.screen.login.LoginScreen
-import com.example.github.ui.screen.profile.ProfileScreen
+import com.example.github.ui.screen.ProfileScreen
 import com.example.github.ui.theme.GitHubTheme
 import com.example.github.util.log.AppLogger
 
