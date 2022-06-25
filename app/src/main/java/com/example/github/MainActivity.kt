@@ -1,6 +1,7 @@
 package com.example.github
 
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.BackHandler
 import androidx.activity.compose.setContent
@@ -9,15 +10,22 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import com.example.github.data.LoginSession
 import com.example.github.ui.navigation.Route
+import com.example.github.ui.navigation.Route.Companion.OWNER
+import com.example.github.ui.navigation.Route.Companion.REPO
 import com.example.github.ui.screen.login.LoginScreen
 import com.example.github.ui.screen.ProfileScreen
+import com.example.github.ui.screen.RepositoryScreen
 import com.example.github.ui.theme.GitHubTheme
+import com.example.github.ui.view.InclusiveNavigation
 import com.example.github.util.log.AppLogger
 
 class MainActivity: ComponentActivity() {
@@ -40,7 +48,10 @@ class MainActivity: ComponentActivity() {
                             Route.Login
 
                     val navController = rememberNavController()
-                    NavHost(navController = navController, startDestination = startDestination.route) {
+                    NavHost(
+                        navController = navController,
+                        startDestination = startDestination.route
+                    ) {
                         composable(Route.Login.route) {
                             LoginScreen(navController)
                         }
@@ -54,7 +65,34 @@ class MainActivity: ComponentActivity() {
                             if (userData != null)
                                 ProfileScreen(navController, userData)
                             else {
-                                // TODO
+                                Toast.makeText(
+                                    LocalContext.current,
+                                    getString(R.string.common_error),
+                                    Toast.LENGTH_LONG
+                                ).show()
+                                InclusiveNavigation(navController, Route.Login, Route.Profile)
+                            }
+                        }
+
+                        composable(
+                            route = Route.getRepositoryQuery("{${OWNER}}", "{${REPO}}"),
+                            arguments = listOf(
+                                navArgument(OWNER) { type = NavType.StringType },
+                                navArgument(REPO) { type = NavType.StringType }
+                            )) {
+
+                            val owner = it.arguments?.getString(OWNER)
+                            val repo = it.arguments?.getString(REPO)
+
+                            if (!owner.isNullOrBlank() && !repo.isNullOrBlank()) {
+                                RepositoryScreen(owner, repo)
+                            } else {
+                                Toast.makeText(
+                                    LocalContext.current,
+                                    getString(R.string.common_error),
+                                    Toast.LENGTH_LONG
+                                ).show()
+                                navController.popBackStack()
                             }
                         }
                     }

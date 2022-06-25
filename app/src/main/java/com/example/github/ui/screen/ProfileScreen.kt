@@ -104,7 +104,9 @@ fun ProfileScreen(
                     lazyListState = ownLazyListState,
                     reposState = profileViewModel.data.collectAsState(),
                     isLoadingState = profileViewModel.isLoading.collectAsState(),
-                    onClick = { profileViewModel.updateStarred(it, !it.starred) },
+                    onClick = { repoData ->
+                        navigateToRepositoryScreen(navController, repoData)
+                    },
                     refresh = profileViewModel::updateRepos
                 )
             } else {
@@ -113,8 +115,8 @@ fun ProfileScreen(
                     noItemsText = stringResource(R.string.no_starred_repos_available),
                     reposState = profileViewModel.starredRepos.collectAsState(),
                     lazyListState = starredLazyListState,
-                    onClick = {
-                        profileViewModel.updateStarred(it, !it.starred)
+                    onClick = { repoData ->
+                        navigateToRepositoryScreen(navController, repoData)
                     },
                     isLoadingState = null
                 )
@@ -129,6 +131,11 @@ fun ProfileScreen(
     UpdateStarredFailed(updateStarredFailedState = profileViewModel.updateStarredFailed.collectAsState())
 
     ResponseError(responseErrorState = profileViewModel.responseError.collectAsState())
+}
+
+private fun navigateToRepositoryScreen(navController: NavHostController, repoData: RepoData) {
+    navController.navigate(
+        Route.getRepositoryQuery(repoData.owner.username, repoData.name))
 }
 
 @Composable
