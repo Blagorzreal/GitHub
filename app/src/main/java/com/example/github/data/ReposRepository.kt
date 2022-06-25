@@ -15,7 +15,7 @@ class ReposRepository(
     private val reposApi: IReposApi = ApiProvider.reposApi) {
 
     companion object {
-        private const val TAG = "ReposRepo"
+        private const val TAG = "Repos repository"
     }
 
     val localRepos = reposDao.getAll(owner.id)
