@@ -1,6 +1,5 @@
 package com.example.github.data
 
-import com.example.github.data.data.RepoData
 import com.example.github.data.data.UserData
 import com.example.github.data.local.DaoProvider
 import com.example.github.data.local.repos.IReposDao
@@ -22,17 +21,6 @@ class ReposRepository(
     val localRepos = reposDao.getAll(owner.id)
 
     val starredRepos = reposDao.getAllStarred()
-
-    suspend fun updateStarred(repoData: RepoData, starred: Boolean): Boolean {
-        return try {
-            reposDao.update(repoData.id, if (starred) 1 else 0)
-            AppLogger.log(TAG, "Updated repos ${repoData.id} with starred=$starred")
-            true
-        } catch (error: Exception) {
-            AppLogger.log(TAG, "Unable to update repos ${repoData.id}: ${error.message}")
-            false
-        }
-    }
 
     suspend fun updateRepos(username: String): ResponseResult<List<RepoModel>> {
         AppLogger.log(TAG, "Update repos")
