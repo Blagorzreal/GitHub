@@ -173,6 +173,8 @@ private fun RepoItems(
     isLoadingState: State<Boolean>?
 ) {
     val repos = reposState.value
+    val isLoadingStateNotAvailable = isLoadingState == null
+
     LazyColumn(modifier = Modifier
         .fillMaxWidth()
         .padding(top = 6.dp), state = lazyListState) {
@@ -192,9 +194,9 @@ private fun RepoItems(
                     }
                 }
             }
-        } else if ((isLoadingState == null) || !isLoadingState.value) {
+        } else if (isLoadingStateNotAvailable || !isLoadingState!!.value) {
             item {
-                if ((isLoadingState == null) || (repos != null))
+                if (isLoadingStateNotAvailable || (repos != null))
                     ItemsHeader(noItemsText)
             }
         }
