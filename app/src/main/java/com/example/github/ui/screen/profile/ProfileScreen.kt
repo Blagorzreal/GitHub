@@ -38,7 +38,16 @@ fun ProfileScreen(
     userData: UserData,
     profileViewModel: ProfileViewModel = viewModel(factory = ProfileViewModelFactory(userData))) {
 
+    val ownLazyListState = rememberLazyListState()
+    val starredLazyListState = rememberLazyListState()
+
     var showPopup by rememberSaveable { mutableStateOf(false) }
+
+    var tabIndex by remember { mutableStateOf(0) }
+    val tabData = listOf(
+        stringResource(R.string.own),
+        stringResource(R.string.starred)
+    )
 
     Scaffold(
         topBar = {
@@ -73,58 +82,101 @@ fun ProfileScreen(
             )
         }
     ) {
-        OwnRepoItems(
-            profileViewModel,
-            Modifier.padding(bottom = it.calculateBottomPadding()),
-            navController,
-            rememberLazyListState(),
-            profileViewModel.data.collectAsState(),
-            profileViewModel.isLoading.collectAsState(),
-            profileViewModel::updateRepos)
+        Column(modifier = Modifier
+            .padding(bottom = it.calculateBottomPadding())
+            .fillMaxSize()) {
+
+            TabRow(selectedTabIndex = tabIndex) {
+                tabData.forEachIndexed { index, text ->
+                    Tab(selected = tabIndex == index, onClick = {
+                        tabIndex = index
+                    }, text = {
+                        Text(text = text)
+                    })
+                }
+            }
+
+            if (tabIndex == 0) {
+                RefreshableRepoItems(
+                    navController = navController,
+                    lazyListState = ownLazyListState,
+                    reposState = profileViewModel.data.collectAsState(),
+                    isLoadingState = profileViewModel.isLoading.collectAsState(),
+                    onClick = { profileViewModel.updateStarred(it, !it.starred) },
+                    refresh = profileViewModel::updateRepos
+                )
+            } else {
+                RepoItems(
+                    headerText = stringResource(R.string.starred_repos),
+                    noItemsText = stringResource(R.string.no_starred_repos_available),
+                    reposState = profileViewModel.starredRepos.collectAsState(),
+                    lazyListState = starredLazyListState,
+                    onClick = {
+                        profileViewModel.updateStarred(it, !it.starred)
+                    },
+                    isLoadingState = null
+                )
+            }
+        }
     }
 
     HandleLogout(navController, profileViewModel.isLoggedOut.collectAsState())
 }
 
 @Composable
-fun OwnRepoItems(
-    profileViewModel: ProfileViewModel,
-    modifier: Modifier,
+private fun RefreshableRepoItems(
     navController: NavHostController,
     lazyListState: LazyListState,
     reposState: State<List<RepoData>?>,
     isLoadingState: State<Boolean>,
+    onClick: (repo: RepoData) -> Unit,
     refresh: () -> Unit) {
 
     SwipeRefresh(
         state = rememberSwipeRefreshState(isLoadingState.value),
         onRefresh = refresh
     ) {
-        val repos = reposState.value
-        LazyColumn(modifier = modifier.then(Modifier.fillMaxSize()), state = lazyListState) {
-            if (!repos.isNullOrEmpty()) {
-                item {
-                    ItemsHeader(text = stringResource(R.string.own_repos))
-                }
+        RepoItems(
+            headerText = stringResource(R.string.own_repos),
+            noItemsText = stringResource(R.string.no_own_repos_available),
+            reposState = reposState,
+            lazyListState = lazyListState,
+            onClick = onClick,
+            isLoadingState = isLoadingState)
+    }
+}
 
-                items(repos) {
-                    Column(
-                        Modifier
-                            .fillMaxWidth()
-                            .clickable {
-                                profileViewModel.updateStarred(it, !it.starred)
-                            }
-                    ) {
-                        Box(Modifier.padding(top = 10.dp, bottom = 10.dp)) {
-                            EllipsesText(it.name)
-                        }
+@Composable
+private fun RepoItems(
+    headerText: String,
+    noItemsText: String,
+    reposState: State<List<RepoData>?>,
+    lazyListState: LazyListState,
+    onClick: (repo: RepoData) -> Unit,
+    isLoadingState: State<Boolean>?
+) {
+    val repos = reposState.value
+    LazyColumn(modifier = Modifier.fillMaxWidth().padding(top = 6.dp), state = lazyListState) {
+        if (!repos.isNullOrEmpty()) {
+            item {
+                ItemsHeader(text = headerText)
+            }
+
+            items(repos) {
+                Column(
+                    Modifier
+                        .fillMaxWidth()
+                        .clickable { onClick(it) }
+                ) {
+                    Box(Modifier.padding(top = 10.dp, bottom = 10.dp)) {
+                        EllipsesText(it.name)
                     }
                 }
-            } else if (!isLoadingState.value) {
-                item {
-                    if (repos != null)
-                        ItemsHeader(stringResource(R.string.no_own_repos_available))
-                }
+            }
+        } else if ((isLoadingState == null) || !isLoadingState.value) {
+            item {
+                if ((isLoadingState == null) || (repos != null))
+                    ItemsHeader(noItemsText)
             }
         }
     }

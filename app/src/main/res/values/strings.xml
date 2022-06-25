@@ -13,7 +13,11 @@
     <string name="username_not_found_error">Username was not found.</string>
 
     // ProfileScreen
+    <string name="own">Own</string>
     <string name="own_repos">Own repositories</string>
     <string name="no_own_repos_available">No own repositories available</string>
+    <string name="starred">Starred</string>
+    <string name="starred_repos">Starred repositories</string>
+    <string name="no_starred_repos_available">No starred repositories available</string>
     <string name="logout">Logout</string>
 </resources>
