@@ -10,4 +10,5 @@ interface IProfileDao {
     suspend fun deleteAll()
     suspend fun deleteAllByOwner(ownerId: Long)
     suspend fun deleteAllAndInsertNew(repos: List<RepoModel>, ownerId: Long)
+    suspend fun update(repoModelId: Long, starred: Int)
 }

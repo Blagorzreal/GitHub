@@ -15,6 +15,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class ProfileViewModel(
     private val userData: UserData,
@@ -47,6 +48,19 @@ class ProfileViewModel(
         }
 
         updateRepos()
+    }
+
+    fun updateStarred(repoData: RepoData, starred: Boolean) {
+        AppLogger.log(tag, "updateStarred")
+
+        viewModelScope.launch {
+            val result = withContext(coroutineScope) {
+                profileRepository.updateStarred(repoData, starred)
+            }
+
+            if (result)
+                repoData.starred = starred
+        }
     }
 
     fun updateRepos() {

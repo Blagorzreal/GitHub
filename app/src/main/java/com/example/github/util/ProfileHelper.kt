@@ -8,7 +8,11 @@ class ProfileHelper private constructor() {
         fun repoModelListToRepoDataList(repos: List<RepoModel>) = repos.map { repoModelToRepoData(it) }
 
         private fun repoModelToRepoData(repoModel: RepoModel): RepoData {
-            return RepoData(repoModel.name, repoModel.owner?.login)
+            return RepoData(
+                repoModel.id,
+                repoModel.name,
+                LoginHelper.userModelToUserData(repoModel.owner),
+                repoModel.starred)
         }
     }
 }

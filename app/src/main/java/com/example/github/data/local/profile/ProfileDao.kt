@@ -12,13 +12,13 @@ interface ProfileDao: IProfileDao {
     @Query("SELECT * FROM RepoModel WHERE starred = 1")
     override fun getAllStarred(): Flow<List<RepoModel>>
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
     override suspend fun insertRepos(repos: List<RepoModel>)
 
     @Query("DELETE FROM RepoModel")
     override suspend fun deleteAll()
 
-    @Query("DELETE FROM RepoModel WHERE owner_id = :ownerId")
+    @Query("DELETE FROM RepoModel WHERE (owner_id = :ownerId AND starred = 0)")
     override suspend fun deleteAllByOwner(ownerId: Long)
 
     @Transaction
@@ -26,4 +26,7 @@ interface ProfileDao: IProfileDao {
         deleteAllByOwner(ownerId)
         insertRepos(repos)
     }
+
+    @Query("UPDATE RepoModel SET starred = :starred WHERE id = :repoModelId")
+    override suspend fun update(repoModelId: Long, starred: Int)
 }

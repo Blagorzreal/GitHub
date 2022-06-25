@@ -74,6 +74,7 @@ fun ProfileScreen(
         }
     ) {
         OwnRepoItems(
+            profileViewModel,
             Modifier.padding(bottom = it.calculateBottomPadding()),
             navController,
             rememberLazyListState(),
@@ -87,6 +88,7 @@ fun ProfileScreen(
 
 @Composable
 fun OwnRepoItems(
+    profileViewModel: ProfileViewModel,
     modifier: Modifier,
     navController: NavHostController,
     lazyListState: LazyListState,
@@ -110,7 +112,7 @@ fun OwnRepoItems(
                         Modifier
                             .fillMaxWidth()
                             .clickable {
-
+                                profileViewModel.updateStarred(it, !it.starred)
                             }
                     ) {
                         Box(Modifier.padding(top = 10.dp, bottom = 10.dp)) {

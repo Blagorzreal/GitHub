@@ -11,5 +11,5 @@ import org.jetbrains.annotations.NotNull
 data class RepoModel(
     @NotNull @PrimaryKey @SerializedName("id") val id: Long,
     @NotNull @SerializedName("name") val name: String,
-    @Embedded @SerializedName("owner") val owner: UserModel?,
+    @NotNull @Embedded @SerializedName("owner") val owner: UserModel,
     @ColumnInfo(name = "starred") val starred: Boolean = false)
