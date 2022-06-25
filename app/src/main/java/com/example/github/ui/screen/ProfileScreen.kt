@@ -47,7 +47,7 @@ fun ProfileScreen(
 
     var showPopup by rememberSaveable { mutableStateOf(false) }
 
-    var tabIndex by remember { mutableStateOf(0) }
+    var tabIndex by rememberSaveable { mutableStateOf(0) }
     val tabData = listOf(
         stringResource(R.string.own),
         stringResource(R.string.starred)
@@ -184,7 +184,7 @@ private fun RepoItems(
     val isLoadingStateNotAvailable = isLoadingState == null
 
     LazyColumn(modifier = Modifier
-        .fillMaxWidth()
+        .fillMaxSize()
         .padding(top = 6.dp), state = lazyListState) {
         if (!repos.isNullOrEmpty()) {
             item {
@@ -215,7 +215,7 @@ private fun RepoItems(
 private fun ItemsHeader(text: String) {
     Column(
         modifier = Modifier
-            .fillMaxWidth()
+            .fillMaxSize()
             .padding(top = 6.dp),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
