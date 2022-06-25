@@ -23,7 +23,6 @@ import com.example.github.ui.screen.login.LoginScreen
 import com.example.github.ui.screen.ProfileScreen
 import com.example.github.ui.screen.RepositoryScreen
 import com.example.github.ui.theme.GitHubTheme
-import com.example.github.ui.view.InclusiveNavigation
 import com.example.github.util.log.AppLogger
 
 class MainActivity: ComponentActivity() {
@@ -46,6 +45,7 @@ class MainActivity: ComponentActivity() {
                             Route.Login
 
                     val navController = rememberNavController()
+
                     NavHost(
                         navController = navController,
                         startDestination = startDestination.route
@@ -62,10 +62,6 @@ class MainActivity: ComponentActivity() {
                             val userData = LoginSession.userData
                             if (userData != null)
                                 ProfileScreen(navController, userData)
-                            else {
-                                showCommonError(this@MainActivity)
-                                InclusiveNavigation(navController, Route.Login, Route.Profile)
-                            }
                         }
 
                         composable(route = Route.Repository.route) {
