@@ -19,5 +19,6 @@
     <string name="starred">Starred</string>
     <string name="starred_repos">Starred repositories</string>
     <string name="no_starred_repos_available">No starred repositories available</string>
+    <string name="starred_update_error">Unable to update starred for repo with id = %1$s.</string>
     <string name="logout">Logout</string>
 </resources>

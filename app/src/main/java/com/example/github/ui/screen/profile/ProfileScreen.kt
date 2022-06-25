@@ -1,5 +1,6 @@
 package com.example.github.ui.screen.profile
 
+import android.widget.Toast
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -14,6 +15,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -120,9 +122,23 @@ fun ProfileScreen(
         }
     }
 
-    HandleLogout(navController, profileViewModel.isLoggedOut.collectAsState())
+    HandleLogout(
+        navController = navController,
+        isLoggedOutState = profileViewModel.isLoggedOut.collectAsState())
 
-    ResponseError(responseError = profileViewModel.responseError.collectAsState())
+    UpdateStarredFailed(updateStarredFailedState = profileViewModel.updateStarredFailed.collectAsState())
+
+    ResponseError(responseErrorState = profileViewModel.responseError.collectAsState())
+}
+
+@Composable
+fun UpdateStarredFailed(updateStarredFailedState: State<RepoData?>) {
+    val updateStarredFailed = updateStarredFailedState.value
+    if (updateStarredFailed != null)
+        Toast.makeText(
+            LocalContext.current,
+            stringResource(R.string.starred_update_error, updateStarredFailed.id),
+            Toast.LENGTH_SHORT).show()
 }
 
 @Composable
@@ -200,7 +216,7 @@ private fun ItemsHeader(text: String) {
 }
 
 @Composable
-private fun HandleLogout(navController: NavHostController, isLoggedOut: State<Boolean>) {
-    if (isLoggedOut.value)
+private fun HandleLogout(navController: NavHostController, isLoggedOutState: State<Boolean>) {
+    if (isLoggedOutState.value)
         InclusiveNavigation(navController, Route.Login, Route.Profile)
 }

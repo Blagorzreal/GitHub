@@ -10,16 +10,14 @@ import com.example.github.data.remote.ResponseResult
 import com.example.github.util.ErrorHelper
 
 @Composable
-fun ResponseError(responseError: State<ResponseResult.ResponseError?>) {
-    val error = responseError.value ?: return
-
-    val context = LocalContext.current
+fun ResponseError(responseErrorState: State<ResponseResult.ResponseError?>) {
+    val responseError = responseErrorState.value ?: return
 
     val responseErrorMessage = when {
-        ErrorHelper.isUsernameNotFoundError(error) -> stringResource(R.string.username_not_found_error)
-        ErrorHelper.isForbiddenError(error) -> stringResource(R.string.forbidden_error)
+        ErrorHelper.isUsernameNotFoundError(responseError) -> stringResource(R.string.username_not_found_error)
+        ErrorHelper.isForbiddenError(responseError) -> stringResource(R.string.forbidden_error)
         else -> stringResource(R.string.common_error)
     }
 
-    Toast.makeText(context, responseErrorMessage, Toast.LENGTH_LONG).show()
+    Toast.makeText(LocalContext.current, responseErrorMessage, Toast.LENGTH_LONG).show()
 }

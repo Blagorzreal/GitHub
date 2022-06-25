@@ -32,6 +32,9 @@ class ProfileViewModel(
     private val _starredRepos: MutableStateFlow<List<RepoData>?> = MutableStateFlow(null)
     val starredRepos: StateFlow<List<RepoData>?> = _starredRepos
 
+    private val _updateStarredFailed = MutableStateFlow<RepoData?>(null)
+    val updateStarredFailed: StateFlow<RepoData?> = _updateStarredFailed
+
     init {
         viewModelScope.launch {
             profileRepository.localRepos.collectLatest { repos ->
@@ -60,6 +63,8 @@ class ProfileViewModel(
 
             if (result)
                 repoData.starred = starred
+            else
+                _updateStarredFailed.value = repoData
         }
     }
 
