@@ -1,6 +1,5 @@
 package com.example.github.ui.screen
 
-import android.widget.Toast
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -15,7 +14,6 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -129,7 +127,9 @@ fun ProfileScreen(
         navController = navController,
         isLoggedOutState = profileViewModel.isLoggedOut.collectAsState())
 
-    ResponseError(responseErrorState = profileViewModel.responseError.collectAsState())
+    ResponseError(
+        responseErrorState = profileViewModel.responseError.collectAsState(),
+        clearResponseError = profileViewModel::clearResponseError)
 }
 
 private fun navigateToRepositoryScreen(navController: NavHostController, repoData: RepoData) {

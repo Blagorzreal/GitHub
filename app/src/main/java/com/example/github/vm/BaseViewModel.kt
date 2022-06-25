@@ -68,6 +68,10 @@ abstract class BaseViewModel<Data, Model>(
     open fun onError(error: ResponseResult.ResponseError) =
         AppLogger.log(tag, "Fetched error: $error", LogType.Error)
 
+    fun clearResponseError() {
+        _responseError.value = null
+    }
+
     override fun onCleared() {
         AppLogger.log(tag, "Clear VM")
         super.onCleared()

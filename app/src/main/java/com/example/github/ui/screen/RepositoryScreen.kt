@@ -78,7 +78,10 @@ fun RepositoryScreen(
                     starred = repositoryViewModel.starred.collectAsState(),
                     onClick = repositoryViewModel::updateStarred)
 
-                HandleError(repoData.id, repositoryViewModel.error.collectAsState())
+                HandleError(
+                    id = repoData.id,
+                    errorState = repositoryViewModel.error.collectAsState(),
+                    clearError = repositoryViewModel::clearError)
             }
         }
     )
@@ -99,11 +102,15 @@ private fun Star(starred: State<Boolean>, onClick: () -> Unit) {
 }
 
 @Composable
-private fun HandleError(id: Long, errorState: State<Boolean>) {
+private fun HandleError(id: Long, errorState: State<Boolean>, clearError: () -> Unit) {
     val error = errorState.value
-    if (error)
+    if (error) {
+        clearError()
+
         Toast.makeText(
             LocalContext.current,
             stringResource(R.string.starred_update_error, id),
-            Toast.LENGTH_SHORT).show()
+            Toast.LENGTH_SHORT
+        ).show()
+    }
 }

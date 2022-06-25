@@ -41,4 +41,8 @@ class RepositoryViewModel(
                 _error.value = true
         }
     }
+
+    fun clearError() {
+        _error.value = false
+    }
 }
