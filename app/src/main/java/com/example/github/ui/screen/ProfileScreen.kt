@@ -26,6 +26,7 @@ import com.example.github.R
 import com.example.github.data.data.RepoData
 import com.example.github.data.data.UserData
 import com.example.github.ui.navigation.Route
+import com.example.github.ui.navigation.Route.Companion.REPO_DATA
 import com.example.github.ui.view.CommonSpacer
 import com.example.github.ui.view.EllipsesText
 import com.example.github.ui.view.InclusiveNavigation
@@ -134,8 +135,8 @@ fun ProfileScreen(
 }
 
 private fun navigateToRepositoryScreen(navController: NavHostController, repoData: RepoData) {
-    navController.navigate(
-        Route.getRepositoryQuery(repoData.owner.username, repoData.name))
+    navController.navigate(Route.Repository.route)
+    navController.currentBackStackEntry?.savedStateHandle?.set(REPO_DATA, repoData)
 }
 
 @Composable

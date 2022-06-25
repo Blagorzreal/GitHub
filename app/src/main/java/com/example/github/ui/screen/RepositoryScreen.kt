@@ -13,13 +13,15 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.example.github.R
+import com.example.github.data.data.RepoData
 
 @Composable
-fun RepositoryScreen(navController: NavHostController, owner: String, repo: String) {
+fun RepositoryScreen(navController: NavHostController, repoData: RepoData) {
+
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text(text = repo) },
+                title = { Text(text = repoData.name) },
                 navigationIcon = if (navController.previousBackStackEntry != null) {
                     {
                         IconButton(onClick = { navController.popBackStack() }) {
@@ -45,7 +47,7 @@ fun RepositoryScreen(navController: NavHostController, owner: String, repo: Stri
                         onClick = {  },
                         shape = RoundedCornerShape(50.dp)
                     ) {
-                        Text(text = owner)
+                        Text(text = repoData.owner.username)
                     }
                 }
 
@@ -63,7 +65,9 @@ fun RepositoryScreen(navController: NavHostController, owner: String, repo: Stri
 
                 IconButton(onClick = { }) {
                     Icon(
-                        modifier = Modifier.fillMaxSize().padding(50.dp),
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(50.dp),
                         painter = painterResource(R.drawable.star),
                         tint = Color.DarkGray,
                         contentDescription = null

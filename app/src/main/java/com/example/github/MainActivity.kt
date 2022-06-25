@@ -11,17 +11,14 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import androidx.navigation.navArgument
 import com.example.github.data.LoginSession
+import com.example.github.data.data.RepoData
 import com.example.github.ui.navigation.Route
-import com.example.github.ui.navigation.Route.Companion.OWNER
-import com.example.github.ui.navigation.Route.Companion.REPO
+import com.example.github.ui.navigation.Route.Companion.REPO_DATA
 import com.example.github.ui.screen.login.LoginScreen
 import com.example.github.ui.screen.ProfileScreen
 import com.example.github.ui.screen.RepositoryScreen
@@ -71,18 +68,10 @@ class MainActivity: ComponentActivity() {
                             }
                         }
 
-                        composable(
-                            route = Route.getRepositoryQuery("{${OWNER}}", "{${REPO}}"),
-                            arguments = listOf(
-                                navArgument(OWNER) { type = NavType.StringType },
-                                navArgument(REPO) { type = NavType.StringType }
-                            )) {
-
-                            val owner = it.arguments?.getString(OWNER)
-                            val repo = it.arguments?.getString(REPO)
-
-                            if (!owner.isNullOrBlank() && !repo.isNullOrBlank())
-                                RepositoryScreen(navController, owner, repo)
+                        composable(route = Route.Repository.route) {
+                            val repoData = it.savedStateHandle.get<RepoData>(REPO_DATA)
+                            if (repoData != null)
+                                RepositoryScreen(navController, repoData)
                             else {
                                 showCommonError(this@MainActivity)
                                 navController.popBackStack()
