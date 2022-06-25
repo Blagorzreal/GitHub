@@ -27,6 +27,7 @@ import com.example.github.ui.navigation.Route
 import com.example.github.ui.view.CommonSpacer
 import com.example.github.ui.view.EllipsesText
 import com.example.github.ui.view.InclusiveNavigation
+import com.example.github.ui.view.ResponseError
 import com.example.github.vm.profile.ProfileViewModel
 import com.example.github.vm.profile.ProfileViewModelFactory
 import com.google.accompanist.swiperefresh.SwipeRefresh
@@ -98,7 +99,6 @@ fun ProfileScreen(
 
             if (tabIndex == 0) {
                 RefreshableRepoItems(
-                    navController = navController,
                     lazyListState = ownLazyListState,
                     reposState = profileViewModel.data.collectAsState(),
                     isLoadingState = profileViewModel.isLoading.collectAsState(),
@@ -121,11 +121,12 @@ fun ProfileScreen(
     }
 
     HandleLogout(navController, profileViewModel.isLoggedOut.collectAsState())
+
+    ResponseError(responseError = profileViewModel.responseError.collectAsState())
 }
 
 @Composable
 private fun RefreshableRepoItems(
-    navController: NavHostController,
     lazyListState: LazyListState,
     reposState: State<List<RepoData>?>,
     isLoadingState: State<Boolean>,
@@ -156,7 +157,9 @@ private fun RepoItems(
     isLoadingState: State<Boolean>?
 ) {
     val repos = reposState.value
-    LazyColumn(modifier = Modifier.fillMaxWidth().padding(top = 6.dp), state = lazyListState) {
+    LazyColumn(modifier = Modifier
+        .fillMaxWidth()
+        .padding(top = 6.dp), state = lazyListState) {
         if (!repos.isNullOrEmpty()) {
             item {
                 ItemsHeader(text = headerText)

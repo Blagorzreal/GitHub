@@ -1,6 +1,5 @@
 package com.example.github.ui.screen.login
 
-import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.*
@@ -15,7 +14,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusManager
 import androidx.compose.ui.input.pointer.pointerInput
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -28,13 +26,11 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.example.github.R
 import com.example.github.data.data.UserData
-import com.example.github.data.remote.ResponseResult
 import com.example.github.ui.navigation.Route
 import com.example.github.ui.theme.Typography
 import com.example.github.ui.view.CommonSpacer
 import com.example.github.ui.view.InclusiveNavigation
-import com.example.github.util.ErrorHelper
-import com.example.github.util.LoginHelper
+import com.example.github.ui.view.ResponseError
 import com.example.github.vm.LoginViewModel
 
 @Composable
@@ -73,7 +69,7 @@ fun LoginScreen(navController: NavHostController, loginViewModel: LoginViewModel
             loginViewModel.isLoading.collectAsState(),
             loginViewModel.data.collectAsState())
 
-        HandleResponseError(loginViewModel.responseError.collectAsState())
+        ResponseError(loginViewModel.responseError.collectAsState())
     }
 }
 
@@ -169,19 +165,4 @@ private fun HandleUsernameValidationError(usernameValidationError: State<Usernam
         color = MaterialTheme.colors.error,
         style = MaterialTheme.typography.caption.plus(TextStyle(fontSize = 16.sp)),
         modifier = Modifier.padding(start = 16.dp))
-}
-
-@Composable
-fun HandleResponseError(responseError: State<ResponseResult.ResponseError?>) {
-    val error = responseError.value ?: return
-
-    val context = LocalContext.current
-
-    val responseErrorMessage = when {
-        ErrorHelper.isUsernameNotFoundError(error) -> stringResource(R.string.username_not_found_error)
-        ErrorHelper.isForbiddenError(error) -> stringResource(R.string.forbidden_error)
-        else -> stringResource(R.string.common_error)
-    }
-
-    Toast.makeText(context, responseErrorMessage, Toast.LENGTH_LONG).show()
 }
