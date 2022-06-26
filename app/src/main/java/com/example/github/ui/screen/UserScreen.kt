@@ -8,13 +8,11 @@ import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
-import com.example.github.R
 import com.example.github.data.data.UserData
 import com.example.github.ui.view.*
-import com.example.github.vm.user.UserViewModelData
+import com.example.github.vm.user.UserViewModel
 import com.example.github.vm.repos.ReposViewModel
 import com.example.github.vm.repos.ReposViewModelFactory
 import com.example.github.vm.user.UserViewModelFactory
@@ -23,7 +21,7 @@ import com.example.github.vm.user.UserViewModelFactory
 fun UserScreen(
     navController: NavHostController,
     userData: UserData,
-    userViewModel: UserViewModelData = viewModel(factory = UserViewModelFactory(userData)),
+    userViewModel: UserViewModel = viewModel(factory = UserViewModelFactory(userData)),
     reposViewModel: ReposViewModel = viewModel(factory = ReposViewModelFactory(userData))) {
 
     val ownLazyListState = rememberLazyListState()
@@ -57,13 +55,7 @@ fun UserScreen(
         }
     )
 
-    ResponseError(
-        errorState = userViewModel.error.collectAsState(),
-        resetError = userViewModel::resetError,
-        customErrorMessage = stringResource(R.string.unable_to_fetch_user))
+    UserResponseError(userViewModel = userViewModel)
 
-    ResponseError(
-        errorState = reposViewModel.error.collectAsState(),
-        resetError = reposViewModel::resetError,
-        customErrorMessage = stringResource(R.string.unable_to_fetch_repos))
+    ReposResponseError(reposViewModel = reposViewModel)
 }

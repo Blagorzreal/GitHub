@@ -22,7 +22,7 @@ import com.example.github.ui.view.*
 import com.example.github.vm.ProfileViewModel
 import com.example.github.vm.repos.starred.StarredReposViewModel
 import com.example.github.vm.repos.starred.StarredViewModelFactory
-import com.example.github.vm.user.UserViewModelData
+import com.example.github.vm.user.UserViewModel
 import com.example.github.vm.user.UserViewModelFactory
 
 @Composable
@@ -30,7 +30,7 @@ fun ProfileScreen(
     navController: NavHostController,
     userData: UserData,
     profileViewModel: ProfileViewModel = viewModel(),
-    userViewModel: UserViewModelData = viewModel(factory = UserViewModelFactory(userData)),
+    userViewModel: UserViewModel = viewModel(factory = UserViewModelFactory(userData)),
     starredReposViewModel: StarredReposViewModel = viewModel(factory = StarredViewModelFactory(userData))) {
 
     val ownLazyListState = rememberLazyListState()
@@ -118,14 +118,13 @@ fun ProfileScreen(
         }
     }
 
+    UserResponseError(userViewModel = userViewModel)
+
+    ReposResponseError(reposViewModel = starredReposViewModel)
+
     HandleLogout(
         navController = navController,
         isLoggedOutState = profileViewModel.isLoggedOut.collectAsState())
-
-    ResponseError(
-        errorState = starredReposViewModel.error.collectAsState(),
-        resetError = starredReposViewModel::resetError,
-        customErrorMessage = stringResource(R.string.unable_to_fetch_repos))
 }
 
 @Composable
