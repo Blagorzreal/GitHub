@@ -6,6 +6,7 @@ import com.example.github.data.data.UserData
 import com.example.github.model.UserModel
 import com.example.github.util.LoginHelper
 import com.example.github.util.log.AppLogger
+import com.example.github.util.mapper.UserModelMapper
 import com.example.github.vm.base.BaseApiViewModel
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -13,7 +14,7 @@ import kotlinx.coroutines.launch
 class UserViewModelData(
     userData: UserData,
     private val userRepository: UserRepository = UserRepository(userData)
-): BaseApiViewModel<UserData, UserModel>(TAG, LoginHelper::userModelToUserData) {
+): BaseApiViewModel<UserData, UserModel>(TAG, UserModelMapper::userModelToUserData) {
     companion object {
         private const val TAG = "User VM"
     }

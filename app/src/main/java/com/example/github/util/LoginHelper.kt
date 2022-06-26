@@ -1,7 +1,5 @@
 package com.example.github.util
 
-import com.example.github.data.data.UserData
-import com.example.github.model.UserModel
 import com.example.github.ui.screen.login.UsernameValidationError
 
 class LoginHelper private constructor() {
@@ -17,13 +15,5 @@ class LoginHelper private constructor() {
 
             return null
         }
-
-        fun userModelToUserData(userModel: UserModel) =
-            UserData(
-                userModel.id,
-                userModel.login,
-                userModel.avatarUrl,
-                userModel.followers,
-                userModel.following)
     }
 }
