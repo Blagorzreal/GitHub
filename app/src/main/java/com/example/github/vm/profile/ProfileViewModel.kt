@@ -2,12 +2,12 @@ package com.example.github.vm.profile
 
 import androidx.lifecycle.viewModelScope
 import com.example.github.data.LoginSession
-import com.example.github.data.ReposRepository
+import com.example.github.data.ProfileRepository
 import com.example.github.data.data.RepoData
 import com.example.github.data.data.UserData
 import com.example.github.data.local.DaoProvider
 import com.example.github.util.log.AppLogger
-import com.example.github.vm.user.UserViewModel
+import com.example.github.vm.repos.ReposViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -16,8 +16,8 @@ import kotlinx.coroutines.launch
 
 class ProfileViewModel(
     userData: UserData,
-    private val reposRepository: ReposRepository = ReposRepository(userData)
-) : UserViewModel(TAG, userData, reposRepository) {
+    private val profileRepository: ProfileRepository = ProfileRepository(userData)
+) : ReposViewModel(TAG, userData, profileRepository) {
 
     companion object {
         private const val TAG = "Profile VM"
@@ -31,7 +31,7 @@ class ProfileViewModel(
 
     init {
         viewModelScope.launch {
-            reposRepository.starredRepos.collectLatest { repos ->
+            profileRepository.starredRepos.collectLatest { repos ->
                 AppLogger.log(tag, "Starred repos changed: ${repos.size}")
                 _starredRepos.value = mapper(repos)
             }

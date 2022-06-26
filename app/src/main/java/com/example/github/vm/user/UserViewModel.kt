@@ -1,39 +1,39 @@
 package com.example.github.vm.user
 
 import androidx.lifecycle.viewModelScope
-import com.example.github.data.UserReposRepository
-import com.example.github.data.data.RepoData
+import com.example.github.data.UserRepository
 import com.example.github.data.data.UserData
-import com.example.github.model.RepoModel
-import com.example.github.util.ProfileHelper
+import com.example.github.model.UserModel
+import com.example.github.util.LoginHelper
 import com.example.github.util.log.AppLogger
 import com.example.github.vm.BaseApiViewModel
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
-open class UserViewModel(
-    tag: String = TAG,
-    private val userData: UserData,
-    private val reposRepository: UserReposRepository = UserReposRepository(owner = userData)
-): BaseApiViewModel<List<RepoData>, List<RepoModel>>(tag, ProfileHelper::repoModelListToRepoDataList) {
-
+class UserViewModel(
+    userData: UserData,
+    private val userRepository: UserRepository = UserRepository(userData)
+): BaseApiViewModel<UserData, UserModel>(TAG, LoginHelper::userModelToUserData) {
     companion object {
         private const val TAG = "User VM"
     }
 
     init {
         viewModelScope.launch {
-            reposRepository.localRepos.collectLatest { repos ->
-                AppLogger.log(tag, "Local repos changed: ${repos.size}")
-                _data.value = mapper(repos)
+            userRepository.localUser.collectLatest {
+                if (it == null)
+                    return@collectLatest
+
+                AppLogger.log(tag, "Local user changed: $it")
+                _data.value = mapper(it)
             }
         }
 
-        updateRepos()
+        updateUser()
     }
 
-    fun updateRepos() {
-        AppLogger.log(tag, "Get repos")
-        fetchData { reposRepository.updateRepos(userData.username) }
+    fun updateUser() {
+        AppLogger.log(tag, "Get user")
+        fetchData { userRepository.updateUser() }
     }
 }

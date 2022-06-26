@@ -12,7 +12,7 @@ class RepoRepository(
     private val reposDao: IReposDao = DaoProvider.reposDao) {
 
     companion object {
-        private const val TAG = "Repo repository"
+        private const val TAG = "Repo repo"
     }
 
     private val _repoData = MutableStateFlow(repoData)

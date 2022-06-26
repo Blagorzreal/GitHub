@@ -3,17 +3,23 @@ package com.example.github.data.local
 import android.content.Context
 import com.example.github.data.local.repos.IReposDao
 import com.example.github.data.local.repos.ReposDBProvider
+import com.example.github.data.local.user.IUserDao
+import com.example.github.data.local.user.UserDBProvider
 
 class DaoProvider private constructor() {
     companion object {
         fun init(context: Context) {
+            UserDBProvider.init(context)
             ReposDBProvider.init(context)
         }
+
+        val userDao: IUserDao by lazy { UserDBProvider.instance.userDao() }
 
         val reposDao: IReposDao by lazy { ReposDBProvider.instance.reposDao() }
 
         suspend fun clean() {
             reposDao.deleteAll()
+            userDao.deleteAll()
         }
     }
 }

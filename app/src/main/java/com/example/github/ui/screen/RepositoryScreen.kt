@@ -22,14 +22,14 @@ import com.example.github.R
 import com.example.github.data.data.RepoData
 import com.example.github.data.data.UserData
 import com.example.github.ui.navigation.Route
-import com.example.github.vm.repository.RepositoryViewModel
-import com.example.github.vm.repository.RepositoryViewModelFactory
+import com.example.github.vm.repo.RepoViewModel
+import com.example.github.vm.repo.RepositoryViewModelFactory
 
 @Composable
 fun RepositoryScreen(
     navController: NavHostController,
     repoData: RepoData,
-    repositoryViewModel: RepositoryViewModel = viewModel(factory = RepositoryViewModelFactory(repoData))) {
+    repoViewModel: RepoViewModel = viewModel(factory = RepositoryViewModelFactory(repoData))) {
 
     Scaffold(
         topBar = {
@@ -64,26 +64,14 @@ fun RepositoryScreen(
                     }
                 }
 
-                Box(
-                    modifier = Modifier.fillMaxWidth(), contentAlignment = Alignment.Center
-                ) {
-                    Button(
-                        onClick = { navigateToUserScreen(navController, repoData.owner) },
-                        shape = RoundedCornerShape(50.dp),
-                        colors = ButtonDefaults.buttonColors(backgroundColor = Color.DarkGray)
-                    ) {
-                        Text(text = "Contributors")
-                    }
-                }
-
                 Star(
-                    repoDataState = repositoryViewModel.repoData.collectAsState(),
-                    onClick = repositoryViewModel::updateStarred)
+                    repoDataState = repoViewModel.repoData.collectAsState(),
+                    onClick = repoViewModel::updateStarred)
 
                 HandleError(
                     id = repoData.id,
-                    errorState = repositoryViewModel.error.collectAsState(),
-                    resetError = repositoryViewModel::resetError)
+                    errorState = repoViewModel.error.collectAsState(),
+                    resetError = repoViewModel::resetError)
             }
         }
     )

@@ -1,4 +1,4 @@
-package com.example.github.vm.repository
+package com.example.github.vm.repo
 
 import androidx.lifecycle.viewModelScope
 import com.example.github.data.RepoRepository
@@ -11,13 +11,13 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class RepositoryViewModel(
+class RepoViewModel(
     repoData: RepoData,
     private val repoRepository: RepoRepository = RepoRepository(repoData)
 ): BaseViewModel<Boolean>(TAG, false) {
 
     companion object {
-        private const val TAG = "Repo repository"
+        private const val TAG = "Repo repo"
     }
 
     private val _repoData = MutableStateFlow(repoRepository.repoData.value)
