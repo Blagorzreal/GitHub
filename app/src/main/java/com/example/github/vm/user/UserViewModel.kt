@@ -12,7 +12,7 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 open class UserViewModel(
-    override val tag: String = TAG,
+    tag: String = TAG,
     private val userData: UserData,
     private val reposRepository: UserReposRepository = UserReposRepository(owner = userData)
 ): BaseApiViewModel<List<RepoData>, List<RepoModel>>(tag, ProfileHelper::repoModelListToRepoDataList) {
