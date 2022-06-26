@@ -3,7 +3,7 @@ package com.example.github.ui.navigation
 sealed class Route(val route: String) {
     object Login: Route("login")
     object Profile: Route("starred")
-    object Repository: Route("repo")
+    object Repository: Route("repository")
     object User: Route("user")
 
     companion object {
