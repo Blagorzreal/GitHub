@@ -31,10 +31,10 @@ import com.example.github.ui.theme.Typography
 import com.example.github.ui.view.CommonSpacer
 import com.example.github.ui.view.InclusiveNavigation
 import com.example.github.ui.view.ResponseError
-import com.example.github.vm.LoginViewModel
+import com.example.github.vm.LoginViewModelData
 
 @Composable
-fun LoginScreen(navController: NavHostController, loginViewModel: LoginViewModel = viewModel()) {
+fun LoginScreen(navController: NavHostController, loginViewModel: LoginViewModelData = viewModel()) {
     val focusManager = LocalFocusManager.current
 
     HandleLogin(navController, loginViewModel.data.collectAsState())
@@ -89,7 +89,7 @@ private fun clearFocusAndLogin(focusManager: FocusManager, login: () -> Unit) {
 @Composable
 private fun LoginComponentsWithLoading(
     focusManager: FocusManager,
-    loginViewModel: LoginViewModel,
+    loginViewModel: LoginViewModelData,
     isLoading: State<Boolean>,
     userData: State<UserData?>) {
 

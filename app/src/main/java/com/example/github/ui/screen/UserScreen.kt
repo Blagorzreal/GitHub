@@ -19,8 +19,8 @@ import com.example.github.ui.view.InfoButtons
 import com.example.github.ui.view.RefreshableRepoItems
 import com.example.github.ui.view.ResponseError
 import com.example.github.ui.view.navigateToRepositoryScreen
-import com.example.github.vm.user.UserViewModel
-import com.example.github.vm.repos.ReposViewModel
+import com.example.github.vm.user.UserViewModelData
+import com.example.github.vm.repos.ReposViewModelData
 import com.example.github.vm.repos.ReposViewModelFactory
 import com.example.github.vm.user.UserViewModelFactory
 
@@ -28,8 +28,8 @@ import com.example.github.vm.user.UserViewModelFactory
 fun UserScreen(
     navController: NavHostController,
     userData: UserData,
-    userViewModel: UserViewModel = viewModel(factory = UserViewModelFactory(userData)),
-    reposViewModel: ReposViewModel = viewModel(factory = ReposViewModelFactory(userData))) {
+    userViewModel: UserViewModelData = viewModel(factory = UserViewModelFactory(userData)),
+    reposViewModel: ReposViewModelData = viewModel(factory = ReposViewModelFactory(userData))) {
 
     val ownLazyListState = rememberLazyListState()
 

@@ -1,6 +1,5 @@
 package com.example.github.vm
 
-import androidx.lifecycle.ViewModel
 import com.example.github.util.log.AppLogger
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
@@ -8,9 +7,9 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 
 abstract class BaseViewModel<T>(
-    protected val tag: String,
+    protected override val tag: String,
     protected val initialError: T,
-    protected val dispatcher: CoroutineDispatcher = Dispatchers.IO): ViewModel() {
+    open override val dispatcher: CoroutineDispatcher = Dispatchers.IO): AbstractViewModel(tag) {
 
     protected val _isLoading = MutableStateFlow(false)
     val isLoading: StateFlow<Boolean> = _isLoading

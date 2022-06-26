@@ -10,7 +10,7 @@ import com.example.github.vm.BaseApiViewModel
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
-class UserViewModel(
+class UserViewModelData(
     userData: UserData,
     private val userRepository: UserRepository = UserRepository(userData)
 ): BaseApiViewModel<UserData, UserModel>(TAG, LoginHelper::userModelToUserData) {

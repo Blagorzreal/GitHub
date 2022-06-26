@@ -13,7 +13,7 @@ import com.example.github.util.log.LogType
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 
-class LoginViewModel(private val authApi: IAuthApi = ApiProvider.authApi)
+class LoginViewModelData(private val authApi: IAuthApi = ApiProvider.authApi)
     : BaseApiViewModel<UserData, UserModel>(TAG, LoginHelper::userModelToUserData) {
 
     companion object {
