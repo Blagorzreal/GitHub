@@ -59,6 +59,7 @@ fun UserScreen(
                 InfoButtons(userViewModel.data.collectAsState())
 
                 RefreshableRepoItems(
+                    showHeader = false,
                     lazyListState = ownLazyListState,
                     reposState = reposViewModel.data.collectAsState(),
                     isLoadingState = reposViewModel.isLoading.collectAsState(),

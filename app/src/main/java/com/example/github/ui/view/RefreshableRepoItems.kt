@@ -21,6 +21,7 @@ import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 
 @Composable
 fun RefreshableRepoItems(
+    showHeader: Boolean = true,
     lazyListState: LazyListState,
     reposState: State<List<RepoData>?>,
     isLoadingState: State<Boolean>,
@@ -32,6 +33,7 @@ fun RefreshableRepoItems(
         onRefresh = refresh
     ) {
         RepoItems(
+            showHeader,
             headerText = stringResource(R.string.own_repos),
             noItemsText = stringResource(R.string.no_own_repos_available),
             reposState = reposState,
@@ -43,6 +45,7 @@ fun RefreshableRepoItems(
 
 @Composable
 fun RepoItems(
+    showHeader: Boolean = true,
     headerText: String,
     noItemsText: String,
     reposState: State<List<RepoData>?>,
@@ -57,8 +60,10 @@ fun RepoItems(
         .fillMaxSize()
         .padding(top = 6.dp), state = lazyListState) {
         if (!repos.isNullOrEmpty()) {
-            item {
-                ItemsHeader(text = headerText)
+            if (showHeader) {
+                item {
+                    ItemsHeader(text = headerText)
+                }
             }
 
             items(repos) {
