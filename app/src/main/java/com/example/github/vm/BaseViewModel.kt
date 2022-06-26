@@ -10,7 +10,7 @@ import kotlinx.coroutines.flow.StateFlow
 abstract class BaseViewModel<T>(
     protected val tag: String,
     protected val initialError: T,
-    protected open val dispatcher: CoroutineDispatcher = Dispatchers.IO): ViewModel() {
+    protected val dispatcher: CoroutineDispatcher = Dispatchers.IO): ViewModel() {
 
     protected val _isLoading = MutableStateFlow(false)
     val isLoading: StateFlow<Boolean> = _isLoading

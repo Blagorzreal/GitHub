@@ -17,7 +17,7 @@ class LoginViewModel(private val authApi: IAuthApi = ApiProvider.authApi)
     : BaseApiViewModel<UserData, UserModel>(TAG, LoginHelper::userModelToUserData) {
 
     companion object {
-        private const val TAG = "LoginVM"
+        private const val TAG = "Login VM"
     }
 
     private val _validationError: MutableStateFlow<UsernameValidationError?> = MutableStateFlow(null)
