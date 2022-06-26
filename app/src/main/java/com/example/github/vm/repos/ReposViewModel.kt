@@ -11,7 +11,7 @@ import com.example.github.vm.base.BaseApiViewModel
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
-open class ReposViewModelData(
+open class ReposViewModel(
     tag: String = TAG,
     private val userData: UserData,
     private val reposRepository: ReposRepository = ReposRepository(userData = userData)

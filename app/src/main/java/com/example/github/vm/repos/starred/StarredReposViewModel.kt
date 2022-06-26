@@ -5,16 +5,16 @@ import com.example.github.data.StarredReposRepository
 import com.example.github.data.data.RepoData
 import com.example.github.data.data.UserData
 import com.example.github.util.log.AppLogger
-import com.example.github.vm.repos.ReposViewModelData
+import com.example.github.vm.repos.ReposViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
-class StarredReposViewModelData(
+class StarredReposViewModel(
     userData: UserData,
     private val starredReposRepository: StarredReposRepository = StarredReposRepository(userData)
-) : ReposViewModelData(TAG, userData, starredReposRepository) {
+) : ReposViewModel(TAG, userData, starredReposRepository) {
 
     companion object {
         private const val TAG = "Starred repos VM"

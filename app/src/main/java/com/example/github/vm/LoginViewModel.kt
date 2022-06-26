@@ -14,7 +14,7 @@ import com.example.github.vm.base.BaseApiViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 
-class LoginViewModelData(private val authApi: IAuthApi = ApiProvider.authApi)
+class LoginViewModel(private val authApi: IAuthApi = ApiProvider.authApi)
     : BaseApiViewModel<UserData, UserModel>(TAG, LoginHelper::userModelToUserData) {
 
     companion object {

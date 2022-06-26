@@ -22,14 +22,14 @@ import com.example.github.R
 import com.example.github.data.data.RepoData
 import com.example.github.data.data.UserData
 import com.example.github.ui.navigation.Route
-import com.example.github.vm.repo.RepoViewModelData
+import com.example.github.vm.repo.RepoViewModel
 import com.example.github.vm.repo.RepoViewModelFactory
 
 @Composable
 fun RepositoryScreen(
     navController: NavHostController,
     repoData: RepoData,
-    repoViewModel: RepoViewModelData = viewModel(factory = RepoViewModelFactory(repoData))) {
+    repoViewModel: RepoViewModel = viewModel(factory = RepoViewModelFactory(repoData))) {
 
     Scaffold(
         topBar = {

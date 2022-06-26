@@ -11,7 +11,7 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class RepoViewModelData(
+class RepoViewModel(
     repoData: RepoData,
     private val repoRepository: RepoRepository = RepoRepository(repoData)
 ): BaseViewModel<Boolean>(TAG, false) {

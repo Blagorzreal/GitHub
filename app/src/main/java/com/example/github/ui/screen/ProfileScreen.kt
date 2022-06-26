@@ -20,7 +20,7 @@ import com.example.github.data.data.UserData
 import com.example.github.ui.navigation.Route
 import com.example.github.ui.view.*
 import com.example.github.vm.ProfileViewModel
-import com.example.github.vm.repos.starred.StarredReposViewModelData
+import com.example.github.vm.repos.starred.StarredReposViewModel
 import com.example.github.vm.repos.starred.StarredViewModelFactory
 import com.example.github.vm.user.UserViewModelData
 import com.example.github.vm.user.UserViewModelFactory
@@ -31,7 +31,7 @@ fun ProfileScreen(
     userData: UserData,
     profileViewModel: ProfileViewModel = viewModel(),
     userViewModel: UserViewModelData = viewModel(factory = UserViewModelFactory(userData)),
-    starredReposViewModel: StarredReposViewModelData = viewModel(factory = StarredViewModelFactory(userData))) {
+    starredReposViewModel: StarredReposViewModel = viewModel(factory = StarredViewModelFactory(userData))) {
 
     val ownLazyListState = rememberLazyListState()
     val starredLazyListState = rememberLazyListState()
