@@ -21,11 +21,14 @@ import com.example.github.ui.navigation.Route
 import com.example.github.ui.view.*
 import com.example.github.vm.profile.ProfileViewModel
 import com.example.github.vm.profile.ProfileViewModelFactory
+import com.example.github.vm.user.UserViewModel
+import com.example.github.vm.user.UserViewModelFactory
 
 @Composable
 fun ProfileScreen(
     navController: NavHostController,
     userData: UserData,
+    userViewModel: UserViewModel = viewModel(factory = UserViewModelFactory(userData)),
     profileViewModel: ProfileViewModel = viewModel(factory = ProfileViewModelFactory(userData))) {
 
     val ownLazyListState = rememberLazyListState()
@@ -85,6 +88,8 @@ fun ProfileScreen(
                     })
                 }
             }
+
+            InfoButtons(userDataState = userViewModel.data.collectAsState())
 
             if (tabIndex == 0) {
                 RefreshableRepoItems(
