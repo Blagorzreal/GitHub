@@ -128,8 +128,8 @@ fun ProfileScreen(
         isLoggedOutState = profileViewModel.isLoggedOut.collectAsState())
 
     ResponseError(
-        responseErrorState = profileViewModel.responseError.collectAsState(),
-        clearResponseError = profileViewModel::clearResponseError)
+        errorState = profileViewModel.error.collectAsState(),
+        resetError = profileViewModel::resetError)
 }
 
 private fun navigateToRepositoryScreen(navController: NavHostController, repoData: RepoData) {

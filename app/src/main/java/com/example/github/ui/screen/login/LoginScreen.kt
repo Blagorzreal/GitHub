@@ -70,8 +70,8 @@ fun LoginScreen(navController: NavHostController, loginViewModel: LoginViewModel
             loginViewModel.data.collectAsState())
 
         ResponseError(
-            responseErrorState = loginViewModel.responseError.collectAsState(),
-            clearResponseError = loginViewModel::clearResponseError)
+            errorState = loginViewModel.error.collectAsState(),
+            resetError = loginViewModel::resetError)
     }
 }
 

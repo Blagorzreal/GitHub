@@ -9,7 +9,7 @@ import com.example.github.data.local.DaoProvider
 import com.example.github.model.RepoModel
 import com.example.github.util.ProfileHelper
 import com.example.github.util.log.AppLogger
-import com.example.github.vm.BaseViewModel
+import com.example.github.vm.BaseApiViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -19,7 +19,7 @@ import kotlinx.coroutines.launch
 class ProfileViewModel(
     private val userData: UserData,
     private val reposRepository: ReposRepository = ReposRepository(userData)
-) : BaseViewModel<List<RepoData>, List<RepoModel>>(TAG, ProfileHelper::repoModelListToRepoDataList) {
+) : BaseApiViewModel<List<RepoData>, List<RepoModel>>(TAG, ProfileHelper::repoModelListToRepoDataList) {
 
     companion object {
         private const val TAG = "ProfileVM"
@@ -58,7 +58,7 @@ class ProfileViewModel(
         AppLogger.log(tag, "Log out")
 
         LoginSession.clean()
-        CoroutineScope(coroutineScope).launch { DaoProvider.clean() }
+        CoroutineScope(dispatcher).launch { DaoProvider.clean() }
 
         _isLoggedOut.value = true
     }

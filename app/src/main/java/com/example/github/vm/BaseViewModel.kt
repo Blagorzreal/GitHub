@@ -1,79 +1,28 @@
 package com.example.github.vm
 
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
-import com.example.github.data.remote.ResponseResult
 import com.example.github.util.log.AppLogger
-import com.example.github.util.log.LogType
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
-abstract class BaseViewModel<Data, Model>(
+abstract class BaseViewModel<T>(
     protected val tag: String,
-    protected val mapper: (Model) -> Data,
-    protected val coroutineScope: CoroutineDispatcher = Dispatchers.IO): ViewModel() {
+    protected val initialError: T,
+    protected open val dispatcher: CoroutineDispatcher = Dispatchers.IO): ViewModel() {
 
     protected val _isLoading = MutableStateFlow(false)
     val isLoading: StateFlow<Boolean> = _isLoading
 
-    protected val _responseError: MutableStateFlow<ResponseResult.ResponseError?> = MutableStateFlow(null)
-    val responseError: StateFlow<ResponseResult.ResponseError?> = _responseError
-
-    protected val _data: MutableStateFlow<Data?> = MutableStateFlow(null)
-    val data: StateFlow<Data?> = _data
+    protected val _error: MutableStateFlow<T> = MutableStateFlow(initialError)
+    val error: StateFlow<T> = _error
 
     init {
         AppLogger.log(tag, "Init VM")
     }
 
-    fun fetchData(fetch: suspend () -> ResponseResult<Model>) {
-        AppLogger.log(tag, "Fetching data")
-
-        _isLoading.value = true
-
-        viewModelScope.launch {
-            val result = withContext(coroutineScope) {
-                try {
-                    fetch()
-                } catch (ex: Exception) {
-                    AppLogger.log(tag, "Exception: ${ex.message}", LogType.Error)
-                    ResponseResult.ExceptionResponseError(ex)
-                }
-            }
-
-            _isLoading.value = false
-
-            when (result) {
-                is ResponseResult.Success -> {
-                    AppLogger.log(tag, "Fetched data successfully")
-                    onData(mapper(result.model))
-                }
-                is ResponseResult.ResponseError -> {
-                    AppLogger.log(tag, "Unable to fetch the data: $result")
-
-                    _responseError.value = result
-                    onError(result)
-                }
-            }
-        }
-    }
-
-    open fun onData(data: Data) =
-        AppLogger.log(tag, "Fetched data: $data")
-
-    open fun onError(error: ResponseResult.ResponseError) =
-        AppLogger.log(tag, "Fetched error: $error", LogType.Error)
-
-    fun clearResponseError() {
-        _responseError.value = null
-    }
-
-    override fun onCleared() {
-        AppLogger.log(tag, "Clear VM")
-        super.onCleared()
+    fun resetError() {
+        _error.value = initialError
     }
 }

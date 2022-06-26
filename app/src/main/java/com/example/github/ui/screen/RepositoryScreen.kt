@@ -75,37 +75,37 @@ fun RepositoryScreen(
                 }
 
                 Star(
-                    starred = repositoryViewModel.starred.collectAsState(),
+                    repoDataState = repositoryViewModel.repoData.collectAsState(),
                     onClick = repositoryViewModel::updateStarred)
 
                 HandleError(
                     id = repoData.id,
                     errorState = repositoryViewModel.error.collectAsState(),
-                    clearError = repositoryViewModel::clearError)
+                    resetError = repositoryViewModel::resetError)
             }
         }
     )
 }
 
 @Composable
-private fun Star(starred: State<Boolean>, onClick: () -> Unit) {
+private fun Star(repoDataState: State<RepoData>, onClick: () -> Unit) {
     IconButton(onClick = onClick) {
         Icon(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(50.dp),
             painter = painterResource(R.drawable.star),
-            tint = if (starred.value) Color.Yellow else Color.DarkGray,
+            tint = if (repoDataState.value.starred) Color.Yellow else Color.DarkGray,
             contentDescription = null
         )
     }
 }
 
 @Composable
-private fun HandleError(id: Long, errorState: State<Boolean>, clearError: () -> Unit) {
+private fun HandleError(id: Long, errorState: State<Boolean>, resetError: () -> Unit) {
     val error = errorState.value
     if (error) {
-        clearError()
+        resetError()
 
         Toast.makeText(
             LocalContext.current,
