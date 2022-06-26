@@ -1,4 +1,4 @@
-package com.example.github.vm
+package com.example.github.vm.base
 
 import com.example.github.util.log.AppLogger
 import kotlinx.coroutines.CoroutineDispatcher

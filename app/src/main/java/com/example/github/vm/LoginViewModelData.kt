@@ -10,6 +10,7 @@ import com.example.github.util.Constants.Companion.EMPTY_STRING
 import com.example.github.util.LoginHelper
 import com.example.github.util.log.AppLogger
 import com.example.github.util.log.LogType
+import com.example.github.vm.base.BaseApiViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 

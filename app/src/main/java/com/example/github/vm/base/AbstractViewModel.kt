@@ -1,4 +1,4 @@
-package com.example.github.vm
+package com.example.github.vm.base
 
 import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.CoroutineDispatcher

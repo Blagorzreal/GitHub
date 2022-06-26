@@ -6,7 +6,7 @@ import com.example.github.data.data.UserData
 import com.example.github.model.UserModel
 import com.example.github.util.LoginHelper
 import com.example.github.util.log.AppLogger
-import com.example.github.vm.BaseApiViewModel
+import com.example.github.vm.base.BaseApiViewModel
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 

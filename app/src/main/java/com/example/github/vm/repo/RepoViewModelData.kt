@@ -4,7 +4,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.github.data.RepoRepository
 import com.example.github.data.data.RepoData
 import com.example.github.util.log.AppLogger
-import com.example.github.vm.BaseViewModel
+import com.example.github.vm.base.BaseViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collectLatest

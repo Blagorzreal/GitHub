@@ -3,6 +3,7 @@ package com.example.github.vm
 import com.example.github.data.LoginSession
 import com.example.github.data.local.DaoProvider
 import com.example.github.util.log.AppLogger
+import com.example.github.vm.base.AbstractViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
