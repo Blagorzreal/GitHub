@@ -10,7 +10,11 @@ import com.example.github.data.remote.ResponseResult
 import com.example.github.util.ErrorHelper
 
 @Composable
-fun ResponseError(errorState: State<ResponseResult.ResponseError>, resetError: () -> Unit) {
+fun ResponseError(
+    errorState: State<ResponseResult.ResponseError>,
+    resetError: () -> Unit,
+    customErrorMessage: String = stringResource(R.string.common_error)) {
+
     val error = errorState.value
     if (error is ResponseResult.None)
         return
@@ -18,9 +22,9 @@ fun ResponseError(errorState: State<ResponseResult.ResponseError>, resetError: (
     resetError()
 
     val responseErrorMessage = when {
-        ErrorHelper.isUsernameNotFoundError(error) -> stringResource(R.string.username_not_found_error)
+        ErrorHelper.isUsernameNotFoundError(error) -> stringResource(R.string.not_found_error)
         ErrorHelper.isForbiddenError(error) -> stringResource(R.string.forbidden_error)
-        else -> stringResource(R.string.common_error)
+        else -> customErrorMessage
     }
 
     Toast.makeText(LocalContext.current, responseErrorMessage, Toast.LENGTH_LONG).show()

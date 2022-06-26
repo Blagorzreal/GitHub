@@ -117,7 +117,8 @@ fun ProfileScreen(
 
     ResponseError(
         errorState = profileViewModel.error.collectAsState(),
-        resetError = profileViewModel::resetError)
+        resetError = profileViewModel::resetError,
+        customErrorMessage = stringResource(R.string.unable_to_fetch_repos))
 }
 
 @Composable

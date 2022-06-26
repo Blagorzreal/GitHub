@@ -1,6 +1,5 @@
 package com.example.github.ui.screen
 
-import android.widget.Toast
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -16,7 +15,6 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -83,11 +81,13 @@ fun UserScreen(
 
     ResponseError(
         errorState = userViewModel.error.collectAsState(),
-        resetError = userViewModel::resetError)
+        resetError = userViewModel::resetError,
+        customErrorMessage = stringResource(R.string.unable_to_fetch_user))
 
     ResponseError(
         errorState = reposViewModel.error.collectAsState(),
-        resetError = reposViewModel::resetError)
+        resetError = reposViewModel::resetError,
+        customErrorMessage = stringResource(R.string.unable_to_fetch_repos))
 }
 
 @Composable
@@ -112,19 +112,5 @@ private fun InfoButton(descriptionResource: Int, value: Long?) {
         ) {
             Text(text = stringResource(descriptionResource, value))
         }
-    }
-}
-
-@Composable
-private fun HandleError(id: Long, errorState: State<Boolean>, resetError: () -> Unit) {
-    val error = errorState.value
-    if (error) {
-        resetError()
-
-        Toast.makeText(
-            LocalContext.current,
-            stringResource(R.string.starred_update_error, id),
-            Toast.LENGTH_SHORT
-        ).show()
     }
 }

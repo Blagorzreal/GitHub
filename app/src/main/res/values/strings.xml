@@ -1,8 +1,10 @@
 <resources>
+    <string name="app_name">GitHub</string>
+
     <string name="forbidden_error">Too many public API Requests.</string>
     <string name="common_error">Something went wrong. Please try again later.</string>
-
-    <string name="app_name">GitHub</string>
+    <string name="not_found_error">Not found.</string>
+    <string name="unable_to_fetch_repos">Unable to fetch repos.</string>
 
     // LoginScreen
     <string name="username">Username</string>
@@ -10,7 +12,6 @@
     <string name="login">Login</string>
     <string name="empty_username_message">Please enter an username.</string>
     <string name="invalid_username_message">Please enter a valid username.</string>
-    <string name="username_not_found_error">Username was not found.</string>
 
     // ProfileScreen
     <string name="own">Own</string>
@@ -25,5 +26,5 @@
     // UserScreen
     <string name="followers">Followers: %1$s</string>
     <string name="following">Following: %1$s</string>
-    <string name="no_starred_repos_available">No starred repositories available</string>
+    <string name="unable_to_fetch_user">Unable to fetch user.</string>
 </resources>
