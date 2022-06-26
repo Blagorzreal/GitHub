@@ -4,8 +4,10 @@ sealed class Route(val route: String) {
     object Login: Route("login")
     object Profile: Route("profile")
     object Repository: Route("repository")
+    object User: Route("user")
 
     companion object {
+        const val USER_DATA = "USER_DATA"
         const val REPO_DATA = "REPO_DATA"
     }
 }

@@ -22,6 +22,8 @@ class LoginHelper private constructor() {
             UserData(
                 userModel.id,
                 userModel.login,
-                userModel.avatarUrl)
+                userModel.avatarUrl,
+                userModel.followers,
+                userModel.following)
     }
 }

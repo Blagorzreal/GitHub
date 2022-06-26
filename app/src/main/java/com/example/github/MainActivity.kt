@@ -17,11 +17,14 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.github.data.LoginSession
 import com.example.github.data.data.RepoData
+import com.example.github.data.data.UserData
 import com.example.github.ui.navigation.Route
 import com.example.github.ui.navigation.Route.Companion.REPO_DATA
+import com.example.github.ui.navigation.Route.Companion.USER_DATA
 import com.example.github.ui.screen.login.LoginScreen
 import com.example.github.ui.screen.ProfileScreen
 import com.example.github.ui.screen.RepositoryScreen
+import com.example.github.ui.screen.UserScreen
 import com.example.github.ui.theme.GitHubTheme
 import com.example.github.util.log.AppLogger
 
@@ -68,6 +71,16 @@ class MainActivity: ComponentActivity() {
                             val repoData = it.savedStateHandle.get<RepoData>(REPO_DATA)
                             if (repoData != null)
                                 RepositoryScreen(navController, repoData)
+                            else {
+                                showCommonError(this@MainActivity)
+                                navController.popBackStack()
+                            }
+                        }
+
+                        composable(route = Route.User.route) {
+                            val userData = it.savedStateHandle.get<UserData>(USER_DATA)
+                            if (userData != null)
+                                UserScreen(navController, userData)
                             else {
                                 showCommonError(this@MainActivity)
                                 navController.popBackStack()

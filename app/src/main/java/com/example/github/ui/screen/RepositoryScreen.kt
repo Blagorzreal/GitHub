@@ -20,6 +20,8 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.example.github.R
 import com.example.github.data.data.RepoData
+import com.example.github.data.data.UserData
+import com.example.github.ui.navigation.Route
 import com.example.github.vm.repository.RepositoryViewModel
 import com.example.github.vm.repository.RepositoryViewModelFactory
 
@@ -55,7 +57,7 @@ fun RepositoryScreen(
                     modifier = Modifier.fillMaxWidth(), contentAlignment = Alignment.Center
                 ) {
                     Button(
-                        onClick = { },
+                        onClick = { navigateToUserScreen(navController, repoData.owner) },
                         shape = RoundedCornerShape(50.dp)
                     ) {
                         Text(text = repoData.owner.username)
@@ -66,7 +68,7 @@ fun RepositoryScreen(
                     modifier = Modifier.fillMaxWidth(), contentAlignment = Alignment.Center
                 ) {
                     Button(
-                        onClick = { },
+                        onClick = { navigateToUserScreen(navController, repoData.owner) },
                         shape = RoundedCornerShape(50.dp),
                         colors = ButtonDefaults.buttonColors(backgroundColor = Color.DarkGray)
                     ) {
@@ -85,6 +87,11 @@ fun RepositoryScreen(
             }
         }
     )
+}
+
+private fun navigateToUserScreen(navController: NavHostController, userData: UserData) {
+    navController.navigate(Route.User.route)
+    navController.currentBackStackEntry?.savedStateHandle?.set(Route.USER_DATA, userData)
 }
 
 @Composable

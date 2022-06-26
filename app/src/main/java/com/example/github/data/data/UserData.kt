@@ -7,4 +7,6 @@ import kotlinx.parcelize.Parcelize
 data class UserData(
     val id: Long,
     val username: String,
-    val avatarUrl: String?) : Parcelable
+    val avatarUrl: String?,
+    val followers: Long?,
+    val following: Long?) : Parcelable
