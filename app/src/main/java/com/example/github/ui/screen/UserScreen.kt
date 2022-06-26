@@ -5,8 +5,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.*
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
@@ -15,10 +13,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.example.github.R
 import com.example.github.data.data.UserData
-import com.example.github.ui.view.InfoButtons
-import com.example.github.ui.view.RefreshableRepoItems
-import com.example.github.ui.view.ResponseError
-import com.example.github.ui.view.navigateToRepositoryScreen
+import com.example.github.ui.view.*
 import com.example.github.vm.user.UserViewModelData
 import com.example.github.vm.repos.ReposViewModel
 import com.example.github.vm.repos.ReposViewModelFactory
@@ -35,20 +30,7 @@ fun UserScreen(
 
     Scaffold(
         topBar = {
-            TopAppBar(
-                title = { Text(text = userData.username) },
-                navigationIcon = if (navController.previousBackStackEntry != null) {
-                    {
-                        IconButton(onClick = { navController.popBackStack() }) {
-                            Icon(
-                                imageVector = Icons.Filled.ArrowBack,
-                                contentDescription = null
-                            )
-                        }
-                    }
-                } else null
-
-            )
+            BackTopAppBar(navController = navController, text = userData.username)
         },
         content = {
             Column(

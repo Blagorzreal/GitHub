@@ -4,8 +4,6 @@ import android.widget.Toast
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.State
 import androidx.compose.runtime.collectAsState
@@ -22,6 +20,7 @@ import com.example.github.R
 import com.example.github.data.data.RepoData
 import com.example.github.data.data.UserData
 import com.example.github.ui.navigation.Route
+import com.example.github.ui.view.BackTopAppBar
 import com.example.github.vm.repo.RepoViewModel
 import com.example.github.vm.repo.RepoViewModelFactory
 
@@ -33,20 +32,7 @@ fun RepositoryScreen(
 
     Scaffold(
         topBar = {
-            TopAppBar(
-                title = { Text(text = repoData.name) },
-                navigationIcon = if (navController.previousBackStackEntry != null) {
-                    {
-                        IconButton(onClick = { navController.popBackStack() }) {
-                            Icon(
-                                imageVector = Icons.Filled.ArrowBack,
-                                contentDescription = null
-                            )
-                        }
-                    }
-                } else null
-
-            )
+           BackTopAppBar(navController = navController, text = repoData.name)
         },
         content = {
             Column(
