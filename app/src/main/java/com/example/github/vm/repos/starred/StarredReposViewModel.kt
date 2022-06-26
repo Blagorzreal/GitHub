@@ -1,4 +1,4 @@
-package com.example.github.vm.profile
+package com.example.github.vm.repos.starred
 
 import androidx.lifecycle.viewModelScope
 import com.example.github.data.LoginSession
@@ -14,7 +14,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
-class ProfileViewModel(
+class StarredReposViewModel(
     userData: UserData,
     private val profileRepository: ProfileRepository = ProfileRepository(userData)
 ) : ReposViewModel(TAG, userData, profileRepository) {

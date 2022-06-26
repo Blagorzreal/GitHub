@@ -19,8 +19,8 @@ import com.example.github.R
 import com.example.github.data.data.UserData
 import com.example.github.ui.navigation.Route
 import com.example.github.ui.view.*
-import com.example.github.vm.profile.ProfileViewModel
-import com.example.github.vm.profile.ProfileViewModelFactory
+import com.example.github.vm.repos.starred.StarredReposViewModel
+import com.example.github.vm.repos.starred.StarredViewModelFactory
 import com.example.github.vm.user.UserViewModel
 import com.example.github.vm.user.UserViewModelFactory
 
@@ -29,7 +29,7 @@ fun ProfileScreen(
     navController: NavHostController,
     userData: UserData,
     userViewModel: UserViewModel = viewModel(factory = UserViewModelFactory(userData)),
-    profileViewModel: ProfileViewModel = viewModel(factory = ProfileViewModelFactory(userData))) {
+    starredReposViewModel: StarredReposViewModel = viewModel(factory = StarredViewModelFactory(userData))) {
 
     val ownLazyListState = rememberLazyListState()
     val starredLazyListState = rememberLazyListState()
@@ -60,7 +60,7 @@ fun ProfileScreen(
                         DropdownMenu(
                             expanded = showPopup,
                             onDismissRequest = { showPopup = false }) {
-                            DropdownMenuItem(onClick = profileViewModel::logOut) {
+                            DropdownMenuItem(onClick = starredReposViewModel::logOut) {
                                 Text(text = stringResource(R.string.logout))
                             }
                         }
@@ -94,18 +94,18 @@ fun ProfileScreen(
             if (tabIndex == 0) {
                 RefreshableRepoItems(
                     lazyListState = ownLazyListState,
-                    reposState = profileViewModel.data.collectAsState(),
-                    isLoadingState = profileViewModel.isLoading.collectAsState(),
+                    reposState = starredReposViewModel.data.collectAsState(),
+                    isLoadingState = starredReposViewModel.isLoading.collectAsState(),
                     onClick = { repoData ->
                         navigateToRepositoryScreen(navController, repoData)
                     },
-                    refresh = profileViewModel::updateRepos
+                    refresh = starredReposViewModel::updateRepos
                 )
             } else {
                 RepoItems(
                     headerText = stringResource(R.string.starred_repos),
                     noItemsText = stringResource(R.string.no_starred_repos_available),
-                    reposState = profileViewModel.starredRepos.collectAsState(),
+                    reposState = starredReposViewModel.starredRepos.collectAsState(),
                     lazyListState = starredLazyListState,
                     onClick = { repoData ->
                         navigateToRepositoryScreen(navController, repoData)
@@ -118,11 +118,11 @@ fun ProfileScreen(
 
     HandleLogout(
         navController = navController,
-        isLoggedOutState = profileViewModel.isLoggedOut.collectAsState())
+        isLoggedOutState = starredReposViewModel.isLoggedOut.collectAsState())
 
     ResponseError(
-        errorState = profileViewModel.error.collectAsState(),
-        resetError = profileViewModel::resetError,
+        errorState = starredReposViewModel.error.collectAsState(),
+        resetError = starredReposViewModel::resetError,
         customErrorMessage = stringResource(R.string.unable_to_fetch_repos))
 }
 
