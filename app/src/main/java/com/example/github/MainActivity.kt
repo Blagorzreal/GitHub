@@ -24,6 +24,7 @@ import com.example.github.ui.navigation.Route.Companion.USER_DATA
 import com.example.github.ui.screen.login.LoginScreen
 import com.example.github.ui.screen.ProfileScreen
 import com.example.github.ui.screen.RepositoryScreen
+import com.example.github.ui.screen.SearchScreen
 import com.example.github.ui.screen.UserScreen
 import com.example.github.ui.theme.GitHubTheme
 import com.example.github.util.log.AppLogger
@@ -85,6 +86,10 @@ class MainActivity: ComponentActivity() {
                                 showCommonError(this@MainActivity)
                                 navController.popBackStack()
                             }
+                        }
+
+                        composable(route = Route.Search.route) {
+                            SearchScreen(navController)
                         }
                     }
                 }

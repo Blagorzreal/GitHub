@@ -67,7 +67,7 @@ fun ProfileScreen(
                             }
                         }
                     }
-                    IconButton(onClick = { },) {
+                    IconButton(onClick = { navController.navigate(Route.Search.route) }) {
                         Icon(
                             imageVector = Icons.Filled.Search,
                             contentDescription = null

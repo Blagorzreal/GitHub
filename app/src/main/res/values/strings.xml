@@ -27,4 +27,7 @@
     <string name="followers">Followers: %1$s</string>
     <string name="following">Following: %1$s</string>
     <string name="unable_to_fetch_user">Unable to fetch user.</string>
+
+    // SearchScreen
+    <string name="search">Search</string>
 </resources>

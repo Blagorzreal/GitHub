@@ -5,8 +5,6 @@ import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.text.KeyboardActions
-import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
 import androidx.compose.runtime.*
@@ -29,6 +27,7 @@ import com.example.github.data.data.UserData
 import com.example.github.ui.navigation.Route
 import com.example.github.ui.theme.Typography
 import com.example.github.ui.view.CommonSpacer
+import com.example.github.ui.view.CommonTextField
 import com.example.github.ui.view.InclusiveNavigation
 import com.example.github.ui.view.ResponseError
 import com.example.github.vm.LoginViewModel
@@ -101,7 +100,7 @@ private fun LoginComponentsWithLoading(
         if (isLoading.value || (userData.value != null))
             CircularProgressIndicator()
         else {
-            LoginTextField(
+            CommonTextField(
                 text = loginViewModel.username.collectAsState(),
                 label = stringResource(R.string.username),
                 onValueChange = loginViewModel::onUsernameChanged,
@@ -127,29 +126,6 @@ private fun LoginComponentsWithLoading(
             }
         }
     }
-}
-
-@Composable
-private fun LoginTextField(
-    text: State<String>,
-    label: String,
-    onValueChange: (value: String) -> Unit,
-    onDone: (() -> Unit)?,
-    imeAction: ImeAction,
-    keyboardType: KeyboardType) {
-
-    TextField(
-        label = { Text(text = label) },
-        value = text.value,
-        onValueChange = onValueChange,
-        maxLines = 1,
-        singleLine = true,
-        keyboardOptions = KeyboardOptions(
-            imeAction = imeAction,
-            keyboardType = keyboardType
-        ),
-        keyboardActions = KeyboardActions(onDone = { onDone?.invoke() })
-    )
 }
 
 @Composable

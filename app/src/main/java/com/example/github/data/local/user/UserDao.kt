@@ -12,6 +12,9 @@ interface UserDao: IUserDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     override suspend fun insertUser(user: UserModel)
 
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    override suspend fun insertUsers(users: List<UserModel>)
+
     @Query("DELETE FROM UserModel")
     override suspend fun deleteAll()
 }
