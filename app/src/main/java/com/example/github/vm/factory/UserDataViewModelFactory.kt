@@ -4,9 +4,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.example.github.data.data.UserData
 import com.example.github.util.Constants
-import com.example.github.vm.repos.ReposViewModel
-import com.example.github.vm.repos.starred.StarredReposViewModel
-import com.example.github.vm.user.UserViewModel
+import com.example.github.vm.ReposViewModel
+import com.example.github.vm.StarredReposViewModel
+import com.example.github.vm.UserViewModel
 
 enum class ViewModelType {
     Repos,

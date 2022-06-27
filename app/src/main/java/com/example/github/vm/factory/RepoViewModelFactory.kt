@@ -1,9 +1,10 @@
-package com.example.github.vm.repo
+package com.example.github.vm.factory
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.example.github.data.data.RepoData
 import com.example.github.util.Constants
+import com.example.github.vm.RepoViewModel
 
 @Suppress("UNCHECKED_CAST")
 class RepoViewModelFactory(private val repoData: RepoData): ViewModelProvider.Factory {

@@ -1,11 +1,10 @@
-package com.example.github.vm.repos.starred
+package com.example.github.vm
 
 import androidx.lifecycle.viewModelScope
 import com.example.github.data.StarredReposRepository
 import com.example.github.data.data.RepoData
 import com.example.github.data.data.UserData
 import com.example.github.util.log.AppLogger
-import com.example.github.vm.repos.ReposViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collectLatest

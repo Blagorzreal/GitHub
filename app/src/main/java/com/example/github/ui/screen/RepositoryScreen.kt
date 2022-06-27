@@ -21,8 +21,8 @@ import com.example.github.data.data.RepoData
 import com.example.github.data.data.UserData
 import com.example.github.ui.navigation.Route
 import com.example.github.ui.view.BackTopAppBar
-import com.example.github.vm.repo.RepoViewModel
-import com.example.github.vm.repo.RepoViewModelFactory
+import com.example.github.vm.RepoViewModel
+import com.example.github.vm.factory.RepoViewModelFactory
 
 @Composable
 fun RepositoryScreen(

@@ -22,8 +22,8 @@ import com.example.github.ui.view.*
 import com.example.github.vm.ProfileViewModel
 import com.example.github.vm.base.UserDataViewModelFactory
 import com.example.github.vm.base.ViewModelType
-import com.example.github.vm.repos.starred.StarredReposViewModel
-import com.example.github.vm.user.UserViewModel
+import com.example.github.vm.StarredReposViewModel
+import com.example.github.vm.UserViewModel
 
 @Composable
 fun ProfileScreen(

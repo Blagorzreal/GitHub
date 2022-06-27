@@ -4,7 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.res.stringResource
 import com.example.github.R
-import com.example.github.vm.repos.ReposViewModel
+import com.example.github.vm.ReposViewModel
 
 @Composable
 fun ReposResponseError(reposViewModel: ReposViewModel) {

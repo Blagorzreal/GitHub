@@ -14,8 +14,8 @@ import com.example.github.data.data.UserData
 import com.example.github.ui.view.*
 import com.example.github.vm.base.UserDataViewModelFactory
 import com.example.github.vm.base.ViewModelType
-import com.example.github.vm.user.UserViewModel
-import com.example.github.vm.repos.ReposViewModel
+import com.example.github.vm.UserViewModel
+import com.example.github.vm.ReposViewModel
 
 @Composable
 fun UserScreen(

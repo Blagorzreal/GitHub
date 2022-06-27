@@ -1,4 +1,4 @@
-package com.example.github.vm.repos
+package com.example.github.vm
 
 import androidx.lifecycle.viewModelScope
 import com.example.github.data.ReposRepository

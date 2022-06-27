@@ -1,10 +1,9 @@
-package com.example.github.vm.user
+package com.example.github.vm
 
 import androidx.lifecycle.viewModelScope
 import com.example.github.data.UserRepository
 import com.example.github.data.data.UserData
 import com.example.github.model.UserModel
-import com.example.github.util.LoginHelper
 import com.example.github.util.log.AppLogger
 import com.example.github.util.mapper.UserModelMapper
 import com.example.github.vm.base.BaseApiViewModel
