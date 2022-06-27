@@ -12,17 +12,17 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.example.github.data.data.UserData
 import com.example.github.ui.view.*
+import com.example.github.vm.base.UserDataViewModelFactory
+import com.example.github.vm.base.ViewModelType
 import com.example.github.vm.user.UserViewModel
 import com.example.github.vm.repos.ReposViewModel
-import com.example.github.vm.repos.ReposViewModelFactory
-import com.example.github.vm.user.UserViewModelFactory
 
 @Composable
 fun UserScreen(
     navController: NavHostController,
     userData: UserData,
-    userViewModel: UserViewModel = viewModel(factory = UserViewModelFactory(userData)),
-    reposViewModel: ReposViewModel = viewModel(factory = ReposViewModelFactory(userData))) {
+    userViewModel: UserViewModel = viewModel(factory = UserDataViewModelFactory(userData, ViewModelType.User)),
+    reposViewModel: ReposViewModel = viewModel(factory = UserDataViewModelFactory(userData, ViewModelType.Repos))) {
 
     val ownLazyListState = rememberLazyListState()
 

@@ -20,18 +20,18 @@ import com.example.github.data.data.UserData
 import com.example.github.ui.navigation.Route
 import com.example.github.ui.view.*
 import com.example.github.vm.ProfileViewModel
+import com.example.github.vm.base.UserDataViewModelFactory
+import com.example.github.vm.base.ViewModelType
 import com.example.github.vm.repos.starred.StarredReposViewModel
-import com.example.github.vm.repos.starred.StarredViewModelFactory
 import com.example.github.vm.user.UserViewModel
-import com.example.github.vm.user.UserViewModelFactory
 
 @Composable
 fun ProfileScreen(
     navController: NavHostController,
     userData: UserData,
     profileViewModel: ProfileViewModel = viewModel(),
-    userViewModel: UserViewModel = viewModel(factory = UserViewModelFactory(userData)),
-    starredReposViewModel: StarredReposViewModel = viewModel(factory = StarredViewModelFactory(userData))) {
+    userViewModel: UserViewModel = viewModel(factory = UserDataViewModelFactory(userData, ViewModelType.User)),
+    starredReposViewModel: StarredReposViewModel = viewModel(factory = UserDataViewModelFactory(userData, ViewModelType.StarredRepos))) {
 
     val ownLazyListState = rememberLazyListState()
     val starredLazyListState = rememberLazyListState()
