@@ -5,6 +5,7 @@ sealed class Route(val route: String) {
     object Profile: Route("starred")
     object Repository: Route("repository")
     object User: Route("user")
+    object Search: Route("search")
 
     companion object {
         const val USER_DATA = "USER_DATA"
