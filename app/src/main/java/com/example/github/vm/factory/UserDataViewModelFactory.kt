@@ -21,14 +21,14 @@ class UserDataViewModelFactory(
 ): ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T =
         when (viewModelType) {
-            ViewModelType.Repos -> createVMInstance(modelClass, ReposViewModel(userData = userData))
-            ViewModelType.StarredRepos -> createVMInstance(modelClass, StarredReposViewModel(userData))
-            ViewModelType.User -> createVMInstance(modelClass, UserViewModel(userData))
+            ViewModelType.Repos -> createVMInstance(modelClass) { ReposViewModel(userData = userData) }
+            ViewModelType.StarredRepos -> createVMInstance(modelClass) { StarredReposViewModel(userData) }
+            ViewModelType.User -> createVMInstance(modelClass) { UserViewModel(userData) }
         }
 
-    private fun <T: ViewModel> createVMInstance(modelClass: Class<T>, vmClass: BaseViewModel<*>) =
-        if (modelClass.isAssignableFrom(vmClass::class.java))
-            vmClass as T
+    private fun <T: ViewModel> createVMInstance(modelClass: Class<T>, vmClass: () -> BaseViewModel<*>) =
+        if (BaseViewModel::class.java.isAssignableFrom(modelClass))
+            vmClass() as T
         else
             throw IllegalArgumentException(Constants.VIEW_MODEL_ERROR)
 }
