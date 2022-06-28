@@ -16,11 +16,11 @@
     // ProfileScreen
     <string name="own">Own</string>
     <string name="own_repos">Own repositories</string>
-    <string name="no_own_repos_available">No own repositories available</string>
-    <string name="no_repos_available">No repositories available</string>
+    <string name="no_own_repos_available">No own repositories available.</string>
+    <string name="no_repos_available">No repositories available.</string>
     <string name="starred">Starred</string>
     <string name="starred_repos">Starred repositories</string>
-    <string name="no_starred_repos_available">No starred repositories available</string>
+    <string name="no_starred_repos_available">No starred repositories available.</string>
     <string name="starred_update_error">Unable to update starred for repo with id = %1$s.</string>
     <string name="logout">Logout</string>
 
