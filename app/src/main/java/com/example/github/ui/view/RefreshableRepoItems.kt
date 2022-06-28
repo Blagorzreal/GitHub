@@ -22,6 +22,7 @@ import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 @Composable
 fun RefreshableRepoItems(
     showHeader: Boolean = true,
+    noItemsText: String,
     lazyListState: LazyListState,
     reposState: State<List<RepoData>?>,
     isLoadingState: State<Boolean>,
@@ -35,7 +36,7 @@ fun RefreshableRepoItems(
         RepoItems(
             showHeader,
             headerText = stringResource(R.string.own_repos),
-            noItemsText = stringResource(R.string.no_own_repos_available),
+            noItemsText = noItemsText,
             reposState = reposState,
             lazyListState = lazyListState,
             onClick = onClick,

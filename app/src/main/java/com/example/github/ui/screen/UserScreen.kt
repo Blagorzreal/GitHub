@@ -8,8 +8,10 @@ import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
+import com.example.github.R
 import com.example.github.data.data.UserData
 import com.example.github.ui.view.*
 import com.example.github.vm.base.UserDataViewModelFactory
@@ -39,6 +41,7 @@ fun UserScreen(
                 InfoButtons(userViewModel.data.collectAsState())
 
                 RefreshableRepoItems(
+                    noItemsText = stringResource(R.string.no_repos_available),
                     showHeader = false,
                     lazyListState = ownLazyListState,
                     reposState = reposViewModel.data.collectAsState(),
