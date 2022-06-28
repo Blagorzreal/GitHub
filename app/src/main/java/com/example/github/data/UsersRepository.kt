@@ -18,8 +18,8 @@ class UsersRepository(
         private const val TAG = "Users repo"
     }
 
-    private var _localSearch: MutableStateFlow<SearchModel> = MutableStateFlow(SearchModel(0, emptyList()))
-    var localSearch: Flow<SearchModel> = _localSearch
+    private var _localSearch: MutableStateFlow<SearchModel?> = MutableStateFlow(null)
+    var localSearch: Flow<SearchModel?> = _localSearch
 
     suspend fun search(usersPerPage: Int, page: Int, username: String): ResponseResult<SearchModel> {
         AppLogger.log(TAG, "Search")

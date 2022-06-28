@@ -31,8 +31,5 @@ class SearchApi: ISearchApi {
         usersPerPage: Int,
         page: Int,
         username: String
-    ): ResponseResult<SearchModel> {
-        Thread.sleep(5000)
-        return ApiProvider.requestUnsafe(TAG, searchApi.search(usersPerPage, page, "$username $IN_LOGIN"))
-    }
+    ): ResponseResult<SearchModel> = ApiProvider.requestUnsafe(TAG, searchApi.search(usersPerPage, page, "$username $IN_LOGIN"))
 }

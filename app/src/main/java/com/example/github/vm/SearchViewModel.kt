@@ -24,9 +24,15 @@ class SearchViewModel(
     private var totalPages = 1
     private var currentPage = 1
 
+    private val _hasNextPage: MutableStateFlow<Boolean> = MutableStateFlow(false)
+    val hasNextPage: StateFlow<Boolean> = _hasNextPage
+
     init {
         viewModelScope.launch {
             usersRepository.localSearch.collectLatest {
+                if (it == null)
+                    return@collectLatest
+
                 AppLogger.log(tag, "Users changed: ${it.totalCount}")
                 _data.value = mapper(it)
             }
@@ -45,7 +51,7 @@ class SearchViewModel(
         if (isLoading.value)
             return
 
-        AppLogger.log(TAG, "Search page: $currentPage")
+        AppLogger.log(TAG, "Search page: $currentPage of $totalPages")
 
         val searchTrimmed = _searchText.value.trim()
         if (totalPages >= currentPage) {
@@ -64,14 +70,18 @@ class SearchViewModel(
         totalPages = 1
         currentPage = 1
 
+        _hasNextPage.value = false
+
         searchNextPage()
     }
 
     override fun onData(data: SearchData) {
         super.onData(data)
 
-        totalPages = data.totalCount / USERS_PER_PAGE
+        totalPages = (data.totalCount / USERS_PER_PAGE)
         if ((data.totalCount % USERS_PER_PAGE) > 0)
             totalPages++
+
+        _hasNextPage.value = (totalPages >= currentPage)
     }
 }

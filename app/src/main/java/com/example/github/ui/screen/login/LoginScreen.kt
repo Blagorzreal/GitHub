@@ -106,7 +106,8 @@ private fun LoginComponentsWithLoading(
                 onValueChange = loginViewModel::onUsernameChanged,
                 onDone = { clearFocusAndLogin(focusManager, loginViewModel::login) },
                 imeAction = ImeAction.Done,
-                keyboardType = KeyboardType.Text
+                keyboardType = KeyboardType.Text,
+                isLoading
             )
 
             HandleUsernameValidationError(loginViewModel.validationError.collectAsState())

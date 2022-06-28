@@ -16,7 +16,8 @@ fun CommonTextField(
     onValueChange: (value: String) -> Unit,
     onDone: (() -> Unit)?,
     imeAction: ImeAction,
-    keyboardType: KeyboardType
+    keyboardType: KeyboardType,
+    isDisabled: State<Boolean>
 ) {
 
     TextField(
@@ -24,6 +25,7 @@ fun CommonTextField(
         value = text.value,
         onValueChange = onValueChange,
         maxLines = 1,
+        enabled = !isDisabled.value,
         singleLine = true,
         keyboardOptions = KeyboardOptions(
             imeAction = imeAction,

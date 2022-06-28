@@ -30,4 +30,7 @@
 
     // SearchScreen
     <string name="search">Search</string>
+    <string name="next">Next</string>
+    <string name="no_results_found">No results found.</string>
+    <string name="unable_to_search">Unable to search.</string>
 </resources>
