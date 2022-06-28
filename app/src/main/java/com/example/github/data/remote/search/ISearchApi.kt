@@ -4,5 +4,5 @@ import com.example.github.data.remote.ResponseResult
 import com.example.github.model.SearchModel
 
 interface ISearchApi {
-    suspend fun search(text: String): ResponseResult<SearchModel>
+    suspend fun search(usersPerPage: Int, page: Int, username: String): ResponseResult<SearchModel>
 }

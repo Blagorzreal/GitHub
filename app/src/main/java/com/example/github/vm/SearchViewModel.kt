@@ -18,12 +18,16 @@ class SearchViewModel(
 ): BaseApiViewModel<SearchData, SearchModel>(TAG, SearchModelMapper::searchModelListToSearchDataList) {
     companion object {
         private const val TAG = "Search VM"
+        private const val USERS_PER_PAGE = 30
     }
+
+    private var totalPages = 1
+    private var currentPage = 1
 
     init {
         viewModelScope.launch {
-            usersRepository.localUsers.collectLatest {
-                AppLogger.log(tag, "Local users changed: ${it.items.size}")
+            usersRepository.localSearch.collectLatest {
+                AppLogger.log(tag, "Users changed: ${it.totalCount}")
                 _data.value = mapper(it)
             }
         }
@@ -37,10 +41,37 @@ class SearchViewModel(
         _searchText.value = text
     }
 
-    fun search() {
-        AppLogger.log(TAG, "Search")
+    fun searchNextPage() {
+        if (isLoading.value)
+            return
+
+        AppLogger.log(TAG, "Search page: $currentPage")
 
         val searchTrimmed = _searchText.value.trim()
-        fetchData { usersRepository.search(searchTrimmed) }
+        if (totalPages >= currentPage) {
+            val currentPageCached = currentPage
+            fetchData { usersRepository.search(USERS_PER_PAGE, currentPageCached, searchTrimmed) }
+            currentPage++
+        }
+    }
+
+    fun search() {
+        if (isLoading.value)
+            return
+
+        AppLogger.log(TAG, "Search")
+
+        totalPages = 1
+        currentPage = 1
+
+        searchNextPage()
+    }
+
+    override fun onData(data: SearchData) {
+        super.onData(data)
+
+        totalPages = data.totalCount / USERS_PER_PAGE
+        if ((data.totalCount % USERS_PER_PAGE) > 0)
+            totalPages++
     }
 }

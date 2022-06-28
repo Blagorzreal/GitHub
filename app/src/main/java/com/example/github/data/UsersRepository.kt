@@ -18,20 +18,24 @@ class UsersRepository(
         private const val TAG = "Users repo"
     }
 
-    private var _localUsers: MutableStateFlow<SearchModel> = MutableStateFlow(SearchModel(emptyList()))
-    var localUsers: Flow<SearchModel> = _localUsers
+    private var _localSearch: MutableStateFlow<SearchModel> = MutableStateFlow(SearchModel(0, emptyList()))
+    var localSearch: Flow<SearchModel> = _localSearch
 
-    suspend fun search(text: String): ResponseResult<SearchModel> {
+    suspend fun search(usersPerPage: Int, page: Int, username: String): ResponseResult<SearchModel> {
         AppLogger.log(TAG, "Search")
 
-        _localUsers.value = SearchModel(userDao.searchByUsername("%$text%"))
+        val limit = page * usersPerPage
+        val usernameCriteria = "$username%"
 
-        val result = searchApi.search(text)
+        val localUsers = userDao.searchByUsername(usernameCriteria, limit)
+        _localSearch.value = SearchModel(localUsers.size, localUsers)
+
+        val result = searchApi.search(usersPerPage, page, username)
         if (result is ResponseResult.Success) {
             AppLogger.log(TAG, "Insert users to the db")
 
-            _localUsers.value = SearchModel(
-                userDao.insertUsersAndSearchByUsername(result.model.items, "%$text%"))
+            val newLocalUsers = userDao.insertUsersAndSearchByUsername(result.model.items, usernameCriteria, limit)
+            _localSearch.value = SearchModel(newLocalUsers.size, newLocalUsers)
         }
 
         return result

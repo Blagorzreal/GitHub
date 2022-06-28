@@ -5,8 +5,8 @@ import com.example.github.model.UserModel
 
 @Dao
 interface UserDao: IUserDao {
-    @Query("SELECT * FROM UserModel WHERE login LIKE :query")
-    override fun searchByUsername(query: String): List<UserModel>
+    @Query("SELECT * FROM UserModel WHERE login LIKE :usernameCriteria ORDER BY login ASC LIMIT :limit")
+    override fun searchByUsername(usernameCriteria: String, limit: Int): List<UserModel>
 
     @Query("SELECT * FROM UserModel WHERE owner_id = :id")
     override fun getById(id: Long): UserModel?
@@ -21,8 +21,12 @@ interface UserDao: IUserDao {
     override suspend fun deleteAll()
 
     @Transaction
-    override suspend fun insertUsersAndSearchByUsername(users: List<UserModel>, query: String): List<UserModel> {
+    override suspend fun insertUsersAndSearchByUsername(
+        users: List<UserModel>,
+        usernameCriteria: String,
+        limit: Int
+    ): List<UserModel> {
         insertUsers(users)
-        return searchByUsername(query)
+        return searchByUsername(usernameCriteria, limit)
     }
 }
