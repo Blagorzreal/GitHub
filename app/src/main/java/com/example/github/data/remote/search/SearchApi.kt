@@ -13,7 +13,7 @@ class SearchApi: ISearchApi {
         private const val IN_LOGIN = "in:login"
     }
 
-    private interface SearchRetrofitApi {
+    private interface SearchApiRetrofit {
         @GET("search/users?")
         suspend fun search(
             @Query("per_page") perPage: Int,
@@ -22,8 +22,8 @@ class SearchApi: ISearchApi {
         ): Response<SearchModel>
     }
 
-    private val searchApi: SearchRetrofitApi by lazy {
-        ApiProvider.retrofit.create(SearchRetrofitApi::class.java)
+    private val searchApi: SearchApiRetrofit by lazy {
+        ApiProvider.retrofit.create(SearchApiRetrofit::class.java)
     }
 
     // Note: Url query is auto encoded by retrofit.

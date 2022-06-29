@@ -16,6 +16,7 @@ class LoginPreferences(context: Context, name: String): BasePreferences(context,
             return _userData
 
         val userData = sharedPreferences.getString(USER_DATA, null)
+
         return if (userData.isNullOrBlank())
             null
         else

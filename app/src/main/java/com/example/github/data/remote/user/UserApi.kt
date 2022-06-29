@@ -13,13 +13,13 @@ class UserApi: IUserApi {
         private const val TAG = "UserApi"
     }
 
-    private interface RetrofitUserApi {
+    private interface UserApiRetrofit {
         @GET("/users/{$USERNAME}")
         suspend fun getUser(@Path(USERNAME) username: String): Response<UserModel>
     }
 
-    private val userApi: RetrofitUserApi by lazy {
-        ApiProvider.retrofit.create(RetrofitUserApi::class.java)
+    private val userApi: UserApiRetrofit by lazy {
+        ApiProvider.retrofit.create(UserApiRetrofit::class.java)
     }
 
     override suspend fun getUser(username: String): ResponseResult<UserModel> =

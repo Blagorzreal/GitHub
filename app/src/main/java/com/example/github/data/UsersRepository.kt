@@ -32,7 +32,7 @@ class UsersRepository(
 
         val result = searchApi.search(usersPerPage, page, username)
         if (result is ResponseResult.Success) {
-            AppLogger.log(TAG, "Insert users to the db")
+            AppLogger.log(TAG, "Insert remote users to the db")
 
             val newLocalUsers = userDao.insertUsersAndSearchByUsername(result.model.items, usernameCriteria, limit)
             _localSearch.value = SearchModel(newLocalUsers.size, newLocalUsers)

@@ -18,7 +18,7 @@ open class ReposRepository(
     val localRepos = reposDao.getAll(userData.id)
 
     companion object {
-        private const val TAG = "User repos repo"
+        private const val TAG = "Repos repo"
     }
 
     suspend fun updateRepos(username: String): ResponseResult<List<RepoModel>> {
