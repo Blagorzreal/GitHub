@@ -9,7 +9,6 @@ android {
     compileSdk 32
 
     defaultConfig {
-        applicationId "com.example.github"
         minSdk 21
         targetSdk 32
         versionCode 1
@@ -21,19 +20,32 @@ android {
         }
     }
 
+    signingConfigs {
+        release {
+            storeFile file('keystore_release')
+            storePassword "test12"
+            keyAlias "key0"
+            keyPassword "test12"
+        }
+    }
+
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
         }
     }
+
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+
     kotlinOptions {
         jvmTarget = '1.8'
     }
+
     buildFeatures {
         compose true
     }
@@ -56,6 +68,7 @@ android {
         }
 
         production {
+            applicationId "com.example.github"
             resValue "string", "app_name", "GitHub"
             buildConfigField("String", "GITHUB_API_URL", "\"https://api.github.com\"")
         }
@@ -83,7 +96,7 @@ dependencies {
     implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.4.1'
     implementation 'androidx.activity:activity-compose:1.4.0'
     implementation "androidx.core:core-splashscreen:1.0.0-rc01"
-    implementation 'com.google.code.gson:gson:2.8.9'
+    implementation 'com.google.code.gson:gson:2.9.0'
     implementation "com.google.accompanist:accompanist-swiperefresh:0.24.11-rc"
     implementation("io.coil-kt:coil-compose:2.1.0")
 
