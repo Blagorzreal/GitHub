@@ -13,11 +13,15 @@ fun InclusiveNavigation(
     saveOldState: Boolean = false
 ) {
     LaunchedEffect(true) {
-        navController.navigate(newDestination.route) {
-            popUpTo(oldDestination.route) {
-                inclusive = true
-                saveState = saveOldState
-            }
+        inclusiveNavigation(navController, newDestination, oldDestination, saveOldState)
+    }
+}
+
+fun inclusiveNavigation(navController: NavHostController, newDestination: Route, oldDestination: Route, saveOldState: Boolean = false) {
+    navController.navigate(newDestination.route) {
+        popUpTo(oldDestination.route) {
+            inclusive = true
+            saveState = saveOldState
         }
     }
 }

@@ -27,6 +27,7 @@ import com.example.github.data.data.SearchData
 import com.example.github.data.data.UserData
 import com.example.github.data.remote.ResponseResult
 import com.example.github.ui.navigation.Route
+import com.example.github.ui.navigation.Route.Companion.userScreenNavigation
 import com.example.github.ui.view.*
 import com.example.github.vm.FollowersViewModel
 import com.example.github.vm.SearchViewModel
@@ -144,13 +145,7 @@ private fun FollowersItems(
                         Column(
                             Modifier
                                 .fillMaxWidth()
-                                .clickable {
-                                    navController.navigate(Route.User.route)
-                                    navController.currentBackStackEntry?.savedStateHandle?.set(
-                                        Route.USER_DATA,
-                                        it
-                                    )
-                                }
+                                .clickable { userScreenNavigation(navController, it) }
                         ) {
                             Box(Modifier.padding(top = 10.dp, bottom = 10.dp)) {
                                 EllipsesText(it.username)
@@ -206,13 +201,7 @@ private fun UserItem(
                 Column(
                     Modifier
                         .fillMaxWidth()
-                        .clickable {
-                            navController.navigate(Route.User.route)
-                            navController.currentBackStackEntry?.savedStateHandle?.set(
-                                Route.USER_DATA,
-                                it
-                            )
-                        }
+                        .clickable { userScreenNavigation(navController, it) }
                 ) {
                     Box(Modifier.padding(top = 10.dp, bottom = 10.dp)) {
                         EllipsesText(it.username)
