@@ -27,5 +27,5 @@ fun ResponseError(
         else -> customErrorMessage
     }
 
-    Toast.makeText(LocalContext.current, responseErrorMessage, Toast.LENGTH_LONG).show()
+    Toast.makeText(LocalContext.current, responseErrorMessage, Toast.LENGTH_SHORT).show()
 }

@@ -52,14 +52,14 @@ fun RepositoryScreen(
                 Star(
                     repoDataState = repoViewModel.repoData.collectAsState(),
                     onClick = repoViewModel::updateStarred)
-
-                HandleError(
-                    id = repoData.id,
-                    errorState = repoViewModel.error.collectAsState(),
-                    resetError = repoViewModel::resetError)
             }
         }
     )
+
+    HandleError(
+        id = repoData.id,
+        errorState = repoViewModel.error.collectAsState(),
+        resetError = repoViewModel::resetError)
 }
 
 @Composable

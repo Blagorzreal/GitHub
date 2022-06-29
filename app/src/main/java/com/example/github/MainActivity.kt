@@ -101,7 +101,7 @@ class MainActivity: ComponentActivity() {
         Toast.makeText(
             context,
             getString(R.string.common_error),
-            Toast.LENGTH_LONG
+            Toast.LENGTH_SHORT
         ).show()
     }
 
