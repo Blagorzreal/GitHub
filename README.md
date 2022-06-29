@@ -25,5 +25,5 @@ There is 1 module that is built as part of the GitHub Android App.
 * UserModel shouldn't be embedded into the RepoModel.
 * Migrating to hilt lib.
 * No available internet connection case should be handled additionally.
-* Fixing the build process for production environment (+ obfuscation rules).
+* Fetch data for current screen when "onResume" is called.
 * Search validation (similar to the login username validation) should be implemented.
