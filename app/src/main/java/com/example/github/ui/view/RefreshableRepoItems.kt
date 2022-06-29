@@ -10,10 +10,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.State
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
-import com.example.github.R
 import com.example.github.data.data.RepoData
 import com.example.github.ui.navigation.Route
 import com.google.accompanist.swiperefresh.SwipeRefresh
@@ -21,7 +19,7 @@ import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 
 @Composable
 fun RefreshableRepoItems(
-    showHeader: Boolean = true,
+    headerText: String,
     noItemsText: String,
     lazyListState: LazyListState,
     reposState: State<List<RepoData>?>,
@@ -34,8 +32,7 @@ fun RefreshableRepoItems(
         onRefresh = refresh
     ) {
         RepoItems(
-            showHeader,
-            headerText = stringResource(R.string.own_repos),
+            headerText = headerText,
             noItemsText = noItemsText,
             reposState = reposState,
             lazyListState = lazyListState,
@@ -46,7 +43,6 @@ fun RefreshableRepoItems(
 
 @Composable
 fun RepoItems(
-    showHeader: Boolean = true,
     headerText: String,
     noItemsText: String,
     reposState: State<List<RepoData>?>,
@@ -61,10 +57,8 @@ fun RepoItems(
         .fillMaxSize()
         .padding(top = 6.dp), state = lazyListState) {
         if (!repos.isNullOrEmpty()) {
-            if (showHeader) {
-                item {
-                    ItemsHeader(text = headerText)
-                }
+            item {
+                ItemsHeader(text = headerText)
             }
 
             items(repos) {

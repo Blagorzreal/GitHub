@@ -41,8 +41,8 @@ fun UserScreen(
                 InfoButtons(navController, userViewModel.data.collectAsState())
 
                 RefreshableRepoItems(
+                    headerText = stringResource(R.string.repos),
                     noItemsText = stringResource(R.string.no_repos_available),
-                    showHeader = false,
                     lazyListState = ownLazyListState,
                     reposState = reposViewModel.data.collectAsState(),
                     isLoadingState = reposViewModel.isLoading.collectAsState(),

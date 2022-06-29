@@ -14,6 +14,7 @@
     // ProfileScreen
     <string name="own">Own</string>
     <string name="own_repos">Own repositories</string>
+    <string name="repos">Repositories</string>
     <string name="no_own_repos_available">No own repositories available.</string>
     <string name="no_repos_available">No repositories available.</string>
     <string name="starred">Starred</string>

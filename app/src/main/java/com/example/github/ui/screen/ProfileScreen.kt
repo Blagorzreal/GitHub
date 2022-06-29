@@ -96,6 +96,7 @@ fun ProfileScreen(
 
             if (tabIndex == 0) {
                 RefreshableRepoItems(
+                    headerText = stringResource(R.string.own_repos),
                     noItemsText = stringResource(R.string.no_own_repos_available),
                     lazyListState = ownLazyListState,
                     reposState = starredReposViewModel.data.collectAsState(),

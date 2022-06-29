@@ -41,8 +41,8 @@ fun LoginScreen(navController: NavHostController, loginViewModel: LoginViewModel
 
     Column(
         modifier = Modifier
-            .verticalScroll(rememberScrollState())
             .fillMaxSize()
+            .verticalScroll(rememberScrollState())
             .pointerInput(Unit) {
                 detectTapGestures(onTap = { focusManager.clearFocus() })
             },
@@ -50,7 +50,9 @@ fun LoginScreen(navController: NavHostController, loginViewModel: LoginViewModel
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Image(
-            modifier = Modifier.width(80.dp).height(80.dp),
+            modifier = Modifier
+                .width(80.dp)
+                .height(80.dp),
             painter = painterResource(R.drawable.ic_git_hub),
             contentDescription = null
         )
@@ -68,12 +70,14 @@ fun LoginScreen(navController: NavHostController, loginViewModel: LoginViewModel
             focusManager,
             loginViewModel,
             loginViewModel.isLoading.collectAsState(),
-            loginViewModel.data.collectAsState())
-
-        ResponseError(
-            errorState = loginViewModel.error.collectAsState(),
-            resetError = loginViewModel::resetError)
+            loginViewModel.data.collectAsState()
+        )
     }
+
+    ResponseError(
+        errorState = loginViewModel.error.collectAsState(),
+        resetError = loginViewModel::resetError
+    )
 }
 
 @Composable
