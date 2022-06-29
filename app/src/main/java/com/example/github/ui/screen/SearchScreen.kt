@@ -10,9 +10,8 @@ import androidx.compose.material.Button
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.State
-import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.*
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusManager
@@ -26,12 +25,15 @@ import androidx.navigation.NavHostController
 import com.example.github.R
 import com.example.github.data.data.SearchData
 import com.example.github.data.data.UserData
+import com.example.github.data.remote.ResponseResult
 import com.example.github.ui.navigation.Route
 import com.example.github.ui.view.*
 import com.example.github.vm.FollowersViewModel
 import com.example.github.vm.SearchViewModel
 import com.example.github.vm.factory.UserDataViewModelFactory
 import com.example.github.vm.factory.ViewModelType
+import com.google.accompanist.swiperefresh.SwipeRefresh
+import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 
 @Composable
 fun SearchScreen(
@@ -39,9 +41,12 @@ fun SearchScreen(
     navController: NavHostController,
     searchViewModel: SearchViewModel = viewModel()) {
 
-    var followersViewModel: FollowersViewModel? = null
-    if (userData != null)
-        followersViewModel = viewModel(factory = UserDataViewModelFactory(userData, ViewModelType.Followers))
+    var hideFollowers by rememberSaveable { mutableStateOf(userData == null) }
+
+    val followersViewModel: FollowersViewModel? = if (userData != null)
+        viewModel(factory = UserDataViewModelFactory(userData, ViewModelType.Followers))
+    else
+        null
 
     val focusManager = LocalFocusManager.current
 
@@ -60,23 +65,31 @@ fun SearchScreen(
                         text = searchViewModel.searchText.collectAsState(),
                         label = stringResource(R.string.search),
                         onValueChange = searchViewModel::onSearchTextChanged,
-                        onDone = { clearFocusAndSearch(focusManager, searchViewModel::search) },
+                        onDone = {
+                            hideFollowers = true
+                            clearFocusAndSearch(focusManager, searchViewModel::search)
+                        },
                         imeAction = ImeAction.Done,
                         keyboardType = KeyboardType.Text,
                         isDisabled = searchViewModel.isLoading.collectAsState()
                     )
                 }
 
-                Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                    UserItem(
-                        navController = navController,
-                        usersState = searchViewModel.data.collectAsState(),
-                        hasNextPageState = searchViewModel.hasNextPage.collectAsState(),
-                        isLoadingState = searchViewModel.isLoading.collectAsState(),
-                        searchNextPage = searchViewModel::searchNextPage,
-                        lazyListState = rememberLazyListState()
-                    )
-                }
+                if (hideFollowers) {
+                    Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                        UserItem(
+                            navController = navController,
+                            usersState = searchViewModel.data.collectAsState(),
+                            hasNextPageState = searchViewModel.hasNextPage.collectAsState(),
+                            isLoadingState = searchViewModel.isLoading.collectAsState(),
+                            searchNextPage = searchViewModel::searchNextPage,
+                            lazyListState = rememberLazyListState()
+                        )
+                    }
+                } else if (followersViewModel != null)
+                    FollowersView(navController, followersViewModel)
+                else
+                    hideFollowers = false
             }
         }
     )
@@ -86,6 +99,79 @@ fun SearchScreen(
         resetError = searchViewModel::resetError,
         customErrorMessage = stringResource(R.string.unable_to_search)
     )
+}
+
+@Composable
+private fun FollowersView(
+    navController: NavHostController,
+    followersViewModel: FollowersViewModel) {
+
+    FollowersItems(
+        navController,
+        followersViewModel.data.collectAsState(),
+        followersViewModel.isLoading.collectAsState(),
+        followersViewModel.error.collectAsState(),
+        followersViewModel::resetError,
+        followersViewModel::followers)
+}
+
+@Composable
+private fun FollowersItems(
+    navController: NavHostController,
+    usersState: State<List<UserData>?>,
+    isLoadingState: State<Boolean>,
+    errorState: State<ResponseResult.ResponseError>,
+    resetError: () -> Unit,
+    followers: () -> Unit) {
+
+    val users = usersState.value
+
+    Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+        SwipeRefresh(
+            state = rememberSwipeRefreshState(isLoadingState.value),
+            onRefresh = followers
+        ) {
+            LazyColumn(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(top = 6.dp), state = rememberLazyListState()
+            ) {
+                if (users == null)
+                    return@LazyColumn
+
+                if (users.isNotEmpty()) {
+                    items(users) {
+                        Column(
+                            Modifier
+                                .fillMaxWidth()
+                                .clickable {
+                                    navController.navigate(Route.User.route)
+                                    navController.currentBackStackEntry?.savedStateHandle?.set(
+                                        Route.USER_DATA,
+                                        it
+                                    )
+                                }
+                        ) {
+                            Box(Modifier.padding(top = 10.dp, bottom = 10.dp)) {
+                                EllipsesText(it.username)
+                            }
+                        }
+                    }
+                } else if (!isLoadingState.value) {
+                    item {
+                        CommonRow {
+                            Text(stringResource(R.string.no_followers_found))
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    ResponseError(
+        errorState = errorState,
+        resetError = resetError,
+        customErrorMessage = stringResource(R.string.unable_to_fetch_followers))
 }
 
 private fun clearFocusAndSearch(focusManager: FocusManager, search: () -> Unit) {

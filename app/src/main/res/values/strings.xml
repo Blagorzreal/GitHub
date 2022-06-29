@@ -35,4 +35,6 @@
     <string name="next">Next</string>
     <string name="no_results_found">No results found.</string>
     <string name="unable_to_search">Unable to search.</string>
+    <string name="no_followers_found">No followers found.</string>
+    <string name="unable_to_fetch_followers">Unable to fetch followers.</string>
 </resources>
