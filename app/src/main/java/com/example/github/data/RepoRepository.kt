@@ -26,7 +26,7 @@ class RepoRepository(
         AppLogger.log(TAG, "Update repo $repoDataId to starred=$starred")
 
         return try {
-            reposDao.update(repoDataId, if (starred) 1 else 0)
+            reposDao.updateStarred(repoDataId, if (starred) 1 else 0)
 
             _repoData.value = repoDataValue.copy(starred = starred)
             AppLogger.log(TAG, "Updated repo $repoDataId")

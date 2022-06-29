@@ -6,27 +6,42 @@ import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface ReposDao: IReposDao {
+    companion object {
+        private const val NOT_INSERTED_SINCE_EXISTS = (-1).toLong()
+    }
+
     @Query("SELECT * FROM RepoModel WHERE owner_id = :ownerId")
     override fun getAll(ownerId: Long): Flow<List<RepoModel>>
 
     @Query("SELECT * FROM RepoModel WHERE starred = 1")
     override fun getAllStarred(): Flow<List<RepoModel>>
 
+    @Transaction
+    override suspend fun insertRepos(repos: List<RepoModel>) {
+        repos.forEach {
+            if (insertRepo(it) == NOT_INSERTED_SINCE_EXISTS)
+                updateName(it.id, it.name)
+        }
+    }
+
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    override suspend fun insertRepos(repos: List<RepoModel>)
+    override suspend fun insertRepo(repo: RepoModel): Long
+
+    @Query("UPDATE RepoModel SET name=:name WHERE id = :id")
+    override suspend fun updateName(id: Long, name: String)
 
     @Query("DELETE FROM RepoModel")
     override suspend fun deleteAll()
 
-    @Query("DELETE FROM RepoModel WHERE (owner_id = :ownerId AND starred = 0)")
-    override suspend fun deleteAllByOwner(ownerId: Long)
+    @Query("DELETE FROM RepoModel WHERE (owner_id = :ownerId AND starred = 0) AND id NOT IN (:ids)")
+    override suspend fun deleteAllNotStarredByOwner(ownerId: Long, ids: List<Long>)
 
     @Transaction
     override suspend fun deleteAllAndInsertNew(repos: List<RepoModel>, ownerId: Long) {
-        deleteAllByOwner(ownerId)
+        deleteAllNotStarredByOwner(ownerId, repos.map { it.id })
         insertRepos(repos)
     }
 
-    @Query("UPDATE RepoModel SET starred = :starred WHERE id = :repoModelId")
-    override suspend fun update(repoModelId: Long, starred: Int)
+    @Query("UPDATE RepoModel SET starred = :starred WHERE id = :id")
+    override suspend fun updateStarred(id: Long, starred: Int)
 }

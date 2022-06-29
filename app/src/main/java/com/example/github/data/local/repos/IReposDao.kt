@@ -6,9 +6,11 @@ import kotlinx.coroutines.flow.Flow
 interface IReposDao {
     fun getAll(ownerId: Long): Flow<List<RepoModel>>
     fun getAllStarred(): Flow<List<RepoModel>>
+    suspend fun insertRepo(repo: RepoModel): Long
     suspend fun insertRepos(repos: List<RepoModel>)
-    suspend fun deleteAll()
-    suspend fun deleteAllByOwner(ownerId: Long)
+    suspend fun updateName(id: Long, name: String)
+    suspend fun updateStarred(id: Long, starred: Int)
+    suspend fun deleteAllNotStarredByOwner(ownerId: Long, ids: List<Long>)
     suspend fun deleteAllAndInsertNew(repos: List<RepoModel>, ownerId: Long)
-    suspend fun update(repoModelId: Long, starred: Int)
+    suspend fun deleteAll()
 }
