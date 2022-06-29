@@ -18,6 +18,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.*
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -57,6 +58,7 @@ fun LoginScreen(navController: NavHostController, loginViewModel: LoginViewModel
         Text(
             text = stringResource(R.string.app_name),
             style = Typography.h1,
+            textAlign = TextAlign.Center,
             fontWeight = FontWeight.Bold
         )
 
