@@ -26,3 +26,4 @@ There is 1 module that is built as part of the GitHub Android App.
 * Migrating to hilt lib.
 * No available internet connection should be handled additionally.
 * Fixing the build process for production environment (+ obfuscation rules).
+* Search validation (similar to login username validation) should be implemented.
