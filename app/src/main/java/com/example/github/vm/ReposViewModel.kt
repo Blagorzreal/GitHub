@@ -23,9 +23,9 @@ open class ReposViewModel(
 
     init {
         viewModelScope.launch {
-            reposRepository.localRepos.collectLatest { repos ->
-                AppLogger.log(tag, "Local repos changed: ${repos.size}")
-                _data.value = mapper(repos)
+            reposRepository.localRepos.collectLatest {
+                AppLogger.log(tag, "Local repos changed: ${it.size}")
+                _data.value = mapper(it)
             }
         }
 

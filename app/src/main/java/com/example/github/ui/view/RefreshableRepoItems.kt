@@ -72,10 +72,9 @@ fun RepoItems(
                     }
                 }
             }
-        } else if (isLoadingStateNotAvailable || !isLoadingState!!.value) {
+        } else if ((isLoadingStateNotAvailable || !isLoadingState!!.value) && (repos != null)) {
             item {
-                if (isLoadingStateNotAvailable || (repos != null))
-                    ItemsHeader(noItemsText)
+                ItemsHeader(noItemsText)
             }
         }
     }
