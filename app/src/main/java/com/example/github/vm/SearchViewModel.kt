@@ -3,7 +3,6 @@ package com.example.github.vm
 import androidx.lifecycle.viewModelScope
 import com.example.github.data.UsersRepository
 import com.example.github.data.data.SearchData
-import com.example.github.data.remote.ResponseResult
 import com.example.github.model.SearchModel
 import com.example.github.util.Constants
 import com.example.github.util.log.AppLogger
@@ -55,11 +54,8 @@ class SearchViewModel(
         AppLogger.log(TAG, "Search page: $currentPage of $totalPages")
 
         val searchTrimmed = _searchText.value.trim()
-        if (totalPages >= currentPage) {
-            val currentPageCached = currentPage
-            fetchData { usersRepository.search(USERS_PER_PAGE, currentPageCached, searchTrimmed) }
-            currentPage++
-        }
+        if (totalPages >= currentPage)
+            fetchData { usersRepository.search(USERS_PER_PAGE, currentPage, searchTrimmed) }
     }
 
     fun search() {
@@ -83,13 +79,6 @@ class SearchViewModel(
         if ((data.totalCount % USERS_PER_PAGE) > 0)
             totalPages++
 
-        _hasNextPage.value = (totalPages >= currentPage)
-    }
-
-    override fun onError(error: ResponseResult.ResponseError) {
-        super.onError(error)
-
-        if (--currentPage < 1)
-            currentPage = 1
+        _hasNextPage.value = (totalPages >= ++currentPage)
     }
 }
