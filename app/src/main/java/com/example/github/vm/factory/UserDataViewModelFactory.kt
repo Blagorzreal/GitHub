@@ -1,17 +1,20 @@
-package com.example.github.vm.base
+package com.example.github.vm.factory
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.example.github.data.data.UserData
 import com.example.github.util.Constants
+import com.example.github.vm.FollowersViewModel
 import com.example.github.vm.ReposViewModel
 import com.example.github.vm.StarredReposViewModel
 import com.example.github.vm.UserViewModel
+import com.example.github.vm.base.BaseViewModel
 
 enum class ViewModelType {
     Repos,
     StarredRepos,
     User,
+    Followers
 }
 
 @Suppress("UNCHECKED_CAST")
@@ -24,6 +27,7 @@ class UserDataViewModelFactory(
             ViewModelType.Repos -> createVMInstance(modelClass) { ReposViewModel(userData = userData) }
             ViewModelType.StarredRepos -> createVMInstance(modelClass) { StarredReposViewModel(userData) }
             ViewModelType.User -> createVMInstance(modelClass) { UserViewModel(userData) }
+            ViewModelType.Followers -> createVMInstance(modelClass) { FollowersViewModel(userData) }
         }
 
     private fun <T: ViewModel> createVMInstance(modelClass: Class<T>, vmClass: () -> BaseViewModel<*>) =

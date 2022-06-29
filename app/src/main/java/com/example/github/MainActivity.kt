@@ -89,7 +89,7 @@ class MainActivity: ComponentActivity() {
                         }
 
                         composable(route = Route.Search.route) {
-                            SearchScreen(navController)
+                            SearchScreen(it.savedStateHandle.get<UserData>(USER_DATA), navController)
                         }
                     }
                 }

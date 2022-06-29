@@ -12,5 +12,8 @@ class UserModelMapper private constructor() {
                 userModel.avatarUrl,
                 userModel.followers,
                 userModel.following)
+
+        fun userModelListToUserDataList(items: List<UserModel>) =
+            items.map { userModelToUserData(it) }
     }
 }

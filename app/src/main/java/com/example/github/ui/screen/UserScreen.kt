@@ -14,8 +14,8 @@ import androidx.navigation.NavHostController
 import com.example.github.R
 import com.example.github.data.data.UserData
 import com.example.github.ui.view.*
-import com.example.github.vm.base.UserDataViewModelFactory
-import com.example.github.vm.base.ViewModelType
+import com.example.github.vm.factory.UserDataViewModelFactory
+import com.example.github.vm.factory.ViewModelType
 import com.example.github.vm.UserViewModel
 import com.example.github.vm.ReposViewModel
 
@@ -38,7 +38,7 @@ fun UserScreen(
                     .padding(it.calculateBottomPadding())
                     .fillMaxWidth()) {
 
-                InfoButtons(userViewModel.data.collectAsState())
+                InfoButtons(navController, userViewModel.data.collectAsState())
 
                 RefreshableRepoItems(
                     noItemsText = stringResource(R.string.no_repos_available),

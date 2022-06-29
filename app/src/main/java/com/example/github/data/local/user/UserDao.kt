@@ -2,6 +2,9 @@ package com.example.github.data.local.user
 
 import androidx.room.*
 import com.example.github.model.UserModel
+import com.example.github.model.relation.UserWithFollowersRef
+import com.example.github.model.relation.UserWithFollowersRelation
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface UserDao: IUserDao {
@@ -29,4 +32,18 @@ interface UserDao: IUserDao {
         insertUsers(users)
         return searchByUsername(usernameCriteria, limit)
     }
+
+    @Transaction
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    override suspend fun insertFollowers(userWithFollowersRef: UserWithFollowersRef)
+
+    @Transaction
+    override suspend fun insertUsersAsFollowers(id: Long, followers: List<UserModel>) {
+        insertUsers(followers)
+        followers.forEach { insertFollowers(UserWithFollowersRef(id, it.id)) }
+    }
+
+    @Transaction
+    @Query("SELECT * FROM UserModel WHERE owner_id = :ownerId")
+    override fun getFollowers(ownerId: Long): Flow<UserWithFollowersRelation>
 }

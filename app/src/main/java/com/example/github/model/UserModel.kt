@@ -23,4 +23,4 @@ data class UserModel(
     @SerializedName("following")
     val following: Long?,
 
-    @SerializedName("avatar_url") val avatarUrl: String)
+    @SerializedName("avatar_url") val avatarUrl: String?)

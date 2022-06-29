@@ -20,8 +20,8 @@ import com.example.github.data.data.UserData
 import com.example.github.ui.navigation.Route
 import com.example.github.ui.view.*
 import com.example.github.vm.ProfileViewModel
-import com.example.github.vm.base.UserDataViewModelFactory
-import com.example.github.vm.base.ViewModelType
+import com.example.github.vm.factory.UserDataViewModelFactory
+import com.example.github.vm.factory.ViewModelType
 import com.example.github.vm.StarredReposViewModel
 import com.example.github.vm.UserViewModel
 
@@ -67,7 +67,8 @@ fun ProfileScreen(
                             }
                         }
                     }
-                    IconButton(onClick = { navController.navigate(Route.Search.route) }) {
+                    IconButton(
+                        onClick = { navController.navigate(Route.Search.route) }) {
                         Icon(
                             imageVector = Icons.Filled.Search,
                             contentDescription = null
@@ -91,7 +92,7 @@ fun ProfileScreen(
                 }
             }
 
-            InfoButtons(userDataState = userViewModel.data.collectAsState())
+            InfoButtons(navController, userDataState = userViewModel.data.collectAsState())
 
             if (tabIndex == 0) {
                 RefreshableRepoItems(

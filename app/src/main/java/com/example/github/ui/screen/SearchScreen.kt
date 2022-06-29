@@ -25,12 +25,24 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.example.github.R
 import com.example.github.data.data.SearchData
+import com.example.github.data.data.UserData
 import com.example.github.ui.navigation.Route
 import com.example.github.ui.view.*
+import com.example.github.vm.FollowersViewModel
 import com.example.github.vm.SearchViewModel
+import com.example.github.vm.factory.UserDataViewModelFactory
+import com.example.github.vm.factory.ViewModelType
 
 @Composable
-fun SearchScreen(navController: NavHostController, searchViewModel: SearchViewModel = viewModel()) {
+fun SearchScreen(
+    userData: UserData?,
+    navController: NavHostController,
+    searchViewModel: SearchViewModel = viewModel()) {
+
+    var followersViewModel: FollowersViewModel? = null
+    if (userData != null)
+        followersViewModel = viewModel(factory = UserDataViewModelFactory(userData, ViewModelType.Followers))
+
     val focusManager = LocalFocusManager.current
 
     Scaffold(

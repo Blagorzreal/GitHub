@@ -2,6 +2,7 @@ package com.example.github.data.remote
 
 import com.example.github.BuildConfig
 import com.example.github.data.remote.auth.AuthApi
+import com.example.github.data.remote.followers.FollowersApi
 import com.example.github.data.remote.repos.ReposApi
 import com.example.github.data.remote.search.SearchApi
 import com.example.github.data.remote.user.UserApi
@@ -55,5 +56,7 @@ class ApiProvider private constructor() {
         val reposApi by lazy { ReposApi() }
 
         val searchApi by lazy { SearchApi() }
+
+        val followersApi by lazy { FollowersApi() }
     }
 }

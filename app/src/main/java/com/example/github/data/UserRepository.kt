@@ -21,7 +21,7 @@ class UserRepository(
     }
 
     private var _localUser: MutableStateFlow<UserModel?> = MutableStateFlow(null)
-    var localUser: Flow<UserModel?> = _localUser
+    val localUser: Flow<UserModel?> = _localUser
 
     suspend fun updateUser(): ResponseResult<UserModel> {
         AppLogger.log(TAG, "Update user")
@@ -32,6 +32,7 @@ class UserRepository(
         if (result is ResponseResult.Success) {
             AppLogger.log(TAG, "Insert remote user to the db")
             userDao.insertUser(result.model)
+            _localUser.value = result.model
         }
 
         return result
