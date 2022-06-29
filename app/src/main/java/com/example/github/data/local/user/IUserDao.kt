@@ -6,8 +6,9 @@ import com.example.github.model.relation.UserWithFollowersRef
 import kotlinx.coroutines.flow.Flow
 
 interface IUserDao {
-    fun searchByUsername(usernameCriteria: String, limit: Int): List<UserModel>
-    fun getById(id: Long): UserModel?
+    suspend fun searchByUsername(usernameCriteria: String, limit: Int): List<UserModel>
+    suspend fun searchColumnCountByUsername(usernameCriteria: String): Int
+    suspend fun getById(id: Long): UserModel?
     suspend fun insertUser(user: UserModel)
     suspend fun insertUsers(users: List<UserModel>)
     suspend fun deleteAll()

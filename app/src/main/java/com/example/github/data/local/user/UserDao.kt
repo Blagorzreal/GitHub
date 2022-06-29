@@ -9,10 +9,13 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface UserDao: IUserDao {
     @Query("SELECT * FROM UserModel WHERE login LIKE :usernameCriteria ORDER BY login ASC LIMIT :limit")
-    override fun searchByUsername(usernameCriteria: String, limit: Int): List<UserModel>
+    override suspend fun searchByUsername(usernameCriteria: String, limit: Int): List<UserModel>
+
+    @Query("SELECT COUNT(owner_id) FROM UserModel WHERE login LIKE :usernameCriteria")
+    override suspend fun searchColumnCountByUsername(usernameCriteria: String): Int
 
     @Query("SELECT * FROM UserModel WHERE owner_id = :id")
-    override fun getById(id: Long): UserModel?
+    override suspend fun getById(id: Long): UserModel?
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     override suspend fun insertUser(user: UserModel)

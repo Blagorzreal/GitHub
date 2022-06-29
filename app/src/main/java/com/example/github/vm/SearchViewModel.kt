@@ -3,6 +3,7 @@ package com.example.github.vm
 import androidx.lifecycle.viewModelScope
 import com.example.github.data.UsersRepository
 import com.example.github.data.data.SearchData
+import com.example.github.data.remote.ResponseResult
 import com.example.github.model.SearchModel
 import com.example.github.util.Constants
 import com.example.github.util.log.AppLogger
@@ -83,5 +84,12 @@ class SearchViewModel(
             totalPages++
 
         _hasNextPage.value = (totalPages >= currentPage)
+    }
+
+    override fun onError(error: ResponseResult.ResponseError) {
+        super.onError(error)
+
+        if (--currentPage < 1)
+            currentPage = 1
     }
 }
