@@ -1,5 +1,6 @@
 package com.example.github.ui.view
 
+import android.widget.Toast
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -11,6 +12,7 @@ import androidx.compose.runtime.State
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
@@ -26,7 +28,11 @@ fun InfoButtons(navController: NavHostController, userDataState: State<UserData?
         navController.currentBackStackEntry?.savedStateHandle?.set(Route.USER_DATA, userData)
     }
 
-    InfoButton(R.string.following, userData.following) { }
+    val context = LocalContext.current
+
+    InfoButton(R.string.following, userData.following) {
+        Toast.makeText(context, context.getString(R.string.following_not_implemented), Toast.LENGTH_SHORT).show()
+    }
 }
 
 @Composable
