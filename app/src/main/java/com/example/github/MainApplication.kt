@@ -6,6 +6,8 @@ import com.example.github.data.local.DaoProvider
 import com.example.github.util.log.AppLogger
 import com.example.github.util.log.LogType
 
+const val isMocked = (BuildConfig.FLAVOR == "mocked")
+
 class MainApplication: Application() {
     companion object {
         private const val TAG = "App"

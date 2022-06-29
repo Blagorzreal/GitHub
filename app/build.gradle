@@ -15,8 +15,6 @@ android {
         versionCode 1
         versionName "1.0"
 
-        buildConfigField("String", "GITHUB_API_URL", "\"https://api.github.com\"")
-
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
             useSupportLibrary true
@@ -45,6 +43,21 @@ android {
     packagingOptions {
         resources {
             excludes += '/META-INF/{AL2.0,LGPL2.1}'
+        }
+    }
+
+    flavorDimensions "app"
+
+    productFlavors {
+        mocked {
+            applicationId "com.example.github.mocked"
+            resValue "string", "app_name", "GitHub-mocked"
+            buildConfigField("String", "GITHUB_API_URL", "\"https://mocked-api.github.com\"")
+        }
+
+        production {
+            resValue "string", "app_name", "GitHub"
+            buildConfigField("String", "GITHUB_API_URL", "\"https://api.github.com\"")
         }
     }
 }

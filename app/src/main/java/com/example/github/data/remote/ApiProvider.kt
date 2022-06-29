@@ -2,10 +2,16 @@ package com.example.github.data.remote
 
 import com.example.github.BuildConfig
 import com.example.github.data.remote.auth.AuthApi
+import com.example.github.data.remote.auth.MockedAuthApi
 import com.example.github.data.remote.followers.FollowersApi
+import com.example.github.data.remote.followers.MockedFollowersAPi
+import com.example.github.data.remote.repos.MockedReposApi
 import com.example.github.data.remote.repos.ReposApi
+import com.example.github.data.remote.search.MockedSearchApi
 import com.example.github.data.remote.search.SearchApi
+import com.example.github.data.remote.user.MockedUserApi
 import com.example.github.data.remote.user.UserApi
+import com.example.github.isMocked
 import com.example.github.util.log.AppLogger
 import com.example.github.util.log.LogType
 import com.google.gson.GsonBuilder
@@ -49,14 +55,39 @@ class ApiProvider private constructor() {
             }
         }
 
-        val authApi by lazy { AuthApi() }
+        val authApi by lazy {
+            if (isMocked)
+                MockedAuthApi()
+            else
+                AuthApi()
+        }
 
-        val userApi by lazy { UserApi() }
+        val userApi by lazy {
+            if (isMocked)
+                MockedUserApi()
+            else
+                UserApi()
+        }
 
-        val reposApi by lazy { ReposApi() }
+        val reposApi by lazy {
+            if (isMocked)
+                MockedReposApi()
+            else
+                ReposApi()
+        }
 
-        val searchApi by lazy { SearchApi() }
+        val searchApi by lazy {
+            if (isMocked)
+                MockedSearchApi()
+            else
+                SearchApi()
+        }
 
-        val followersApi by lazy { FollowersApi() }
+        val followersApi by lazy {
+            if (isMocked)
+                MockedFollowersAPi()
+            else
+                FollowersApi()
+        }
     }
 }
