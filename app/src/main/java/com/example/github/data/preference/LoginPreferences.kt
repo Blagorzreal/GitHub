@@ -17,10 +17,12 @@ class LoginPreferences(context: Context, name: String): BasePreferences(context,
 
         val userData = sharedPreferences.getString(USER_DATA, null)
 
-        return if (userData.isNullOrBlank())
+        _userData = if (userData.isNullOrBlank())
             null
         else
             GSON.fromJson(userData, UserData::class.java)
+
+        return _userData
     }
 
     fun setUserData(userData: UserData?) {
