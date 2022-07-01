@@ -41,7 +41,7 @@ class UserRepository(
                 updateWithNewData(it.followers, it.following)
             }
 
-            userDao.insertUsers(listOf(result.model))
+            userDao.insertUsers(listOf(result.model), true)
         }
 
         return result
