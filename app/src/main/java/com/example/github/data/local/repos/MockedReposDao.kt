@@ -22,10 +22,10 @@ class MockedReposDao: IReposDao {
     override suspend fun updateStarred(id: Long, starred: Int) {
     }
 
-    override suspend fun deleteAllNotStarredByOwner(ownerId: Long, ids: List<Long>) {
+    override suspend fun deleteAllByOwner(ownerId: Long, ids: List<Long>) {
     }
 
-    override suspend fun deleteAllAndInsertNew(repos: List<RepoModel>, ownerId: Long) {
+    override suspend fun deleteAllByOwnerAndInsert(repos: List<RepoModel>, ownerId: Long) {
     }
 
     override suspend fun deleteAll() {

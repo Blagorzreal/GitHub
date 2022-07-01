@@ -30,12 +30,12 @@ interface ReposDao: IReposDao {
     @Query("DELETE FROM RepoModel")
     override suspend fun deleteAll()
 
-    @Query("DELETE FROM RepoModel WHERE (owner_id = :ownerId AND starred = 0) AND id NOT IN (:ids)")
-    override suspend fun deleteAllNotStarredByOwner(ownerId: Long, ids: List<Long>)
+    @Query("DELETE FROM RepoModel WHERE (owner_id = :ownerId) AND id NOT IN (:ids)")
+    override suspend fun deleteAllByOwner(ownerId: Long, ids: List<Long>)
 
     @Transaction
-    override suspend fun deleteAllAndInsertNew(repos: List<RepoModel>, ownerId: Long) {
-        deleteAllNotStarredByOwner(ownerId, repos.map { it.id })
+    override suspend fun deleteAllByOwnerAndInsert(repos: List<RepoModel>, ownerId: Long) {
+        deleteAllByOwner(ownerId, repos.map { it.id })
         insertRepos(repos)
     }
 

@@ -27,7 +27,7 @@ open class ReposRepository(
         val result = reposApi.getRepos(username)
         if (result is ResponseResult.Success) {
             AppLogger.log(TAG, "Insert remote repos to the db")
-            reposDao.deleteAllAndInsertNew(result.model, userData.id)
+            reposDao.deleteAllByOwnerAndInsert(result.model, userData.id)
         }
 
         return result
