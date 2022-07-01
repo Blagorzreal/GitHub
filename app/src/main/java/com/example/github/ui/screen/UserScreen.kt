@@ -38,7 +38,7 @@ fun UserScreen(
                     .padding(it.calculateBottomPadding())
                     .fillMaxWidth()) {
 
-                InfoButtons(navController, userViewModel.data.collectAsState())
+                InfoButtons(navController, userViewModel)
 
                 RefreshableRepoItems(
                     headerText = stringResource(R.string.repos),

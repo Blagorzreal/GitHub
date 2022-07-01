@@ -92,7 +92,7 @@ fun ProfileScreen(
                 }
             }
 
-            InfoButtons(navController, userDataState = userViewModel.data.collectAsState())
+            InfoButtons(navController, userViewModel)
 
             if (tabIndex == 0) {
                 RefreshableRepoItems(

@@ -20,21 +20,38 @@ class UserRepository(
         private const val TAG = "User repo"
     }
 
-    private var _localUser = MutableStateFlow<UserModel?>(null)
-    val localUser: StateFlow<UserModel?> = _localUser
+    private val _followers: MutableStateFlow<Long?> = MutableStateFlow(null)
+    val followers: StateFlow<Long?> = _followers
+
+    private val _following: MutableStateFlow<Long?> = MutableStateFlow(null)
+    val following: StateFlow<Long?> = _following
 
     suspend fun updateUser(): ResponseResult<UserModel> {
         AppLogger.log(TAG, "Update user")
 
-        _localUser.value = userDao.getById(userData.id)
+        userDao.getById(userData.id)?.let {
+            updateWithNewData(it.followers, it.following)
+        }
 
-        val result = userApi.getUser(_localUser.value?.login ?: userData.username)
+        val result = userApi.getUser(userData.username)
         if (result is ResponseResult.Success) {
             AppLogger.log(TAG, "Insert remote user to the db")
+
+            result.model.let {
+                updateWithNewData(it.followers, it.following)
+            }
+
             userDao.insertUsers(listOf(result.model))
-            _localUser.value = result.model
         }
 
         return result
+    }
+
+    private fun updateWithNewData(followers: Long?, following: Long?) {
+        userData.followers = followers
+        userData.following = following
+
+        _followers.value = followers
+        _following.value = following
     }
 }
