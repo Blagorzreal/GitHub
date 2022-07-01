@@ -23,6 +23,9 @@ import com.example.github.ui.view.BackTopAppBar
 import com.example.github.vm.RepoViewModel
 import com.example.github.vm.factory.RepoViewModelFactory
 
+private val STARRED_COLOR = Color.Yellow
+private val NOT_STARRED_COLOR = Color.DarkGray
+
 @Composable
 fun RepositoryScreen(
     navController: NavHostController,
@@ -50,7 +53,7 @@ fun RepositoryScreen(
                 }
 
                 Star(
-                    repoDataState = repoViewModel.repoData.collectAsState(),
+                    starredState = repoViewModel.starred.collectAsState(),
                     onClick = repoViewModel::updateStarred)
             }
         }
@@ -63,14 +66,14 @@ fun RepositoryScreen(
 }
 
 @Composable
-private fun Star(repoDataState: State<RepoData>, onClick: () -> Unit) {
+private fun Star(starredState: State<Boolean>, onClick: () -> Unit) {
     IconButton(onClick = onClick) {
         Icon(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(50.dp),
             painter = painterResource(R.drawable.star),
-            tint = if (repoDataState.value.starred) Color.Yellow else Color.DarkGray,
+            tint = if (starredState.value) STARRED_COLOR else NOT_STARRED_COLOR,
             contentDescription = null
         )
     }

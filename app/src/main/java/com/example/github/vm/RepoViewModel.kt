@@ -5,9 +5,7 @@ import com.example.github.data.RepoRepository
 import com.example.github.data.data.RepoData
 import com.example.github.util.log.AppLogger
 import com.example.github.vm.base.BaseViewModel
-import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
@@ -20,17 +18,7 @@ class RepoViewModel(
         private const val TAG = "Repo repo"
     }
 
-    private val _repoData = MutableStateFlow(repoRepository.repoData.value)
-    val repoData: StateFlow<RepoData> = _repoData
-
-    init {
-        viewModelScope.launch {
-            repoRepository.repoData.collectLatest {
-                AppLogger.log(tag, "Starred repo changed: $it")
-                _repoData.value = it
-            }
-        }
-    }
+    val starred: StateFlow<Boolean> = repoRepository.starred
 
     fun updateStarred() {
         AppLogger.log(tag, "Update starred")
@@ -42,10 +30,10 @@ class RepoViewModel(
                 repoRepository.updateStarred()
             }
 
-            _isLoading.value = false
-
             if (!result)
                 _error.value = true
+
+            _isLoading.value = false
         }
     }
 }
