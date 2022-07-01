@@ -4,6 +4,7 @@ import com.google.gson.Gson
 
 class Constants private constructor() {
     companion object {
+        const val NOT_INSERTED_SINCE_EXISTS = (-1).toLong()
         const val USERS = "users"
         const val USERNAME = "username"
         const val EMPTY_STRING = ""

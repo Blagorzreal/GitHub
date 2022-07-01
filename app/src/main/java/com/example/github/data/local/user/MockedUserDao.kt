@@ -25,9 +25,13 @@ class MockedUserDao: IUserDao {
 
     override suspend fun getById(id: Long): UserModel? = users.firstOrNull { it.id == id }
 
-    override suspend fun insertUser(user: UserModel) {}
+    override suspend fun insertUser(user: UserModel): Long = 0
 
-    override suspend fun insertUsers(users: List<UserModel>) {}
+    override suspend fun insertUsers(users: List<UserModel>, updateAdditionalData: Boolean) { }
+
+    override suspend fun updateUserNameAndAvatar(id: Long, name: String, avatarUrl: String?) { }
+
+    override suspend fun updateUserFollowersFollowing(id: Long, followers: Long, following: Long) { }
 
     override suspend fun deleteAll() {
         users.clear()

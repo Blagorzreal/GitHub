@@ -2,14 +2,11 @@ package com.example.github.data.local.repos
 
 import androidx.room.*
 import com.example.github.model.RepoModel
+import com.example.github.util.Constants.Companion.NOT_INSERTED_SINCE_EXISTS
 import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface ReposDao: IReposDao {
-    companion object {
-        private const val NOT_INSERTED_SINCE_EXISTS = (-1).toLong()
-    }
-
     @Query("SELECT * FROM RepoModel WHERE owner_id = :ownerId")
     override fun getAll(ownerId: Long): Flow<List<RepoModel>>
 

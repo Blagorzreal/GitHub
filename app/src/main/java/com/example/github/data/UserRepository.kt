@@ -31,7 +31,7 @@ class UserRepository(
         val result = userApi.getUser(_localUser.value?.login ?: user.username)
         if (result is ResponseResult.Success) {
             AppLogger.log(TAG, "Insert remote user to the db")
-            userDao.insertUser(result.model)
+            userDao.insertUsers(listOf(result.model), true)
             _localUser.value = result.model
         }
 

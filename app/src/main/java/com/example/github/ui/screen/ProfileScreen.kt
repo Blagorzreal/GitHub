@@ -104,8 +104,10 @@ fun ProfileScreen(
                     onClick = { repoData ->
                         navigateToRepositoryScreen(navController, repoData)
                     },
-                    refresh = starredReposViewModel::updateRepos
-                )
+                    refresh = {
+                        userViewModel.updateUser()
+                        starredReposViewModel.updateRepos()
+                    })
             } else {
                 RepoItems(
                     headerText = stringResource(R.string.starred_repos),
