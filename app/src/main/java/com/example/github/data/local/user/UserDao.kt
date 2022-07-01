@@ -29,7 +29,7 @@ interface UserDao: IUserDao {
                     if ((it.followers != null) && (it.following != null))
                         updateUserFollowersFollowing(it.id, it.followers, it.following)
                 else
-                    updateUserNameAndAvatar(it.id, it.login, it.avatarUrl)
+                    updateUsernameAvatar(it.id, it.login, it.avatarUrl)
         }
     }
 
@@ -37,7 +37,7 @@ interface UserDao: IUserDao {
     override suspend fun updateUserFollowersFollowing(id: Long, followers: Long, following: Long)
 
     @Query("UPDATE UserModel SET login=:name, avatarUrl=:avatarUrl WHERE owner_id = :id")
-    override suspend fun updateUserNameAndAvatar(id: Long, name: String, avatarUrl: String?)
+    override suspend fun updateUsernameAvatar(id: Long, name: String, avatarUrl: String?)
 
     @Query("DELETE FROM UserModel")
     override suspend fun deleteAll()

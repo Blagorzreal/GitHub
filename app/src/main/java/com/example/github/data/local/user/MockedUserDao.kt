@@ -29,7 +29,7 @@ class MockedUserDao: IUserDao {
 
     override suspend fun insertUsers(users: List<UserModel>, updateAdditionalData: Boolean) { }
 
-    override suspend fun updateUserNameAndAvatar(id: Long, name: String, avatarUrl: String?) { }
+    override suspend fun updateUsernameAvatar(id: Long, name: String, avatarUrl: String?) { }
 
     override suspend fun updateUserFollowersFollowing(id: Long, followers: Long, following: Long) { }
 
