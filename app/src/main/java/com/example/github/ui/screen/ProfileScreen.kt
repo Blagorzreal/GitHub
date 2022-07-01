@@ -55,7 +55,6 @@ fun ProfileScreen(
                             model = userData.avatarUrl,
                             contentDescription = null,
                             contentScale = ContentScale.FillHeight,
-                            placeholder = painterResource(R.drawable.ic_avatar),
                             error = painterResource(R.drawable.ic_avatar)
                         )
 
