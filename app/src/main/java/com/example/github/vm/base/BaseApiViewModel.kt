@@ -9,7 +9,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 
 abstract class BaseApiViewModel<Data, Model>(
-    tag: String,
+    override val tag: String,
     protected val mapper: (Model) -> Data
 ): BaseViewModel<ResponseResult.ResponseError>(tag, ResponseResult.None) {
 
@@ -29,25 +29,23 @@ abstract class BaseApiViewModel<Data, Model>(
             } catch (ex: Exception) {
                 AppLogger.log(tag, "Exception: ${ex.message}", LogType.Error)
                 ResponseResult.ExceptionResponseError(ex)
-            }
-
-            try {
-                when (result) {
-                    is ResponseResult.Success -> onData(mapper(result.model))
-                    is ResponseResult.ResponseError -> onError(result)
-                }
             } finally {
                 _isLoading.value = false
+            }
+
+            when (result) {
+                is ResponseResult.Success -> onData(mapper(result.model))
+                is ResponseResult.ResponseError -> onError(result)
             }
         }
     }
 
-    open fun onData(data: Data) {
+    protected open fun onData(data: Data) {
         AppLogger.log(tag, "Fetched data: $data")
         _data.value = data
     }
 
-    open fun onError(error: ResponseResult.ResponseError) {
+    protected open fun onError(error: ResponseResult.ResponseError) {
         AppLogger.log(tag, "Fetched error: $error", LogType.Error)
         _error.value = error
     }

@@ -7,9 +7,9 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 
 abstract class BaseViewModel<T>(
-    protected override val tag: String,
+    final override val tag: String,
     protected val initialError: T,
-    open override val dispatcher: CoroutineDispatcher = Dispatchers.IO): AbstractViewModel(tag) {
+    override val dispatcher: CoroutineDispatcher = Dispatchers.IO): AbstractViewModel(tag, dispatcher) {
 
     protected val _isLoading = MutableStateFlow(false)
     val isLoading: StateFlow<Boolean> = _isLoading

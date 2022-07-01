@@ -30,10 +30,10 @@ class RepoViewModel(
                 repoRepository.updateStarred()
             }
 
+            _isLoading.value = false
+
             if (!result)
                 _error.value = true
-
-            _isLoading.value = false
         }
     }
 }
