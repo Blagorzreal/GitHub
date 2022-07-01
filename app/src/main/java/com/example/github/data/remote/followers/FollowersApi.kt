@@ -23,6 +23,6 @@ class FollowersApi: IFollowersApi {
         ApiProvider.retrofit.create(FollowersApiRetrofit::class.java)
     }
 
-    override suspend fun followers(username: String): ResponseResult<List<UserModel>> =
+    override suspend fun getFollowers(username: String): ResponseResult<List<UserModel>> =
         ApiProvider.requestUnsafe(TAG, followersApi.followers(username))
 }

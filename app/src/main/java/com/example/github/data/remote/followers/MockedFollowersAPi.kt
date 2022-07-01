@@ -5,7 +5,7 @@ import com.example.github.model.UserModel
 import kotlin.random.Random
 
 class MockedFollowersAPi: IFollowersApi {
-    override suspend fun followers(username: String): ResponseResult<List<UserModel>> {
+    override suspend fun getFollowers(username: String): ResponseResult<List<UserModel>> {
         return ResponseResult.Success(
             listOf(UserModel(Random.nextLong(), "new1", 12, 5, null),
                 UserModel(Random.nextLong(), "new2", 9, 5, null),

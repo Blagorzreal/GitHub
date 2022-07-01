@@ -23,7 +23,7 @@ class FollowersRepository(
     suspend fun updateFollowers(): ResponseResult<List<UserModel>> {
         AppLogger.log(TAG, "Update followers")
 
-        val result = followersApi.followers(userData.username)
+        val result = followersApi.getFollowers(userData.username)
         if (result is ResponseResult.Success) {
             AppLogger.log(TAG, "Insert remote followers to the db")
             userDao.insertUsersAsFollowers(userData.id, result.model)
