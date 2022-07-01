@@ -24,7 +24,7 @@ class UserViewModel(
     }
 
     fun updateUser() {
-        AppLogger.log(tag, "Get user")
+        AppLogger.log(tag, "Update user")
         fetchData { userRepository.updateUser() }
     }
 }

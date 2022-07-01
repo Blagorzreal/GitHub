@@ -111,7 +111,7 @@ private fun FollowersView(
         followersViewModel.isLoading.collectAsState(),
         followersViewModel.error.collectAsState(),
         followersViewModel::resetError,
-        followersViewModel::followers)
+        followersViewModel::updateFollowers)
 }
 
 @Composable

@@ -26,11 +26,11 @@ class FollowersViewModel(
             }
         }
 
-        followers()
+        updateFollowers()
     }
 
-    fun followers() {
+    fun updateFollowers() {
         AppLogger.log(tag, "Update followers")
-        fetchData { followersRepository.followers() }
+        fetchData { followersRepository.updateFollowers() }
     }
 }

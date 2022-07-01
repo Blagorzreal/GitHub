@@ -33,7 +33,7 @@ open class ReposViewModel(
     }
 
     fun updateRepos() {
-        AppLogger.log(tag, "Get repos")
+        AppLogger.log(tag, "Update repos")
         fetchData { reposRepository.updateRepos(userData.username) }
     }
 }

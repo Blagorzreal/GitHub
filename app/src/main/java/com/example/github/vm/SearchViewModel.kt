@@ -37,7 +37,7 @@ class SearchViewModel(
                 if (it == null)
                     return@collectLatest
 
-                AppLogger.log(tag, "Users changed: ${it.totalCount}")
+                AppLogger.log(tag, "Search users changed: ${it.totalCount}")
                 _items.value += mapper(it).items
             }
         }

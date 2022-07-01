@@ -20,7 +20,7 @@ class FollowersRepository(
 
     val localFollowers = userDao.getFollowers(userData.id)
 
-    suspend fun followers(): ResponseResult<List<UserModel>> {
+    suspend fun updateFollowers(): ResponseResult<List<UserModel>> {
         AppLogger.log(TAG, "Update followers")
 
         val result = followersApi.followers(userData.username)
