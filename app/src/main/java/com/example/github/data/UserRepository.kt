@@ -8,11 +8,11 @@ import com.example.github.data.remote.ResponseResult
 import com.example.github.data.remote.user.IUserApi
 import com.example.github.model.UserModel
 import com.example.github.util.log.AppLogger
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 
 class UserRepository(
-    private val user: UserData,
+    private val userData: UserData,
     protected val userDao: IUserDao = DaoProvider.userDao,
     protected val userApi: IUserApi = ApiProvider.userApi,
 ) {
@@ -20,18 +20,18 @@ class UserRepository(
         private const val TAG = "User repo"
     }
 
-    private var _localUser: MutableStateFlow<UserModel?> = MutableStateFlow(null)
-    val localUser: Flow<UserModel?> = _localUser
+    private var _localUser = MutableStateFlow<UserModel?>(null)
+    val localUser: StateFlow<UserModel?> = _localUser
 
     suspend fun updateUser(): ResponseResult<UserModel> {
         AppLogger.log(TAG, "Update user")
 
-        _localUser.value = userDao.getById(user.id)
+        _localUser.value = userDao.getById(userData.id)
 
-        val result = userApi.getUser(_localUser.value?.login ?: user.username)
+        val result = userApi.getUser(_localUser.value?.login ?: userData.username)
         if (result is ResponseResult.Success) {
             AppLogger.log(TAG, "Insert remote user to the db")
-            userDao.insertUsers(listOf(result.model), true)
+            userDao.insertUsers(listOf(result.model))
             _localUser.value = result.model
         }
 

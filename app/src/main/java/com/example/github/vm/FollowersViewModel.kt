@@ -13,7 +13,7 @@ import kotlinx.coroutines.launch
 class FollowersViewModel(
     private val userData: UserData,
     private val followersRepository: FollowersRepository = FollowersRepository(userData)
-): BaseApiViewModel<List<UserData>, List<UserModel>>(TAG, UserModelMapper::userModelListToUserDataList) {
+): BaseApiViewModel<Set<UserData>, List<UserModel>>(TAG, UserModelMapper::userModelListToUserDataSet) {
     companion object {
         private const val TAG = "Followers VM"
     }

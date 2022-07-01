@@ -7,12 +7,8 @@ import kotlinx.coroutines.flow.Flow
 
 interface IUserDao {
     suspend fun searchByUsername(usernameCriteria: String, limit: Int): List<UserModel>
-    suspend fun searchColumnCountByUsername(usernameCriteria: String): Int
     suspend fun getById(id: Long): UserModel?
-    suspend fun insertUser(user: UserModel): Long
-    suspend fun insertUsers(users: List<UserModel>, updateAdditionalData: Boolean = false)
-    suspend fun updateUsernameAvatar(id: Long, name: String, avatarUrl: String?)
-    suspend fun updateUserFollowersFollowing(id: Long, followers: Long, following: Long)
+    suspend fun insertUsers(users: List<UserModel>)
     suspend fun deleteAll()
     suspend fun insertUsersAndSearchByUsername(users: List<UserModel>, usernameCriteria: String, limit: Int): List<UserModel>
     suspend fun insertFollowers(userWithFollowersRef: UserWithFollowersRef)

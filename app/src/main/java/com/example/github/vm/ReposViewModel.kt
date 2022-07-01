@@ -15,7 +15,7 @@ open class ReposViewModel(
     tag: String = TAG,
     private val userData: UserData,
     private val reposRepository: ReposRepository = ReposRepository(userData = userData)
-): BaseApiViewModel<List<RepoData>, List<RepoModel>>(tag, RepoModelMapper::repoModelListToRepoDataList) {
+): BaseApiViewModel<Set<RepoData>, List<RepoModel>>(tag, RepoModelMapper::repoModelListToRepoDataSet) {
 
     companion object {
         private const val TAG = "User VM"

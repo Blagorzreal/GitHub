@@ -19,14 +19,14 @@ class StarredReposViewModel(
         private const val TAG = "Starred repos VM"
     }
 
-    private val _starredRepos: MutableStateFlow<List<RepoData>?> = MutableStateFlow(null)
-    val starredRepos: StateFlow<List<RepoData>?> = _starredRepos
+    private val _starredRepos: MutableStateFlow<Set<RepoData>> = MutableStateFlow(emptySet())
+    val starredRepos: StateFlow<Set<RepoData>?> = _starredRepos
 
     init {
         viewModelScope.launch {
-            starredReposRepository.starredRepos.collectLatest { repos ->
-                AppLogger.log(tag, "Starred repos changed: ${repos.size}")
-                _starredRepos.value = mapper(repos)
+            starredReposRepository.starredRepos.collectLatest {
+                AppLogger.log(tag, "Starred repos changed: ${it.size}")
+                _starredRepos.value = mapper(it)
             }
         }
     }

@@ -5,7 +5,7 @@ import com.example.github.model.RepoModel
 
 class RepoModelMapper private constructor() {
     companion object {
-        fun repoModelListToRepoDataList(repos: List<RepoModel>) = repos.map { repoModelToRepoData(it) }
+        fun repoModelListToRepoDataSet(repos: List<RepoModel>) = repos.map { repoModelToRepoData(it) }.toSet()
 
         private fun repoModelToRepoData(repoModel: RepoModel): RepoData {
             return RepoData(

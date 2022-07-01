@@ -22,7 +22,7 @@ fun RefreshableRepoItems(
     headerText: String,
     noItemsText: String,
     lazyListState: LazyListState,
-    reposState: State<List<RepoData>?>,
+    reposState: State<Collection<RepoData>?>,
     isLoadingState: State<Boolean>,
     onClick: (repo: RepoData) -> Unit,
     refresh: () -> Unit) {
@@ -45,7 +45,7 @@ fun RefreshableRepoItems(
 fun RepoItems(
     headerText: String,
     noItemsText: String,
-    reposState: State<List<RepoData>?>,
+    reposState: State<Collection<RepoData>?>,
     lazyListState: LazyListState,
     onClick: (repo: RepoData) -> Unit,
     isLoadingState: State<Boolean>?
@@ -61,7 +61,7 @@ fun RepoItems(
                 ItemsHeader(text = headerText)
             }
 
-            items(repos) {
+            items(repos.toList()) {
                 Column(
                     Modifier
                         .fillMaxWidth()

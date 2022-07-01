@@ -23,10 +23,8 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.example.github.R
-import com.example.github.data.data.SearchData
 import com.example.github.data.data.UserData
 import com.example.github.data.remote.ResponseResult
-import com.example.github.ui.navigation.Route
 import com.example.github.ui.navigation.Route.Companion.userScreenNavigation
 import com.example.github.ui.view.*
 import com.example.github.vm.FollowersViewModel
@@ -80,7 +78,7 @@ fun SearchScreen(
                     Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
                         UserItem(
                             navController = navController,
-                            usersState = searchViewModel.data.collectAsState(),
+                            usersState = searchViewModel.items.collectAsState(),
                             hasNextPageState = searchViewModel.hasNextPage.collectAsState(),
                             isLoadingState = searchViewModel.isLoading.collectAsState(),
                             searchNextPage = searchViewModel::searchNextPage,
@@ -119,7 +117,7 @@ private fun FollowersView(
 @Composable
 private fun FollowersItems(
     navController: NavHostController,
-    usersState: State<List<UserData>?>,
+    usersState: State<Collection<UserData>?>,
     isLoadingState: State<Boolean>,
     errorState: State<ResponseResult.ResponseError>,
     resetError: () -> Unit,
@@ -141,7 +139,7 @@ private fun FollowersItems(
                     return@LazyColumn
 
                 if (users.isNotEmpty()) {
-                    items(users) {
+                    items(users.toList()) {
                         Column(
                             Modifier
                                 .fillMaxWidth()
@@ -177,7 +175,7 @@ private fun clearFocusAndSearch(focusManager: FocusManager, search: () -> Unit) 
 @Composable
 private fun UserItem(
     navController: NavHostController,
-    usersState: State<SearchData?>,
+    usersState: State<Set<UserData>>,
     isLoadingState: State<Boolean>,
     hasNextPageState: State<Boolean>,
     searchNextPage: () -> Unit,
@@ -186,18 +184,15 @@ private fun UserItem(
     if (isLoadingState.value)
         CircularProgressIndicator()
 
-    val users = usersState.value?.items
+    val users = usersState.value
 
     LazyColumn(
         modifier = Modifier
             .fillMaxSize()
             .padding(top = 6.dp), state = lazyListState
     ) {
-        if (users == null)
-            return@LazyColumn
-
         if (users.isNotEmpty()) {
-            items(users) {
+            items(users.toList()) {
                 Column(
                     Modifier
                         .fillMaxWidth()

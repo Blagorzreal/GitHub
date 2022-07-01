@@ -3,6 +3,7 @@ package com.example.github.vm
 import androidx.lifecycle.viewModelScope
 import com.example.github.data.UsersRepository
 import com.example.github.data.data.SearchData
+import com.example.github.data.data.UserData
 import com.example.github.model.SearchModel
 import com.example.github.util.Constants
 import com.example.github.util.log.AppLogger
@@ -27,6 +28,9 @@ class SearchViewModel(
     private val _hasNextPage: MutableStateFlow<Boolean> = MutableStateFlow(false)
     val hasNextPage: StateFlow<Boolean> = _hasNextPage
 
+    private val _items = MutableStateFlow(setOf<UserData>())
+    val items: StateFlow<Set<UserData>> = _items
+
     init {
         viewModelScope.launch {
             usersRepository.localSearch.collectLatest {
@@ -34,7 +38,7 @@ class SearchViewModel(
                     return@collectLatest
 
                 AppLogger.log(tag, "Users changed: ${it.totalCount}")
-                _data.value = mapper(it)
+                _items.value += mapper(it).items
             }
         }
     }
@@ -66,6 +70,7 @@ class SearchViewModel(
 
         totalPages = 1
         currentPage = 1
+        _items.value = setOf()
 
         _hasNextPage.value = false
 
@@ -80,5 +85,7 @@ class SearchViewModel(
             totalPages++
 
         _hasNextPage.value = (totalPages >= ++currentPage)
+
+        _items.value += data.items
     }
 }
