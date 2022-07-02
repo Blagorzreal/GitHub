@@ -13,7 +13,6 @@ class UserModelMapper private constructor() {
                 userModel.followers,
                 userModel.following)
 
-        fun userModelListToUserDataSet(items: List<UserModel>) =
-            items.map { userModelToUserData(it) }.toSet()
+        fun userModelListToUserDataList(items: List<UserModel>) = items.map { userModelToUserData(it) }
     }
 }

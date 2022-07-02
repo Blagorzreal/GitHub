@@ -40,9 +40,11 @@ abstract class BaseApiViewModel<Data, Model>(
         }
     }
 
+    protected open fun beforeOnDataSet(data: Data) = data
+
     protected open fun onData(data: Data) {
         AppLogger.log(tag, "Fetched data: $data")
-        _data.value = data
+        _data.value = beforeOnDataSet(data)
     }
 
     protected open fun onError(error: ResponseResult.ResponseError) {

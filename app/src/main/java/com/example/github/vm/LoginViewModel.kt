@@ -52,8 +52,8 @@ class LoginViewModel(private val authApi: IAuthApi = ApiProvider.authApi)
         fetchData { authApi.login(usernameTrimmed) }
     }
 
-    override fun onData(data: UserData) {
+    override fun beforeOnDataSet(data: UserData): UserData {
         LoginSession.setUserData(data)
-        super.onData(data)
+        return super.beforeOnDataSet(data)
     }
 }

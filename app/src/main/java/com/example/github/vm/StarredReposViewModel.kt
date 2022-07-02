@@ -19,8 +19,8 @@ class StarredReposViewModel(
         private const val TAG = "Starred repos VM"
     }
 
-    private val _starredRepos: MutableStateFlow<Set<RepoData>> = MutableStateFlow(emptySet())
-    val starredRepos: StateFlow<Set<RepoData>?> = _starredRepos
+    private val _starredRepos: MutableStateFlow<List<RepoData>> = MutableStateFlow(emptyList())
+    val starredRepos: StateFlow<List<RepoData>> = _starredRepos
 
     init {
         viewModelScope.launch {

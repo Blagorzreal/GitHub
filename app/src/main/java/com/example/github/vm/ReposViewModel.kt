@@ -15,7 +15,7 @@ open class ReposViewModel(
     tag: String = TAG,
     private val userData: UserData,
     private val reposRepository: ReposRepository = ReposRepository(userData = userData)
-): BaseApiViewModel<Set<RepoData>, List<RepoModel>>(tag, RepoModelMapper::repoModelListToRepoDataSet) {
+): BaseApiViewModel<List<RepoData>, List<RepoModel>>(tag, RepoModelMapper::repoModelListToRepoDataList) {
 
     companion object {
         private const val TAG = "User VM"
@@ -36,4 +36,6 @@ open class ReposViewModel(
         AppLogger.log(tag, "Update repos")
         fetchData { reposRepository.updateRepos(userData.username) }
     }
+
+    override fun beforeOnDataSet(data: List<RepoData>) = data.sortedBy { it.id }
 }

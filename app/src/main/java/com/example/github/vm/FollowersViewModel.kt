@@ -13,7 +13,7 @@ import kotlinx.coroutines.launch
 class FollowersViewModel(
     private val userData: UserData,
     private val followersRepository: FollowersRepository = FollowersRepository(userData)
-): BaseApiViewModel<Set<UserData>, List<UserModel>>(TAG, UserModelMapper::userModelListToUserDataSet) {
+): BaseApiViewModel<List<UserData>, List<UserModel>>(TAG, UserModelMapper::userModelListToUserDataList) {
     companion object {
         private const val TAG = "Followers VM"
     }
@@ -33,4 +33,6 @@ class FollowersViewModel(
         AppLogger.log(tag, "Update followers")
         fetchData { followersRepository.updateFollowers() }
     }
+
+    override fun beforeOnDataSet(data: List<UserData>) = data.sortedBy { it.id }
 }

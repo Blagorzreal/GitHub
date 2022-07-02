@@ -117,7 +117,7 @@ private fun FollowersView(
 @Composable
 private fun FollowersItems(
     navController: NavHostController,
-    usersState: State<Collection<UserData>?>,
+    usersState: State<List<UserData>?>,
     isLoadingState: State<Boolean>,
     errorState: State<ResponseResult.ResponseError>,
     resetError: () -> Unit,
@@ -139,7 +139,7 @@ private fun FollowersItems(
                     return@LazyColumn
 
                 if (users.isNotEmpty()) {
-                    items(users.toList()) {
+                    items(users) {
                         Column(
                             Modifier
                                 .fillMaxWidth()
