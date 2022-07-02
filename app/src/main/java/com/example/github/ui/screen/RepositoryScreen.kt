@@ -9,9 +9,7 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -20,11 +18,9 @@ import com.example.github.R
 import com.example.github.data.data.RepoData
 import com.example.github.ui.navigation.Route.Companion.userScreenNavigation
 import com.example.github.ui.view.BackTopAppBar
+import com.example.github.ui.view.Star
 import com.example.github.vm.RepoViewModel
 import com.example.github.vm.factory.RepoViewModelFactory
-
-private val STARRED_COLOR = Color.Yellow
-private val NOT_STARRED_COLOR = Color.DarkGray
 
 @Composable
 fun RepositoryScreen(
@@ -53,7 +49,8 @@ fun RepositoryScreen(
                 }
 
                 Star(
-                    starredState = repoViewModel.starred.collectAsState(),
+                    modifier = Modifier.fillMaxSize().padding(50.dp),
+                    selected = repoViewModel.starred.collectAsState().value,
                     onClick = repoViewModel::updateStarred)
             }
         }
@@ -63,20 +60,6 @@ fun RepositoryScreen(
         id = repoData.id,
         errorState = repoViewModel.error.collectAsState(),
         resetError = repoViewModel::resetError)
-}
-
-@Composable
-private fun Star(starredState: State<Boolean>, onClick: () -> Unit) {
-    IconButton(onClick = onClick) {
-        Icon(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(50.dp),
-            painter = painterResource(R.drawable.star),
-            tint = if (starredState.value) STARRED_COLOR else NOT_STARRED_COLOR,
-            contentDescription = null
-        )
-    }
 }
 
 @Composable

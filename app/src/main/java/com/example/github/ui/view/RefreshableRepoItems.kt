@@ -67,8 +67,18 @@ fun RepoItems(
                         .fillMaxWidth()
                         .clickable { onClick(it) }
                 ) {
-                    Box(Modifier.padding(top = 10.dp, bottom = 10.dp)) {
+                    Row(
+                        modifier = Modifier.padding(top = 6.dp, bottom = 6.dp),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
                         EllipsesText(it.name)
+
+                        Star(
+                            modifier = Modifier
+                                .height(30.dp)
+                                .padding(4.dp),
+                            onClick = null,
+                            selected = it.starred)
                     }
                 }
             }
