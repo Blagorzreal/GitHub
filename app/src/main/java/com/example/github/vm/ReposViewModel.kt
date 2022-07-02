@@ -8,6 +8,7 @@ import com.example.github.model.RepoModel
 import com.example.github.util.mapper.RepoModelMapper
 import com.example.github.util.log.AppLogger
 import com.example.github.vm.base.BaseApiViewModel
+import com.example.github.vm.base.ProceededDataResult
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
@@ -37,5 +38,9 @@ open class ReposViewModel(
         fetchData { reposRepository.updateRepos(userData.username) }
     }
 
-    override fun beforeOnDataSet(data: List<RepoData>) = data.sortedBy { it.id }
+    override fun proceedData(data: List<RepoData>) =
+        if (_data.value.isNullOrEmpty())
+            ProceededDataResult.SetDataResult(data.sortedBy { it.id })
+        else
+            ProceededDataResult.IgnoreDataResult
 }

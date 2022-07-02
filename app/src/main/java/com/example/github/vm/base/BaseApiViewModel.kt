@@ -40,11 +40,15 @@ abstract class BaseApiViewModel<Data, Model>(
         }
     }
 
-    protected open fun beforeOnDataSet(data: Data) = data
+    protected open fun proceedData(data: Data): ProceededDataResult<Data> =
+        ProceededDataResult.SetDataResult(data)
 
     protected open fun onData(data: Data) {
         AppLogger.log(tag, "Fetched data: $data")
-        _data.value = beforeOnDataSet(data)
+
+        val proceededDataResult = proceedData(data)
+        if (proceededDataResult is ProceededDataResult.SetDataResult<Data>)
+            _data.value = proceededDataResult.data
     }
 
     protected open fun onError(error: ResponseResult.ResponseError) {
