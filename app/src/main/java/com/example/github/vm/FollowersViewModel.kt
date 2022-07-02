@@ -7,7 +7,6 @@ import com.example.github.model.UserModel
 import com.example.github.util.log.AppLogger
 import com.example.github.util.mapper.UserModelMapper
 import com.example.github.vm.base.BaseApiViewModel
-import com.example.github.vm.base.ProceededDataResult
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
@@ -37,7 +36,7 @@ class FollowersViewModel(
 
     override fun proceedData(data: List<UserData>) =
         if (_data.value.isNullOrEmpty())
-            ProceededDataResult.SetDataResult(data.sortedBy { it.id })
+            ProceededDataResult.Set(data.sortedBy { it.id })
         else
-            ProceededDataResult.IgnoreDataResult
+            ProceededDataResult.Ignore
 }

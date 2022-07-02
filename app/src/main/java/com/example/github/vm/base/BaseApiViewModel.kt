@@ -13,6 +13,11 @@ abstract class BaseApiViewModel<Data, Model>(
     protected val mapper: (Model) -> Data
 ): BaseViewModel<ResponseResult.ResponseError>(tag, ResponseResult.None) {
 
+    protected sealed class ProceededDataResult<out T> {
+        object Ignore: ProceededDataResult<Nothing>()
+        data class Set<T>(val data: T): ProceededDataResult<T>()
+    }
+
     protected val _data: MutableStateFlow<Data?> = MutableStateFlow(null)
     val data: StateFlow<Data?> = _data
 
@@ -41,13 +46,13 @@ abstract class BaseApiViewModel<Data, Model>(
     }
 
     protected open fun proceedData(data: Data): ProceededDataResult<Data> =
-        ProceededDataResult.SetDataResult(data)
+        ProceededDataResult.Set(data)
 
     protected open fun onData(data: Data) {
         AppLogger.log(tag, "Fetched data: $data")
 
         val proceededDataResult = proceedData(data)
-        if (proceededDataResult is ProceededDataResult.SetDataResult<Data>)
+        if (proceededDataResult is ProceededDataResult.Set<Data>)
             _data.value = proceededDataResult.data
     }
 
