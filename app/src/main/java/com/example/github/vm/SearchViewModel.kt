@@ -31,8 +31,8 @@ class SearchViewModel(
     private val _hasNextPage: MutableStateFlow<Boolean> = MutableStateFlow(false)
     val hasNextPage: StateFlow<Boolean> = _hasNextPage
 
-    private val _items = MutableStateFlow(setOf<UserData>())
-    val items: StateFlow<Set<UserData>> = _items
+    private val _items: MutableStateFlow<MutableSet<UserData>?> = MutableStateFlow(null)
+    val items: StateFlow<Set<UserData>?> = _items
 
     init {
         viewModelScope.launch {
@@ -48,7 +48,7 @@ class SearchViewModel(
                     totalLocalPages = 1
 
                 AppLogger.log(tag, "Search users changed: ${it.totalCount}")
-                _items.value += mapper(it).items
+                _items.value?.plusAssign(mapper(it).items)
 
                 updateHasNextPage()
             }
@@ -93,7 +93,7 @@ class SearchViewModel(
         currentLocalPage = 1
         totalLocalPages = 1
 
-        _items.value = setOf()
+        _items.value = mutableSetOf()
 
         _hasNextPage.value = false
 
@@ -109,7 +109,7 @@ class SearchViewModel(
 
         currentRemotePage++
 
-        _items.value += data.items
+        _items.value?.plusAssign(data.items)
 
         updateHasNextPage()
     }

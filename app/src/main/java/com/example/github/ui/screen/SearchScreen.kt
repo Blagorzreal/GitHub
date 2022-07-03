@@ -175,7 +175,7 @@ private fun clearFocusAndSearch(focusManager: FocusManager, search: () -> Unit) 
 @Composable
 private fun UserItem(
     navController: NavHostController,
-    usersState: State<Set<UserData>>,
+    usersState: State<Set<UserData>?>,
     isLoadingState: State<Boolean>,
     hasNextPageState: State<Boolean>,
     searchNextPage: () -> Unit,
@@ -184,7 +184,7 @@ private fun UserItem(
     if (isLoadingState.value)
         CircularProgressIndicator()
 
-    val users = usersState.value
+    val users = usersState.value ?: return
 
     LazyColumn(
         modifier = Modifier
