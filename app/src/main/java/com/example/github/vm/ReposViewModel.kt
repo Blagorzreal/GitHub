@@ -37,9 +37,8 @@ open class ReposViewModel(
         fetchData { reposRepository.updateRepos(userData.username) }
     }
 
-    override fun proceedData(data: List<RepoData>) =
+    override fun onData(data: List<RepoData>) {
         if (_data.value.isNullOrEmpty())
-            ProceededDataResult.Set(data.sortedBy { it.id })
-        else
-            ProceededDataResult.Ignore
+            _data.value = data.sortedBy { it.id }
+    }
 }

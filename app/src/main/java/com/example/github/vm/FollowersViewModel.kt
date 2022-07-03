@@ -34,9 +34,8 @@ class FollowersViewModel(
         fetchData { followersRepository.updateFollowers() }
     }
 
-    override fun proceedData(data: List<UserData>) =
+    override fun onData(data: List<UserData>) {
         if (_data.value.isNullOrEmpty())
-            ProceededDataResult.Set(data.sortedBy { it.id })
-        else
-            ProceededDataResult.Ignore
+            _data.value = data.sortedBy { it.id }
+    }
 }
