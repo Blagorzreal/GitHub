@@ -22,8 +22,11 @@ class SearchViewModel(
         private const val USERS_PER_PAGE = 30
     }
 
-    private var totalPages = 1
-    private var currentPage = 1
+    private var currentRemotePage = 1
+    private var totalRemotePages = 1
+
+    private var currentLocalPage = 1
+    private var totalLocalPages = 1
 
     private val _hasNextPage: MutableStateFlow<Boolean> = MutableStateFlow(false)
     val hasNextPage: StateFlow<Boolean> = _hasNextPage
@@ -37,8 +40,17 @@ class SearchViewModel(
                 if (it == null)
                     return@collectLatest
 
+                if (it.totalCount != null) {
+                    totalLocalPages = (it.totalCount / USERS_PER_PAGE)
+                    if ((it.totalCount % USERS_PER_PAGE) > 0)
+                        totalLocalPages++
+                } else
+                    totalLocalPages = 1
+
                 AppLogger.log(tag, "Search users changed: ${it.totalCount}")
                 _items.value += mapper(it).items
+
+                updateHasNextPage()
             }
         }
     }
@@ -55,11 +67,18 @@ class SearchViewModel(
         if (isLoading.value)
             return
 
-        AppLogger.log(TAG, "Search page: $currentPage of $totalPages")
+        AppLogger.log(TAG, "Search page: $currentRemotePage of $totalRemotePages")
 
-        val searchTrimmed = _searchText.value.trim()
-        if (totalPages >= currentPage)
-            fetchData { usersRepository.search(USERS_PER_PAGE, currentPage, searchTrimmed) }
+        if (searchAvailable) {
+            fetchData {
+                usersRepository.search(
+                    USERS_PER_PAGE,
+                    currentRemotePage,
+                    currentLocalPage++,
+                    _searchText.value.trim()
+                )
+            }
+        }
     }
 
     fun search() {
@@ -68,8 +87,12 @@ class SearchViewModel(
 
         AppLogger.log(TAG, "Search")
 
-        totalPages = 1
-        currentPage = 1
+        currentRemotePage = 1
+        totalRemotePages = 1
+
+        currentLocalPage = 1
+        totalLocalPages = 1
+
         _items.value = setOf()
 
         _hasNextPage.value = false
@@ -80,12 +103,21 @@ class SearchViewModel(
     override fun onData(data: SearchData) {
         super.onData(data)
 
-        totalPages = (data.totalCount / USERS_PER_PAGE)
+        totalRemotePages = (data.totalCount / USERS_PER_PAGE)
         if ((data.totalCount % USERS_PER_PAGE) > 0)
-            totalPages++
+            totalRemotePages++
 
-        _hasNextPage.value = (totalPages >= ++currentPage)
+        currentRemotePage++
 
         _items.value += data.items
+
+        updateHasNextPage()
     }
+
+    private fun updateHasNextPage() {
+        _hasNextPage.value = searchAvailable
+    }
+
+    private val searchAvailable get() =
+        (totalRemotePages >= currentRemotePage) || (totalLocalPages >= currentLocalPage)
 }

@@ -21,20 +21,33 @@ class UsersRepository(
     private var _localSearch: MutableStateFlow<SearchModel?> = MutableStateFlow(null)
     var localSearch: Flow<SearchModel?> = _localSearch
 
-    suspend fun search(usersPerPage: Int, page: Int, username: String): ResponseResult<SearchModel> {
+    suspend fun search(
+        usersPerPage: Int,
+        remotePage: Int,
+        localPage: Int,
+        username: String
+    ): ResponseResult<SearchModel> {
         AppLogger.log(TAG, "Search")
 
-        val limit = page * usersPerPage
+        val offset = (localPage - 1) * usersPerPage
+        val limit = localPage * usersPerPage
         val usernameCriteria = "$username%"
 
-        val localUsers = userDao.searchByUsername(usernameCriteria, limit)
-        _localSearch.value = SearchModel(localUsers.size, localUsers)
+        val localUsers = userDao.searchByUsername(usernameCriteria, offset, limit)
+        val totalCount = userDao.searchColumnCountByUsername(usernameCriteria)
+        _localSearch.value = SearchModel(totalCount, localUsers)
 
-        val result = searchApi.search(usersPerPage, page, username)
+        val result = searchApi.search(usersPerPage, remotePage, username)
         if (result is ResponseResult.Success) {
             AppLogger.log(TAG, "Insert remote users to the db")
 
-            val newLocalUsers = userDao.insertUsersAndSearchByUsername(result.model.items, usernameCriteria, limit)
+            val newLocalUsers = userDao.insertUsersAndSearchByUsername(
+                result.model.items,
+                usernameCriteria,
+                offset,
+                limit
+            )
+
             _localSearch.value = SearchModel(newLocalUsers.size, newLocalUsers)
         }
 

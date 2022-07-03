@@ -17,8 +17,10 @@ class MockedUserDao: IUserDao {
         UserModel(12, "test12", 4, 11, null)
     )
 
-    override suspend fun searchByUsername(usernameCriteria: String, limit: Int): List<UserModel> =
-        users.filter { it.login.lowercase().startsWith(usernameCriteria.lowercase()) }.take(limit)
+    override suspend fun searchByUsername(usernameCriteria: String, offset: Int, limit: Int): List<UserModel> =
+        emptyList()
+
+    override suspend fun searchColumnCountByUsername(usernameCriteria: String): Int = -1
 
     override suspend fun getById(id: Long): UserModel? = users.firstOrNull { it.id == id }
 
@@ -37,10 +39,11 @@ class MockedUserDao: IUserDao {
     override suspend fun insertUsersAndSearchByUsername(
         users: List<UserModel>,
         usernameCriteria: String,
+        offset: Int,
         limit: Int
     ): List<UserModel> {
         insertUsers(users)
-        return searchByUsername(usernameCriteria, limit)
+        return searchByUsername(usernameCriteria, offset, limit)
     }
 
     override suspend fun insertFollowers(userWithFollowersRef: UserWithFollowersRef) {
