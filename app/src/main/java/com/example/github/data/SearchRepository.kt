@@ -10,12 +10,12 @@ import com.example.github.util.log.AppLogger
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 
-class UsersRepository(
+class SearchRepository(
     protected val userDao: IUserDao = DaoProvider.userDao,
     protected val searchApi: ISearchApi = ApiProvider.searchApi
 ) {
     companion object {
-        private const val TAG = "Users repo"
+        private const val TAG = "Search repo"
     }
 
     private var _localSearch: MutableStateFlow<SearchModel?> = MutableStateFlow(null)

@@ -1,7 +1,7 @@
 package com.example.github.vm
 
 import androidx.lifecycle.viewModelScope
-import com.example.github.data.UsersRepository
+import com.example.github.data.SearchRepository
 import com.example.github.data.data.SearchData
 import com.example.github.data.data.UserData
 import com.example.github.model.SearchModel
@@ -15,7 +15,7 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 class SearchViewModel(
-    private val usersRepository: UsersRepository = UsersRepository()
+    private val searchRepository: SearchRepository = SearchRepository()
 ): BaseApiViewModel<SearchData, SearchModel>(TAG, SearchModelMapper::searchModelListToSearchDataList) {
     companion object {
         private const val TAG = "Search VM"
@@ -36,7 +36,7 @@ class SearchViewModel(
 
     init {
         viewModelScope.launch {
-            usersRepository.localSearch.collectLatest {
+            searchRepository.localSearch.collectLatest {
                 if (it == null)
                     return@collectLatest
 
@@ -71,7 +71,7 @@ class SearchViewModel(
 
         if (searchAvailable) {
             fetchData {
-                usersRepository.search(
+                searchRepository.search(
                     USERS_PER_PAGE,
                     currentRemotePage,
                     currentLocalPage++,
