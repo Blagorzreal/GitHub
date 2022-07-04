@@ -37,15 +37,15 @@ class SearchViewModel(
     init {
         viewModelScope.launch {
             searchRepository.localSearch.collectLatest {
-                if (it == null)
-                    return@collectLatest
-
-                if (it.totalCount != null) {
-                    totalLocalPages = (it.totalCount / USERS_PER_PAGE)
-                    if ((it.totalCount % USERS_PER_PAGE) > 0)
-                        totalLocalPages++
-                } else
+                if (it == null) {
                     totalLocalPages = 1
+                    return@collectLatest
+                }
+
+                totalLocalPages = if (it.totalCount != null)
+                    refreshPagesCount(it.totalCount)
+                else
+                    1
 
                 AppLogger.log(tag, "Search users changed: ${it.totalCount}")
                 _items.value?.plusAssign(mapper(it).items)
@@ -87,25 +87,14 @@ class SearchViewModel(
 
         AppLogger.log(TAG, "Search")
 
-        currentRemotePage = 1
-        totalRemotePages = 1
-
-        currentLocalPage = 1
-        totalLocalPages = 1
-
-        _items.value = mutableSetOf()
-
-        _hasMorePages.value = false
-
+        reset()
         loadNextPage()
     }
 
     override fun onData(data: SearchData) {
         super.onData(data)
 
-        totalRemotePages = (data.totalCount / USERS_PER_PAGE)
-        if ((data.totalCount % USERS_PER_PAGE) > 0)
-            totalRemotePages++
+        totalRemotePages = refreshPagesCount(data.totalCount)
 
         currentRemotePage++
 
@@ -120,4 +109,24 @@ class SearchViewModel(
 
     private val searchAvailable get() =
         (totalRemotePages >= currentRemotePage) || (totalLocalPages >= currentLocalPage)
+
+    private fun reset() {
+        currentRemotePage = 1
+        totalRemotePages = 1
+
+        currentLocalPage = 1
+        totalLocalPages = 1
+
+        _items.value = mutableSetOf()
+
+        _hasMorePages.value = false
+    }
+
+    private fun refreshPagesCount(totalCount: Int): Int {
+        var pages = (totalCount / USERS_PER_PAGE)
+        if ((totalCount % USERS_PER_PAGE) > 0)
+            pages++
+
+        return pages
+    }
 }
