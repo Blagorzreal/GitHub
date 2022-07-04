@@ -4,6 +4,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.github.data.SearchRepository
 import com.example.github.data.data.SearchData
 import com.example.github.data.data.UserData
+import com.example.github.data.remote.ResponseResult
 import com.example.github.model.SearchModel
 import com.example.github.util.Constants
 import com.example.github.util.log.AppLogger
@@ -31,6 +32,9 @@ class SearchViewModel(
     private val _hasMorePages: MutableStateFlow<Boolean> = MutableStateFlow(false)
     val hasMorePages: StateFlow<Boolean> = _hasMorePages
 
+    private val _remoteItems: MutableStateFlow<MutableSet<UserData>> = MutableStateFlow(mutableSetOf())
+    private val _localItems: MutableStateFlow<MutableSet<UserData>> = MutableStateFlow(mutableSetOf())
+
     private val _items: MutableStateFlow<MutableSet<UserData>?> = MutableStateFlow(null)
     val items: StateFlow<Set<UserData>?> = _items
 
@@ -49,7 +53,8 @@ class SearchViewModel(
                     nextLocalPage++
 
                     AppLogger.log(tag, "Search users changed: ${it.totalCount}")
-                    _items.value?.plusAssign(newItems)
+
+                    _localItems.value += newItems
                 }
 
                 updateHasMorePages()
@@ -100,9 +105,15 @@ class SearchViewModel(
 
         nextRemotePage++
 
-        _items.value?.plusAssign(data.items)
+        _remoteItems.value += data.items
+        _items.value = _remoteItems.value
 
         updateHasMorePages()
+    }
+
+    override fun onError(error: ResponseResult.ResponseError) {
+        super.onError(error)
+        _items.value = _localItems.value
     }
 
     private fun updateHasMorePages() {
@@ -119,6 +130,8 @@ class SearchViewModel(
         nextLocalPage = 1
         totalLocalPages = 1
 
+        _localItems.value = mutableSetOf()
+        _remoteItems.value = mutableSetOf()
         _items.value = mutableSetOf()
 
         _hasMorePages.value = false
