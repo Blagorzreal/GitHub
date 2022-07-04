@@ -20,7 +20,7 @@ class MockedUserDao: IUserDao {
     override suspend fun searchByUsername(usernameCriteria: String, offset: Int, limit: Int): List<UserModel> =
         emptyList()
 
-    override suspend fun searchColumnCountByUsername(usernameCriteria: String): Int = -1
+    override suspend fun getColumnCountByUsername(usernameCriteria: String): Int = -1
 
     override suspend fun getById(id: Long): UserModel? = users.firstOrNull { it.id == id }
 
