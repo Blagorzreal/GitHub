@@ -33,7 +33,7 @@ class SearchRepository(
         val usernameCriteria = "$username%"
 
         val localUsers = userDao.searchByUsername(usernameCriteria, offset, usersPerPage)
-        val totalCount = userDao.searchColumnCountByUsername(usernameCriteria)
+        val totalCount = userDao.getColumnCountByUsername(usernameCriteria)
         _localSearch.value = SearchModel(totalCount, localUsers)
 
         val result = searchApi.search(usersPerPage, remotePage, username)

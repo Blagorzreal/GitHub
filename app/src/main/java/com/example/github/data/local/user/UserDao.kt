@@ -13,7 +13,7 @@ interface UserDao: IUserDao {
     override suspend fun searchByUsername(usernameCriteria: String, offset: Int, limit: Int): List<UserModel>
 
     @Query("SELECT COUNT(owner_id) FROM UserModel WHERE login LIKE :usernameCriteria")
-    override suspend fun searchColumnCountByUsername(usernameCriteria: String): Int
+    override suspend fun getColumnCountByUsername(usernameCriteria: String): Int
 
     @Query("SELECT * FROM UserModel WHERE owner_id = :id")
     override suspend fun getById(id: Long): UserModel?
