@@ -37,18 +37,20 @@ class SearchViewModel(
     init {
         viewModelScope.launch {
             searchRepository.localSearch.collectLatest {
-                if (it == null) {
+                if (it?.totalCount == null) {
                     totalLocalPages = 1
                     return@collectLatest
                 }
 
-                totalLocalPages = if (it.totalCount != null)
-                    refreshPagesCount(it.totalCount)
-                else
-                    1
+                totalLocalPages = refreshPagesCount(it.totalCount)
 
-                AppLogger.log(tag, "Search users changed: ${it.totalCount}")
-                _items.value?.plusAssign(mapper(it).items)
+                val newItems = mapper(it).items
+                if (newItems.isNotEmpty()) {
+                    currentLocalPage++
+
+                    AppLogger.log(tag, "Search users changed: ${it.totalCount}")
+                    _items.value?.plusAssign(newItems)
+                }
 
                 updateHasMorePages()
             }
@@ -74,7 +76,7 @@ class SearchViewModel(
                 searchRepository.search(
                     USERS_PER_PAGE,
                     currentRemotePage,
-                    currentLocalPage++,
+                    currentLocalPage,
                     _searchText.value.trim()
                 )
             }

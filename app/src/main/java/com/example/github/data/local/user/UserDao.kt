@@ -44,17 +44,6 @@ interface UserDao: IUserDao {
     override suspend fun deleteAll()
 
     @Transaction
-    override suspend fun insertUsersAndSearchByUsername(
-        users: List<UserModel>,
-        usernameCriteria: String,
-        offset: Int,
-        limit: Int
-    ): List<UserModel> {
-        insertUsers(users)
-        return searchByUsername(usernameCriteria, offset, limit)
-    }
-
-    @Transaction
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     override suspend fun insertFollowers(userWithFollowersRef: UserWithFollowersRef)
 

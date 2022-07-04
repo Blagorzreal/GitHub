@@ -14,7 +14,6 @@ interface IUserDao {
     suspend fun updateUsernameAvatar(id: Long, name: String, avatarUrl: String?)
     suspend fun updateUserFollowersFollowing(id: Long, followers: Long, following: Long)
     suspend fun deleteAll()
-    suspend fun insertUsersAndSearchByUsername(users: List<UserModel>, usernameCriteria: String, offset: Int, limit: Int): List<UserModel>
     suspend fun insertFollowers(userWithFollowersRef: UserWithFollowersRef)
     suspend fun insertUsersAsFollowers(id: Long, followers: List<UserModel>)
     fun getFollowers(ownerId: Long): Flow<UserWithFollowersRelation>

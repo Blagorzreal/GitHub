@@ -30,10 +30,9 @@ class SearchRepository(
         AppLogger.log(TAG, "Search")
 
         val offset = (localPage - 1) * usersPerPage
-        val limit = localPage * usersPerPage
         val usernameCriteria = "$username%"
 
-        val localUsers = userDao.searchByUsername(usernameCriteria, offset, limit)
+        val localUsers = userDao.searchByUsername(usernameCriteria, offset, usersPerPage)
         val totalCount = userDao.searchColumnCountByUsername(usernameCriteria)
         _localSearch.value = SearchModel(totalCount, localUsers)
 
@@ -41,14 +40,7 @@ class SearchRepository(
         if (result is ResponseResult.Success) {
             AppLogger.log(TAG, "Insert remote users to the db")
 
-            val newLocalUsers = userDao.insertUsersAndSearchByUsername(
-                result.model.items,
-                usernameCriteria,
-                offset,
-                limit
-            )
-
-            _localSearch.value = SearchModel(newLocalUsers.size, newLocalUsers)
+            userDao.insertUsers(result.model.items)
         }
 
         return result
