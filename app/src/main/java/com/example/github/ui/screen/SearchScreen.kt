@@ -79,9 +79,9 @@ fun SearchScreen(
                         UserItem(
                             navController = navController,
                             usersState = searchViewModel.items.collectAsState(),
-                            hasNextPageState = searchViewModel.hasNextPage.collectAsState(),
+                            hasMorePagesState = searchViewModel.hasMorePages.collectAsState(),
                             isLoadingState = searchViewModel.isLoading.collectAsState(),
-                            searchNextPage = searchViewModel::searchNextPage,
+                            loadNextPage = searchViewModel::loadNextPage,
                             lazyListState = rememberLazyListState()
                         )
                     }
@@ -177,8 +177,8 @@ private fun UserItem(
     navController: NavHostController,
     usersState: State<Set<UserData>?>,
     isLoadingState: State<Boolean>,
-    hasNextPageState: State<Boolean>,
-    searchNextPage: () -> Unit,
+    hasMorePagesState: State<Boolean>,
+    loadNextPage: () -> Unit,
     lazyListState: LazyListState
 ) {
     if (isLoadingState.value)
@@ -204,11 +204,11 @@ private fun UserItem(
                 }
             }
 
-            if (hasNextPageState.value) {
+            if (hasMorePagesState.value) {
                 item {
                     CommonRow {
-                        Button(onClick = searchNextPage, enabled = !isLoadingState.value) {
-                            Text(stringResource(R.string.next))
+                        Button(onClick = loadNextPage, enabled = !isLoadingState.value) {
+                            Text(stringResource(R.string.more))
                         }
                     }
                 }

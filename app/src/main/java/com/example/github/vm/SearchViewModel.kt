@@ -28,8 +28,8 @@ class SearchViewModel(
     private var currentLocalPage = 1
     private var totalLocalPages = 1
 
-    private val _hasNextPage: MutableStateFlow<Boolean> = MutableStateFlow(false)
-    val hasNextPage: StateFlow<Boolean> = _hasNextPage
+    private val _hasMorePages: MutableStateFlow<Boolean> = MutableStateFlow(false)
+    val hasMorePages: StateFlow<Boolean> = _hasMorePages
 
     private val _items: MutableStateFlow<MutableSet<UserData>?> = MutableStateFlow(null)
     val items: StateFlow<Set<UserData>?> = _items
@@ -50,7 +50,7 @@ class SearchViewModel(
                 AppLogger.log(tag, "Search users changed: ${it.totalCount}")
                 _items.value?.plusAssign(mapper(it).items)
 
-                updateHasNextPage()
+                updateHasMorePages()
             }
         }
     }
@@ -63,11 +63,11 @@ class SearchViewModel(
         _searchText.value = text
     }
 
-    fun searchNextPage() {
+    fun loadNextPage() {
         if (isLoading.value)
             return
 
-        AppLogger.log(TAG, "Search page: $currentRemotePage of $totalRemotePages")
+        AppLogger.log(TAG, "Load page: $currentRemotePage of $totalRemotePages")
 
         if (searchAvailable) {
             fetchData {
@@ -95,9 +95,9 @@ class SearchViewModel(
 
         _items.value = mutableSetOf()
 
-        _hasNextPage.value = false
+        _hasMorePages.value = false
 
-        searchNextPage()
+        loadNextPage()
     }
 
     override fun onData(data: SearchData) {
@@ -111,11 +111,11 @@ class SearchViewModel(
 
         _items.value?.plusAssign(data.items)
 
-        updateHasNextPage()
+        updateHasMorePages()
     }
 
-    private fun updateHasNextPage() {
-        _hasNextPage.value = searchAvailable
+    private fun updateHasMorePages() {
+        _hasMorePages.value = searchAvailable
     }
 
     private val searchAvailable get() =
