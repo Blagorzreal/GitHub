@@ -22,10 +22,10 @@ class SearchViewModel(
         private const val USERS_PER_PAGE = 30
     }
 
-    private var currentRemotePage = 1
+    private var nextRemotePage = 1
     private var totalRemotePages = 1
 
-    private var currentLocalPage = 1
+    private var nextLocalPage = 1
     private var totalLocalPages = 1
 
     private val _hasMorePages: MutableStateFlow<Boolean> = MutableStateFlow(false)
@@ -46,7 +46,7 @@ class SearchViewModel(
 
                 val newItems = mapper(it).items
                 if (newItems.isNotEmpty()) {
-                    currentLocalPage++
+                    nextLocalPage++
 
                     AppLogger.log(tag, "Search users changed: ${it.totalCount}")
                     _items.value?.plusAssign(newItems)
@@ -69,15 +69,15 @@ class SearchViewModel(
         if (isLoading.value)
             return
 
-        AppLogger.log(TAG, "Load page: $currentRemotePage of $totalRemotePages")
+        AppLogger.log(TAG, "Load page: $nextRemotePage of $totalRemotePages, $nextLocalPage of $totalLocalPages")
 
         if (searchAvailable) {
             fetchData {
                 searchRepository.search(
-                    USERS_PER_PAGE,
-                    currentRemotePage,
-                    currentLocalPage,
-                    _searchText.value.trim()
+                    _searchText.value.trim(),
+                    nextRemotePage,
+                    nextLocalPage,
+                    USERS_PER_PAGE
                 )
             }
         }
@@ -98,7 +98,7 @@ class SearchViewModel(
 
         totalRemotePages = refreshPagesCount(data.totalCount)
 
-        currentRemotePage++
+        nextRemotePage++
 
         _items.value?.plusAssign(data.items)
 
@@ -110,13 +110,13 @@ class SearchViewModel(
     }
 
     private val searchAvailable get() =
-        (totalRemotePages >= currentRemotePage) || (totalLocalPages >= currentLocalPage)
+        (totalRemotePages >= nextRemotePage) || (totalLocalPages >= nextLocalPage)
 
     private fun reset() {
-        currentRemotePage = 1
+        nextRemotePage = 1
         totalRemotePages = 1
 
-        currentLocalPage = 1
+        nextLocalPage = 1
         totalLocalPages = 1
 
         _items.value = mutableSetOf()

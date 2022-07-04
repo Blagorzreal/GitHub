@@ -22,10 +22,10 @@ class SearchRepository(
     var localSearch: Flow<SearchModel?> = _localSearch
 
     suspend fun search(
-        usersPerPage: Int,
+        username: String,
         remotePage: Int,
         localPage: Int,
-        username: String
+        usersPerPage: Int
     ): ResponseResult<SearchModel> {
         AppLogger.log(TAG, "Search")
 
