@@ -175,7 +175,7 @@ private fun clearFocusAndSearch(focusManager: FocusManager, search: () -> Unit) 
 @Composable
 private fun UserItem(
     navController: NavHostController,
-    usersState: State<Set<UserData>?>,
+    usersState: State<List<UserData>?>,
     isLoadingState: State<Boolean>,
     hasMorePagesState: State<Boolean>,
     loadNextPage: () -> Unit,
@@ -192,7 +192,7 @@ private fun UserItem(
             .padding(top = 6.dp), state = lazyListState
     ) {
         if (users.isNotEmpty()) {
-            items(users.toList()) {
+            items(users) {
                 Column(
                     Modifier
                         .fillMaxWidth()

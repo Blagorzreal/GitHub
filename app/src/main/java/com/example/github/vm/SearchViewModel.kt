@@ -32,11 +32,11 @@ class SearchViewModel(
     private val _hasMorePages: MutableStateFlow<Boolean> = MutableStateFlow(false)
     val hasMorePages: StateFlow<Boolean> = _hasMorePages
 
-    private val _remoteItems: MutableStateFlow<MutableSet<UserData>> = MutableStateFlow(mutableSetOf())
-    private val _localItems: MutableStateFlow<MutableSet<UserData>> = MutableStateFlow(mutableSetOf())
+    private val remoteItems = mutableListOf<UserData>()
+    private val localItems = mutableListOf<UserData>()
 
-    private val _items: MutableStateFlow<MutableSet<UserData>?> = MutableStateFlow(null)
-    val items: StateFlow<Set<UserData>?> = _items
+    private val _items: MutableStateFlow<List<UserData>?> = MutableStateFlow(null)
+    val items: StateFlow<List<UserData>?> = _items
 
     init {
         viewModelScope.launch {
@@ -54,7 +54,7 @@ class SearchViewModel(
 
                     AppLogger.log(tag, "Search users changed: ${it.totalCount}")
 
-                    _localItems.value += newItems
+                    localItems += newItems
                 }
 
                 updateHasMorePages()
@@ -105,15 +105,15 @@ class SearchViewModel(
 
         nextRemotePage++
 
-        _remoteItems.value += data.items
-        _items.value = _remoteItems.value
+        remoteItems += data.items
+        _items.value = remoteItems
 
         updateHasMorePages()
     }
 
     override fun onError(error: ResponseResult.ResponseError) {
         super.onError(error)
-        _items.value = _localItems.value
+        _items.value = localItems
     }
 
     private fun updateHasMorePages() {
@@ -130,9 +130,9 @@ class SearchViewModel(
         nextLocalPage = 1
         totalLocalPages = 1
 
-        _localItems.value = mutableSetOf()
-        _remoteItems.value = mutableSetOf()
-        _items.value = mutableSetOf()
+        localItems.clear()
+        remoteItems.clear()
+        _items.value = listOf()
 
         _hasMorePages.value = false
     }
