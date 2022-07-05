@@ -6,6 +6,8 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import dagger.multibindings.IntoMap
+import dagger.multibindings.StringKey
 import javax.inject.Singleton
 
 @Module
@@ -16,5 +18,7 @@ class MockedAuthApi: IAuthApi {
 
     @Provides
     @Singleton
-    fun provideMockedAuthApi() = MockedAuthApi()
+    @IntoMap
+    @StringKey("mocked")
+    fun provideMockedAuthApi(): IAuthApi = MockedAuthApi()
 }

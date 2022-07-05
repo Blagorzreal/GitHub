@@ -9,6 +9,8 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import dagger.multibindings.IntoMap
+import dagger.multibindings.StringKey
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Path
@@ -37,5 +39,7 @@ class AuthApi: IAuthApi {
 
     @Provides
     @Singleton
-    fun provideAuthApi() = AuthApi()
+    @IntoMap
+    @StringKey("production")
+    fun provideAuthApi(): IAuthApi = AuthApi()
 }

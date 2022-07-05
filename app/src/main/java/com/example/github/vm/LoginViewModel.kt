@@ -3,7 +3,6 @@ package com.example.github.vm
 import com.example.github.data.LoginSession
 import com.example.github.data.data.UserData
 import com.example.github.data.remote.auth.IAuthApi
-import com.example.github.di.AuthApiQualifier
 import com.example.github.model.UserModel
 import com.example.github.ui.screen.login.UsernameValidationError
 import com.example.github.util.Constants.Companion.EMPTY_STRING
@@ -21,7 +20,6 @@ import javax.inject.Inject
 class LoginViewModel @Inject constructor()
     : BaseApiViewModel<UserData, UserModel>(TAG, UserModelMapper::userModelToUserData) {
 
-    @AuthApiQualifier
     @Inject lateinit var authApi: IAuthApi
 
     companion object {

@@ -1,8 +1,6 @@
 package com.example.github.data.remote
 
 import com.example.github.BuildConfig
-import com.example.github.data.remote.auth.AuthApi
-import com.example.github.data.remote.auth.MockedAuthApi
 import com.example.github.data.remote.followers.FollowersApi
 import com.example.github.data.remote.followers.MockedFollowersAPi
 import com.example.github.data.remote.repos.MockedReposApi
@@ -53,13 +51,6 @@ class ApiProvider private constructor() {
                 AppLogger.log(tag, "Invalid response", LogType.Warning)
                 ResponseResult.InvalidResponseError
             }
-        }
-
-        val authApi by lazy {
-            if (isMocked)
-                MockedAuthApi()
-            else
-                AuthApi()
         }
 
         val userApi by lazy {
