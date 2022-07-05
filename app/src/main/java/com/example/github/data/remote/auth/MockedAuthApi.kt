@@ -1,5 +1,6 @@
 package com.example.github.data.remote.auth
 
+import com.example.github.BuildConfig
 import com.example.github.data.remote.ResponseResult
 import com.example.github.model.UserModel
 import dagger.Module
@@ -19,6 +20,6 @@ class MockedAuthApi: IAuthApi {
     @Provides
     @Singleton
     @IntoMap
-    @StringKey("mocked")
+    @StringKey(BuildConfig.FLAVOR_MOCKED)
     fun provideMockedAuthApi(): IAuthApi = MockedAuthApi()
 }

@@ -1,5 +1,6 @@
 package com.example.github.data.remote.auth
 
+import com.example.github.BuildConfig
 import com.example.github.data.remote.ApiProvider
 import com.example.github.data.remote.ResponseResult
 import com.example.github.model.UserModel
@@ -40,6 +41,6 @@ class AuthApi: IAuthApi {
     @Provides
     @Singleton
     @IntoMap
-    @StringKey("production")
+    @StringKey(BuildConfig.FLAVOR_PRODUCTION)
     fun provideAuthApi(): IAuthApi = AuthApi()
 }

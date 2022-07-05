@@ -7,7 +7,7 @@ import com.example.github.util.log.AppLogger
 import com.example.github.util.log.LogType
 import dagger.hilt.android.HiltAndroidApp
 
-const val isMocked = (BuildConfig.FLAVOR == "mocked")
+const val isMocked = (BuildConfig.FLAVOR == BuildConfig.FLAVOR_MOCKED)
 
 @HiltAndroidApp
 class MainApplication: Application() {
