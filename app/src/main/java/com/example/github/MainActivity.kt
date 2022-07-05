@@ -28,7 +28,9 @@ import com.example.github.ui.screen.SearchScreen
 import com.example.github.ui.screen.UserScreen
 import com.example.github.ui.theme.GitHubTheme
 import com.example.github.util.log.AppLogger
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity: ComponentActivity() {
     companion object {
         private const val TAG = "Main activity"

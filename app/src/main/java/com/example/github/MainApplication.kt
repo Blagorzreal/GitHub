@@ -5,9 +5,11 @@ import com.example.github.data.LoginSession
 import com.example.github.data.local.DaoProvider
 import com.example.github.util.log.AppLogger
 import com.example.github.util.log.LogType
+import dagger.hilt.android.HiltAndroidApp
 
 const val isMocked = (BuildConfig.FLAVOR == "mocked")
 
+@HiltAndroidApp
 class MainApplication: Application() {
     companion object {
         private const val TAG = "App"

@@ -21,7 +21,7 @@ import androidx.compose.ui.text.input.*
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.example.github.R
 import com.example.github.data.data.UserData
@@ -34,7 +34,7 @@ import com.example.github.ui.view.ResponseError
 import com.example.github.vm.LoginViewModel
 
 @Composable
-fun LoginScreen(navController: NavHostController, loginViewModel: LoginViewModel = viewModel()) {
+fun LoginScreen(navController: NavHostController, loginViewModel: LoginViewModel = hiltViewModel()) {
     val focusManager = LocalFocusManager.current
 
     HandleLogin(navController, loginViewModel.data.collectAsState())

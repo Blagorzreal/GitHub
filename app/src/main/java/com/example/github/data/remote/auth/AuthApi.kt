@@ -5,10 +5,17 @@ import com.example.github.data.remote.ResponseResult
 import com.example.github.model.UserModel
 import com.example.github.util.Constants.Companion.USERNAME
 import com.example.github.util.Constants.Companion.USERS
+import dagger.Module
+import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Path
+import javax.inject.Singleton
 
+@Module
+@InstallIn(SingletonComponent::class)
 class AuthApi: IAuthApi {
     companion object {
         private const val TAG = "AuthApi"
@@ -27,4 +34,8 @@ class AuthApi: IAuthApi {
         ApiProvider.requestUnsafe(TAG, authApi.login(username)) {
             (it?.login?.isNotBlank() == true)
         }
+
+    @Provides
+    @Singleton
+    fun provideAuthApi() = AuthApi()
 }
