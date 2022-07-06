@@ -1,4 +1,4 @@
-package com.example.github.di
+package com.example.github.di.remote
 
 import com.example.github.BuildConfig
 import com.example.github.data.remote.search.ISearchApi

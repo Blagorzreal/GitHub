@@ -1,4 +1,4 @@
-package com.example.github.di
+package com.example.github.di.local.dao
 
 import com.example.github.BuildConfig
 import com.example.github.data.local.user.IUserDao
