@@ -4,23 +4,12 @@ import android.content.Context
 import com.example.github.data.local.repos.IReposDao
 import com.example.github.data.local.repos.MockedReposDao
 import com.example.github.data.local.repos.ReposDBProvider
-import com.example.github.data.local.user.IUserDao
-import com.example.github.data.local.user.MockedUserDao
-import com.example.github.data.local.user.UserDBProvider
 import com.example.github.isMocked
 
 class DaoProvider private constructor() {
     companion object {
         fun init(context: Context) {
-            UserDBProvider.init(context)
             ReposDBProvider.init(context)
-        }
-
-        val userDao: IUserDao by lazy {
-            if (isMocked)
-                MockedUserDao()
-            else
-                UserDBProvider.instance.userDao()
         }
 
         val reposDao: IReposDao by lazy {
@@ -32,7 +21,6 @@ class DaoProvider private constructor() {
 
         suspend fun clean() {
             reposDao.deleteAll()
-            userDao.deleteAll()
         }
     }
 }

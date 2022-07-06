@@ -1,25 +1,11 @@
 package com.example.github.data.local.user
 
-import android.content.Context
-import androidx.room.Room
-import com.example.github.util.log.AppLogger
+import com.example.github.BuildConfig
+import dagger.Module
+import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
+import dagger.multibindings.IntoMap
+import dagger.multibindings.StringKey
+import javax.inject.Singleton
 
-class UserDBProvider private constructor() {
-    companion object {
-        private const val TAG = "UserDB"
-        private const val REPO_TABLE_NAME = "user"
-
-        lateinit var instance: UserDB
-        private set
-
-        fun init(context: Context) {
-            AppLogger.log(TAG, "Initialized")
-
-            instance = Room.databaseBuilder(
-                context,
-                UserDB::class.java,
-                REPO_TABLE_NAME
-            ).build()
-        }
-    }
-}

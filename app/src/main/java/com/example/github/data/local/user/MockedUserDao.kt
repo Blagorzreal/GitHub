@@ -1,12 +1,22 @@
 package com.example.github.data.local.user
 
+import com.example.github.BuildConfig
 import com.example.github.data.MockedData.Companion.users
 import com.example.github.model.UserModel
 import com.example.github.model.relation.UserWithFollowersRef
 import com.example.github.model.relation.UserWithFollowersRelation
+import dagger.Module
+import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
+import dagger.multibindings.IntoMap
+import dagger.multibindings.StringKey
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
+import javax.inject.Singleton
 
+@InstallIn(SingletonComponent::class)
+@Module
 class MockedUserDao: IUserDao {
     private val followers = mutableListOf(
         UserModel(7, "test7", 12, 7, null),
@@ -44,4 +54,10 @@ class MockedUserDao: IUserDao {
 
     override fun getFollowers(ownerId: Long): Flow<UserWithFollowersRelation> =
         flow { emit(UserWithFollowersRelation(users[0], followers)) }
+
+    @Provides
+    @Singleton
+    @IntoMap
+    @StringKey(BuildConfig.FLAVOR_MOCKED)
+    fun provideUserDao(): IUserDao = MockedUserDao()
 }

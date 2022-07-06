@@ -10,11 +10,12 @@ import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import dagger.multibindings.IntoMap
 import dagger.multibindings.StringKey
+import javax.inject.Inject
 import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-class MockedSearchApi: ISearchApi {
+class MockedSearchApi @Inject constructor(): ISearchApi {
     override suspend fun search(
         usersPerPage: Int,
         page: Int,

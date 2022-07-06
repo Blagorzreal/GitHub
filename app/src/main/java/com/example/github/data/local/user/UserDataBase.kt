@@ -7,6 +7,6 @@ import com.example.github.model.UserModel
 import com.example.github.model.relation.UserWithFollowersRef
 
 @Database(entities = [RepoModel::class, UserModel::class, UserWithFollowersRef::class], version = 1)
-abstract class UserDB: RoomDatabase() {
+abstract class UserDataBase: RoomDatabase() {
     abstract fun userDao(): UserDao
 }
