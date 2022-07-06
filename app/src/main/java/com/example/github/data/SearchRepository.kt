@@ -2,21 +2,21 @@ package com.example.github.data
 
 import com.example.github.data.local.DaoProvider
 import com.example.github.data.local.user.IUserDao
-import com.example.github.data.remote.ApiProvider
 import com.example.github.data.remote.ResponseResult
 import com.example.github.data.remote.search.ISearchApi
 import com.example.github.model.SearchModel
 import com.example.github.util.log.AppLogger
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
+import javax.inject.Inject
 
-class SearchRepository(
-    protected val userDao: IUserDao = DaoProvider.userDao,
-    protected val searchApi: ISearchApi = ApiProvider.searchApi
-) {
+class SearchRepository @Inject constructor() {
     companion object {
         private const val TAG = "Search repo"
     }
+
+    protected val userDao: IUserDao = DaoProvider.userDao
+    @Inject lateinit var searchApi: ISearchApi
 
     private var _localSearch: MutableStateFlow<SearchModel?> = MutableStateFlow(null)
     var localSearch: Flow<SearchModel?> = _localSearch

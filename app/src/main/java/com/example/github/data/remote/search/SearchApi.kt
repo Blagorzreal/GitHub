@@ -1,12 +1,22 @@
 package com.example.github.data.remote.search
 
+import com.example.github.BuildConfig
 import com.example.github.data.remote.ApiProvider
 import com.example.github.data.remote.ResponseResult
 import com.example.github.model.SearchModel
+import dagger.Module
+import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
+import dagger.multibindings.IntoMap
+import dagger.multibindings.StringKey
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Query
+import javax.inject.Singleton
 
+@Module
+@InstallIn(SingletonComponent::class)
 class SearchApi: ISearchApi {
     companion object {
         private const val TAG = "SearchApi"
@@ -32,4 +42,10 @@ class SearchApi: ISearchApi {
         page: Int,
         username: String
     ): ResponseResult<SearchModel> = ApiProvider.requestUnsafe(TAG, searchApi.search(usersPerPage, page, "$username $IN_LOGIN"))
+
+    @Provides
+    @Singleton
+    @IntoMap
+    @StringKey(BuildConfig.FLAVOR_PRODUCTION)
+    fun provideSearchApi(): ISearchApi = SearchApi()
 }

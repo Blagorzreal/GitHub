@@ -1,9 +1,19 @@
 package com.example.github.data.remote.search
 
+import com.example.github.BuildConfig
 import com.example.github.data.MockedData
 import com.example.github.data.remote.ResponseResult
 import com.example.github.model.SearchModel
+import dagger.Module
+import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
+import dagger.multibindings.IntoMap
+import dagger.multibindings.StringKey
+import javax.inject.Singleton
 
+@Module
+@InstallIn(SingletonComponent::class)
 class MockedSearchApi: ISearchApi {
     override suspend fun search(
         usersPerPage: Int,
@@ -21,4 +31,10 @@ class MockedSearchApi: ISearchApi {
                 )
             )
         )
+
+    @Provides
+    @Singleton
+    @IntoMap
+    @StringKey(BuildConfig.FLAVOR_MOCKED)
+    fun provideSearchApi(): ISearchApi = MockedSearchApi()
 }

@@ -20,6 +20,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.example.github.R
@@ -38,7 +39,8 @@ import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 fun SearchScreen(
     userData: UserData?,
     navController: NavHostController,
-    searchViewModel: SearchViewModel = viewModel()) {
+    searchViewModel: SearchViewModel = hiltViewModel()
+) {
 
     var hideFollowers by rememberSaveable { mutableStateOf(userData == null) }
 

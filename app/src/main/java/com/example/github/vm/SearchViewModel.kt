@@ -10,14 +10,17 @@ import com.example.github.util.Constants
 import com.example.github.util.log.AppLogger
 import com.example.github.util.mapper.SearchModelMapper
 import com.example.github.vm.base.BaseApiViewModel
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class SearchViewModel(
-    private val searchRepository: SearchRepository = SearchRepository()
-): BaseApiViewModel<SearchData, SearchModel>(TAG, SearchModelMapper::searchModelListToSearchDataList) {
+@HiltViewModel
+class SearchViewModel @Inject constructor(private val searchRepository: SearchRepository)
+    : BaseApiViewModel<SearchData, SearchModel>(TAG, SearchModelMapper::searchModelListToSearchDataList) {
+
     companion object {
         private const val TAG = "Search VM"
         private const val USERS_PER_PAGE = 30
