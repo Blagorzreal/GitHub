@@ -27,9 +27,5 @@ class DaoProvider private constructor() {
             else
                 ReposDBProvider.instance.reposDao()
         }
-
-        suspend fun clean() {
-            reposDao.deleteAll()
-        }
     }
 }

@@ -30,7 +30,7 @@ import com.example.github.vm.UserViewModel
 fun ProfileScreen(
     navController: NavHostController,
     userData: UserData,
-    profileViewModel: ProfileViewModel = viewModel(),
+    profileViewModel: ProfileViewModel = hiltViewModel(),
     userViewModel: UserViewModel = hiltViewModel(),
     starredReposViewModel: StarredReposViewModel = viewModel(factory = UserDataViewModelFactory(userData, ViewModelType.StarredRepos))) {
 
