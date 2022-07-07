@@ -25,7 +25,7 @@ import com.example.github.vm.UserViewModel
 fun InfoButtons(navController: NavHostController, userViewModel: UserViewModel) {
     InfoButton(R.string.followers, userViewModel.followers.collectAsState()) {
         navController.navigate(Route.Search.route)
-        navController.currentBackStackEntry?.savedStateHandle?.set(Route.USER_DATA, userViewModel.userData)
+        navController.currentBackStackEntry?.arguments?.putParcelable(Route.USER_DATA, userViewModel.userData)
     }
 
     val context = LocalContext.current

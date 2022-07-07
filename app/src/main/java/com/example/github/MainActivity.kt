@@ -12,9 +12,11 @@ import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import com.example.github.data.LoginSession
 import com.example.github.data.data.RepoData
 import com.example.github.data.data.UserData
@@ -60,14 +62,27 @@ class MainActivity: ComponentActivity() {
                             LoginScreen(navController)
                         }
 
-                        composable(Route.Profile.route) {
+                        composable(
+                            route = Route.Profile.route,
+                            arguments = listOf(
+                                navArgument(USER_DATA) {
+                                    type = NavType.ParcelableType(UserData::class.java)
+                                    nullable = true
+                                    defaultValue = LoginSession.userData
+                                },
+                            )) {
+
                             BackHandler(true) {
                                 moveTaskToBack(true)
                             }
 
-                            val userData = LoginSession.userData
+                            val userData = it.arguments?.get(USER_DATA) as? UserData
                             if (userData != null)
                                 ProfileScreen(navController, userData)
+                            else {
+                                showCommonError(this@MainActivity)
+                                navController.popBackStack()
+                            }
                         }
 
                         composable(route = Route.Repository.route) {
@@ -80,8 +95,13 @@ class MainActivity: ComponentActivity() {
                             }
                         }
 
-                        composable(route = Route.User.route) {
-                            val userData = it.savedStateHandle.get<UserData>(USER_DATA)
+                        composable(
+                            route = Route.User.route,
+                            arguments = listOf(
+                                navArgument(USER_DATA) { type = NavType.ParcelableType(UserData::class.java) },
+                            )) {
+
+                            val userData = it.arguments?.get(USER_DATA) as? UserData
                             if (userData != null)
                                 UserScreen(navController, userData)
                             else {
@@ -90,8 +110,17 @@ class MainActivity: ComponentActivity() {
                             }
                         }
 
-                        composable(route = Route.Search.route) {
-                            SearchScreen(it.savedStateHandle.get<UserData>(USER_DATA), navController)
+                        composable(
+                            route = Route.Search.route,
+                            arguments = listOf(
+                                navArgument(USER_DATA) {
+                                    type = NavType.ParcelableType(UserData::class.java)
+                                    nullable = true
+                                    defaultValue = null
+                                }
+                            )) {
+
+                            SearchScreen(it.arguments?.get(USER_DATA) as? UserData, navController)
                         }
                     }
                 }

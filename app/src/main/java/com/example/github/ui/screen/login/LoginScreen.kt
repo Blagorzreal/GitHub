@@ -26,11 +26,9 @@ import androidx.navigation.NavHostController
 import com.example.github.R
 import com.example.github.data.data.UserData
 import com.example.github.ui.navigation.Route
+import com.example.github.ui.navigation.Route.Companion.USER_DATA
 import com.example.github.ui.theme.Typography
-import com.example.github.ui.view.CommonSpacer
-import com.example.github.ui.view.CommonTextField
-import com.example.github.ui.view.InclusiveNavigation
-import com.example.github.ui.view.ResponseError
+import com.example.github.ui.view.*
 import com.example.github.vm.LoginViewModel
 
 @Composable
@@ -82,8 +80,12 @@ fun LoginScreen(navController: NavHostController, loginViewModel: LoginViewModel
 
 @Composable
 private fun HandleLogin(navController: NavHostController, userData: State<UserData?>) {
-    if (userData.value != null)
-        InclusiveNavigation(navController, Route.Profile, Route.Login)
+    if (userData.value != null) {
+        LaunchedEffect(true) {
+            inclusiveNavigation(navController, Route.Profile, Route.Login)
+            navController.currentBackStackEntry?.arguments?.putParcelable(USER_DATA, userData.value)
+        }
+    }
 }
 
 private fun clearFocusAndLogin(focusManager: FocusManager, login: () -> Unit) {

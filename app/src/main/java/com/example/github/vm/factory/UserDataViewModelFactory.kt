@@ -7,13 +7,11 @@ import com.example.github.util.Constants
 import com.example.github.vm.FollowersViewModel
 import com.example.github.vm.ReposViewModel
 import com.example.github.vm.StarredReposViewModel
-import com.example.github.vm.UserViewModel
 import com.example.github.vm.base.BaseViewModel
 
 enum class ViewModelType {
     Repos,
     StarredRepos,
-    User,
     Followers
 }
 
@@ -26,7 +24,6 @@ class UserDataViewModelFactory(
         when (viewModelType) {
             ViewModelType.Repos -> createVMInstance(modelClass) { ReposViewModel(userData = userData) }
             ViewModelType.StarredRepos -> createVMInstance(modelClass) { StarredReposViewModel(userData) }
-            ViewModelType.User -> createVMInstance(modelClass) { UserViewModel(userData) }
             ViewModelType.Followers -> createVMInstance(modelClass) { FollowersViewModel(userData) }
         }
 

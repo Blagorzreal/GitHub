@@ -9,6 +9,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.example.github.R
@@ -23,7 +24,7 @@ import com.example.github.vm.ReposViewModel
 fun UserScreen(
     navController: NavHostController,
     userData: UserData,
-    userViewModel: UserViewModel = viewModel(factory = UserDataViewModelFactory(userData, ViewModelType.User)),
+    userViewModel: UserViewModel = hiltViewModel(),
     reposViewModel: ReposViewModel = viewModel(factory = UserDataViewModelFactory(userData, ViewModelType.Repos))) {
 
     val ownLazyListState = rememberLazyListState()

@@ -12,6 +12,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
@@ -30,7 +31,7 @@ fun ProfileScreen(
     navController: NavHostController,
     userData: UserData,
     profileViewModel: ProfileViewModel = viewModel(),
-    userViewModel: UserViewModel = viewModel(factory = UserDataViewModelFactory(userData, ViewModelType.User)),
+    userViewModel: UserViewModel = hiltViewModel(),
     starredReposViewModel: StarredReposViewModel = viewModel(factory = UserDataViewModelFactory(userData, ViewModelType.StarredRepos))) {
 
     val ownLazyListState = rememberLazyListState()
@@ -133,6 +134,9 @@ fun ProfileScreen(
 
 @Composable
 private fun HandleLogout(navController: NavHostController, isLoggedOutState: State<Boolean>) {
-    if (isLoggedOutState.value)
-        InclusiveNavigation(navController, Route.Login, Route.Profile)
+    if (isLoggedOutState.value) {
+        LaunchedEffect(true) {
+            inclusiveNavigation(navController, Route.Login, Route.Profile)
+        }
+    }
 }

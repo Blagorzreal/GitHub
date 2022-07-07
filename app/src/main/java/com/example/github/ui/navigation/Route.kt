@@ -7,7 +7,7 @@ import com.example.github.ui.view.inclusiveNavigation
 
 sealed class Route(val route: String) {
     object Login: Route("login")
-    object Profile: Route("starred")
+    object Profile: Route("profile")
     object Repository: Route("repository")
     object User: Route("user")
     object Search: Route("search")
@@ -25,7 +25,7 @@ sealed class Route(val route: String) {
             else
                 navController.navigate(User.route)
 
-            navController.currentBackStackEntry?.savedStateHandle?.set(USER_DATA, userData)
+            navController.currentBackStackEntry?.arguments?.putParcelable(USER_DATA, userData)
         }
     }
 }
