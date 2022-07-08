@@ -16,14 +16,12 @@ There is 1 module that is built as part of the GitHub Android App.
 *  `app` - Contains logic for everyting (views, models, preferences, view models, remote apis, databases).
 
 ### Known issues in latest version
-* Search shows only one page in offline mode.
 * Mocked environment can be improved drastically.
 
 ### TODO
 * User "following" stuff is not implemented.
 * Repository "contributors" stuff is not implemented.
 * UserModel shouldn't be embedded into the RepoModel.
-* Migrating to hilt lib.
 * No available internet connection case should be handled additionally.
 * Fetch data for current screen when "onResume" is called.
 * Search validation (similar to the login username validation) should be implemented.
