@@ -85,8 +85,16 @@ class MainActivity: ComponentActivity() {
                             }
                         }
 
-                        composable(route = Route.Repository.route) {
-                            val repoData = it.savedStateHandle.get<RepoData>(REPO_DATA)
+                        composable(
+                            route = Route.Repository.route,
+                            arguments = listOf(
+                                navArgument(REPO_DATA) {
+                                    type = NavType.ParcelableType(RepoData::class.java)
+                                    nullable = true
+                                },
+                            )) {
+
+                            val repoData = it.arguments?.get(REPO_DATA) as? RepoData
                             if (repoData != null)
                                 RepositoryScreen(navController, repoData)
                             else {

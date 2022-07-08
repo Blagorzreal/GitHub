@@ -1,7 +1,6 @@
 package com.example.github.vm
 
 import com.example.github.data.LoginSession
-import com.example.github.data.local.DaoProvider
 import com.example.github.util.log.AppLogger
 import com.example.github.vm.base.AbstractViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel

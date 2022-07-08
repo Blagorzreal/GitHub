@@ -12,7 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.example.github.R
 import com.example.github.data.data.RepoData
@@ -20,13 +20,12 @@ import com.example.github.ui.navigation.Route.Companion.userScreenNavigation
 import com.example.github.ui.view.BackTopAppBar
 import com.example.github.ui.view.Star
 import com.example.github.vm.RepoViewModel
-import com.example.github.vm.factory.RepoViewModelFactory
 
 @Composable
 fun RepositoryScreen(
     navController: NavHostController,
     repoData: RepoData,
-    repoViewModel: RepoViewModel = viewModel(factory = RepoViewModelFactory(repoData))) {
+    repoViewModel: RepoViewModel = hiltViewModel()) {
 
     Scaffold(
         topBar = {
@@ -49,7 +48,9 @@ fun RepositoryScreen(
                 }
 
                 Star(
-                    modifier = Modifier.fillMaxSize().padding(50.dp),
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(50.dp),
                     selected = repoViewModel.starred.collectAsState().value,
                     onClick = repoViewModel::updateStarred)
             }

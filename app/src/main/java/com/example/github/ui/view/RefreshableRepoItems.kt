@@ -106,5 +106,5 @@ private fun ItemsHeader(text: String) {
 
 fun navigateToRepositoryScreen(navController: NavHostController, repoData: RepoData) {
     navController.navigate(Route.Repository.route)
-    navController.currentBackStackEntry?.savedStateHandle?.set(Route.REPO_DATA, repoData)
+    navController.currentBackStackEntry?.arguments?.putParcelable(Route.REPO_DATA, repoData)
 }

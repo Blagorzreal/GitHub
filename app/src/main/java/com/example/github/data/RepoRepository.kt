@@ -1,19 +1,32 @@
 package com.example.github.data
 
 import com.example.github.data.data.RepoData
-import com.example.github.data.local.DaoProvider
 import com.example.github.data.local.repos.IReposDao
 import com.example.github.util.log.AppLogger
+import dagger.Module
+import dagger.assisted.Assisted
+import dagger.assisted.AssistedFactory
+import dagger.assisted.AssistedInject
+import dagger.hilt.InstallIn
+import dagger.hilt.android.components.ViewModelComponent
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import javax.inject.Inject
 
-class RepoRepository(
-    private val repoData: RepoData,
-    private val reposDao: IReposDao = DaoProvider.reposDao) {
+@Module
+@InstallIn(ViewModelComponent::class)
+class RepoRepository @AssistedInject constructor (@Assisted private val repoData: RepoData) {
 
     companion object {
         private const val TAG = "Repo repo"
     }
+
+    @AssistedFactory
+    interface RepoRepositoryModuleFactory {
+        fun create(repoData: RepoData): RepoRepository
+    }
+
+    @Inject lateinit var reposDao: IReposDao
 
     private val _starred: MutableStateFlow<Boolean> = MutableStateFlow(repoData.starred)
     val starred: StateFlow<Boolean> = _starred

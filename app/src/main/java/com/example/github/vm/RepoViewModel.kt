@@ -1,21 +1,30 @@
 package com.example.github.vm
 
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import com.example.github.data.RepoRepository
 import com.example.github.data.data.RepoData
+import com.example.github.ui.navigation.Route
 import com.example.github.util.log.AppLogger
 import com.example.github.vm.base.BaseViewModel
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import javax.inject.Inject
 
-class RepoViewModel(
-    repoData: RepoData,
-    private val repoRepository: RepoRepository = RepoRepository(repoData)
+@HiltViewModel
+class RepoViewModel @Inject constructor(
+    savedStateHandle: SavedStateHandle,
+    repoRepositoryModuleFactory: RepoRepository.RepoRepositoryModuleFactory
 ): BaseViewModel<Boolean>(TAG, false) {
 
     companion object {
         private const val TAG = "Repo repo"
+    }
+
+    private val repoRepository: RepoRepository by lazy {
+        repoRepositoryModuleFactory.create(savedStateHandle.get<RepoData>(Route.REPO_DATA) ?: throw Exception())
     }
 
     val starred: StateFlow<Boolean> = repoRepository.starred
