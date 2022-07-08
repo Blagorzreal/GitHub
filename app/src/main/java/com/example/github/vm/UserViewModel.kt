@@ -15,7 +15,7 @@ import javax.inject.Inject
 @HiltViewModel
 class UserViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
-    private val userRepositoryFactory: UserRepository.UserRepositoryModuleFactory
+    userRepositoryFactory: UserRepository.UserRepositoryModuleFactory
     ): BaseApiViewModel<UserData, UserModel>(TAG, UserModelMapper::userModelToUserData) {
 
     private val userRepository: UserRepository by lazy {

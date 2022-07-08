@@ -12,14 +12,12 @@ import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ViewModelComponent
+import javax.inject.Inject
 
 @Module
 @InstallIn(ViewModelComponent::class)
-open class ReposRepository @AssistedInject constructor(
-    @Assisted protected val userData: UserData,
-    private val reposDao: IReposDao,
-    private val reposApi: IReposApi
-) {
+open class ReposRepository @AssistedInject constructor(@Assisted protected val userData: UserData) {
+
     companion object {
         private const val TAG = "Repos repo"
     }
@@ -29,7 +27,10 @@ open class ReposRepository @AssistedInject constructor(
         fun create(userData: UserData): ReposRepository
     }
 
-    val localRepos = reposDao.getAll(userData.id)
+    @Inject lateinit var reposDao: IReposDao
+    @Inject lateinit var reposApi: IReposApi
+
+    val localRepos by lazy { reposDao.getAll(userData.id) }
 
     suspend fun updateRepos(): ResponseResult<List<RepoModel>> {
         AppLogger.log(TAG, "Update repos")

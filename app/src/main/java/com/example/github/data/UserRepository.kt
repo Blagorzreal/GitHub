@@ -14,13 +14,11 @@ import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ViewModelComponent
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import javax.inject.Inject
 
 @Module
 @InstallIn(ViewModelComponent::class)
-class UserRepository @AssistedInject constructor(
-    @Assisted val userData: UserData,
-    private val userDao: IUserDao,
-    private val userApi: IUserApi) {
+class UserRepository @AssistedInject constructor(@Assisted val userData: UserData) {
 
     companion object {
         private const val TAG = "User repo"
@@ -30,6 +28,9 @@ class UserRepository @AssistedInject constructor(
     interface UserRepositoryModuleFactory {
         fun create(userData: UserData): UserRepository
     }
+
+    @Inject lateinit var userDao: IUserDao
+    @Inject lateinit var userApi: IUserApi
 
     private val _followers: MutableStateFlow<Long?> = MutableStateFlow(null)
     val followers: StateFlow<Long?> = _followers

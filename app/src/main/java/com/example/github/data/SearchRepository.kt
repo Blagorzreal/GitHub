@@ -14,13 +14,14 @@ import javax.inject.Inject
 
 @Module
 @InstallIn(ViewModelComponent::class)
-class SearchRepository @Inject constructor(
-    private val userDao: IUserDao,
-    private val searchApi: ISearchApi) {
+class SearchRepository @Inject constructor() {
 
     companion object {
         private const val TAG = "Search repo"
     }
+
+    @Inject lateinit var userDao: IUserDao
+    @Inject lateinit var searchApi: ISearchApi
 
     private var _localSearch: MutableStateFlow<SearchModel?> = MutableStateFlow(null)
     var localSearch: Flow<SearchModel?> = _localSearch

@@ -17,8 +17,9 @@ import javax.inject.Inject
 @HiltViewModel
 class FollowersViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
-    private val followersRepositoryFactory: FollowersRepository.FollowersRepositoryModuleFactory
+    followersRepositoryFactory: FollowersRepository.FollowersRepositoryModuleFactory
 ): BaseApiViewModel<List<UserData>, List<UserModel>>(TAG, UserModelMapper::userModelListToUserDataList) {
+
     companion object {
         private const val TAG = "Followers VM"
     }
