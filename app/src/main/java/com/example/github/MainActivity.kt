@@ -36,6 +36,14 @@ import dagger.hilt.android.AndroidEntryPoint
 class MainActivity: ComponentActivity() {
     companion object {
         private const val TAG = "Main activity"
+
+        private fun userDataNavArgument(defaultUserData: UserData? = null) =
+            listOf(
+                navArgument(USER_DATA) {
+                    type = NavType.ParcelableType(UserData::class.java)
+                    nullable = true
+                    defaultValue = defaultUserData
+                })
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -64,13 +72,7 @@ class MainActivity: ComponentActivity() {
 
                         composable(
                             route = Route.Profile.route,
-                            arguments = listOf(
-                                navArgument(USER_DATA) {
-                                    type = NavType.ParcelableType(UserData::class.java)
-                                    nullable = true
-                                    defaultValue = LoginSession.userData
-                                },
-                            )) {
+                            arguments = userDataNavArgument(LoginSession.userData)) {
 
                             BackHandler(true) {
                                 moveTaskToBack(true)
@@ -105,13 +107,7 @@ class MainActivity: ComponentActivity() {
 
                         composable(
                             route = Route.User.route,
-                            arguments = listOf(
-                                navArgument(USER_DATA) {
-                                    type = NavType.ParcelableType(UserData::class.java)
-                                    nullable = true
-                                    defaultValue = null
-                                }
-                            )) {
+                            arguments = userDataNavArgument()) {
 
                             val userData = it.arguments?.get(USER_DATA) as? UserData
                             if (userData != null)
@@ -124,13 +120,7 @@ class MainActivity: ComponentActivity() {
 
                         composable(
                             route = Route.Search.route,
-                            arguments = listOf(
-                                navArgument(USER_DATA) {
-                                    type = NavType.ParcelableType(UserData::class.java)
-                                    nullable = true
-                                    defaultValue = null
-                                }
-                            )) {
+                            arguments = userDataNavArgument()) {
 
                             SearchScreen(it.arguments?.get(USER_DATA) as? UserData, navController)
                         }
