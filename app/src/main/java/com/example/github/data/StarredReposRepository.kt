@@ -18,9 +18,7 @@ class StarredReposRepository @AssistedInject constructor(@Assisted userData: Use
         override fun create(userData: UserData): StarredReposRepository
     }
 
-    companion object {
-        private const val TAG = "Starred repos repo"
-    }
+    override val tag = "Starred repos repo"
 
     val starredRepos by lazy { reposDao.getAllStarred() }
 }

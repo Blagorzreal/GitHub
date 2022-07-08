@@ -18,9 +18,7 @@ import javax.inject.Inject
 @InstallIn(ViewModelComponent::class)
 open class ReposRepository @AssistedInject constructor(@Assisted protected val userData: UserData) {
 
-    companion object {
-        private const val TAG = "Repos repo"
-    }
+    protected open val tag  = "Repos repo"
 
     @AssistedFactory
     interface ReposRepositoryModuleFactory {
@@ -33,11 +31,11 @@ open class ReposRepository @AssistedInject constructor(@Assisted protected val u
     val localRepos by lazy { reposDao.getAll(userData.id) }
 
     suspend fun updateRepos(): ResponseResult<List<RepoModel>> {
-        AppLogger.log(TAG, "Update repos")
+        AppLogger.log(tag, "Update repos")
 
         val result = reposApi.getRepos(userData.username)
         if (result is ResponseResult.Success) {
-            AppLogger.log(TAG, "Insert remote repos to the db")
+            AppLogger.log(tag, "Insert remote repos to the db")
             reposDao.deleteAllByOwnerAndInsert(result.model, userData.id)
         }
 
