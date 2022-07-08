@@ -21,7 +21,6 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.example.github.R
 import com.example.github.data.data.UserData
@@ -30,8 +29,6 @@ import com.example.github.ui.navigation.Route.Companion.userScreenNavigation
 import com.example.github.ui.view.*
 import com.example.github.vm.FollowersViewModel
 import com.example.github.vm.SearchViewModel
-import com.example.github.vm.factory.UserDataViewModelFactory
-import com.example.github.vm.factory.ViewModelType
 import com.google.accompanist.swiperefresh.SwipeRefresh
 import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 
@@ -41,11 +38,10 @@ fun SearchScreen(
     navController: NavHostController,
     searchViewModel: SearchViewModel = hiltViewModel()
 ) {
-
     var hideFollowers by rememberSaveable { mutableStateOf(userData == null) }
 
     val followersViewModel: FollowersViewModel? = if (userData != null)
-        viewModel(factory = UserDataViewModelFactory(userData, ViewModelType.Followers))
+        hiltViewModel()
     else
         null
 

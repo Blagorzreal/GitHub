@@ -1,21 +1,27 @@
 package com.example.github.data
 
 import com.example.github.data.data.UserData
-import com.example.github.data.local.DaoProvider
 import com.example.github.data.local.user.IUserDao
-import com.example.github.data.remote.ApiProvider
 import com.example.github.data.remote.ResponseResult
 import com.example.github.data.remote.followers.IFollowersApi
 import com.example.github.model.UserModel
 import com.example.github.util.log.AppLogger
+import dagger.assisted.Assisted
+import dagger.assisted.AssistedFactory
+import dagger.assisted.AssistedInject
 
-class FollowersRepository(
-    private val userData: UserData,
-    private val userDao: IUserDao = DaoProvider.userDao,
-    private val followersApi: IFollowersApi = ApiProvider.followersApi,
-) {
+class FollowersRepository @AssistedInject constructor(
+    @Assisted val userData: UserData,
+    private val userDao: IUserDao,
+    private val followersApi: IFollowersApi) {
+
     companion object {
         private const val TAG = "Followers repo"
+    }
+
+    @AssistedFactory
+    interface FollowersRepositoryModuleFactory {
+        fun create(userData: UserData): FollowersRepository
     }
 
     val localFollowers = userDao.getFollowers(userData.id)

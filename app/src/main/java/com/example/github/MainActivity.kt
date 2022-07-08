@@ -98,7 +98,11 @@ class MainActivity: ComponentActivity() {
                         composable(
                             route = Route.User.route,
                             arguments = listOf(
-                                navArgument(USER_DATA) { type = NavType.ParcelableType(UserData::class.java) },
+                                navArgument(USER_DATA) {
+                                    type = NavType.ParcelableType(UserData::class.java)
+                                    nullable = true
+                                    defaultValue = null
+                                }
                             )) {
 
                             val userData = it.arguments?.get(USER_DATA) as? UserData
