@@ -1,6 +1,5 @@
 package com.example.github.vm
 
-import com.example.github.data.LoginSession
 import com.example.github.data.local.repos.IReposDao
 import com.example.github.data.local.user.IUserDao
 import com.example.github.util.log.AppLogger
@@ -25,8 +24,6 @@ class ProfileViewModel @Inject constructor(): AbstractViewModel() {
 
     fun logOut() {
         AppLogger.log(tag, "Log out")
-
-        LoginSession.clean()
 
         CoroutineScope(dispatcher).launch {
             userDao.deleteAll()

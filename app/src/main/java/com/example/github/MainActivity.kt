@@ -24,12 +24,10 @@ import com.example.github.data.data.UserData
 import com.example.github.ui.navigation.Route
 import com.example.github.ui.navigation.Route.Companion.REPO_DATA
 import com.example.github.ui.navigation.Route.Companion.USER_DATA
+import com.example.github.ui.screen.*
 import com.example.github.ui.screen.login.LoginScreen
-import com.example.github.ui.screen.ProfileScreen
-import com.example.github.ui.screen.RepositoryScreen
-import com.example.github.ui.screen.SearchScreen
-import com.example.github.ui.screen.UserScreen
 import com.example.github.ui.theme.GitHubTheme
+import com.example.github.ui.view.LogoutLaunchEffect
 import com.example.github.util.log.AppLogger
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -46,15 +44,16 @@ class MainActivity: ComponentActivity() {
                     defaultValue = defaultUserData
                 })
 
-        private fun showCommonErrorAndPopBack(
-            navController: NavHostController,
-            context: Context) {
+        private fun showCommonError(context: Context) {
             Toast.makeText(
                 context,
                 context.getString(R.string.common_error),
                 Toast.LENGTH_SHORT
             ).show()
+        }
 
+        private fun showCommonErrorAndPopBack(navController: NavHostController, context: Context) {
+            showCommonError(context)
             navController.popBackStack()
         }
     }
@@ -94,8 +93,10 @@ class MainActivity: ComponentActivity() {
                             val userData = it.arguments?.get(USER_DATA) as? UserData
                             if (userData != null)
                                 ProfileScreen(navController, userData)
-                            else
-                                showCommonErrorAndPopBack(navController, this@MainActivity)
+                            else {
+                                showCommonError(this@MainActivity)
+                                LogoutLaunchEffect(navController)
+                            }
                         }
 
                         composable(
