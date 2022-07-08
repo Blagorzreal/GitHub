@@ -1,6 +1,8 @@
 package com.example.github.vm
 
 import com.example.github.data.LoginSession
+import com.example.github.data.local.repos.IReposDao
+import com.example.github.data.local.user.IUserDao
 import com.example.github.util.log.AppLogger
 import com.example.github.vm.base.AbstractViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -12,6 +14,9 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ProfileViewModel @Inject constructor(): AbstractViewModel(TAG) {
+
+    @Inject lateinit var userDao: IUserDao
+    @Inject lateinit var reposDao: IReposDao
 
     private val _isLoggedOut = MutableStateFlow(false)
     val isLoggedOut: StateFlow<Boolean> = _isLoggedOut
@@ -26,6 +31,8 @@ class ProfileViewModel @Inject constructor(): AbstractViewModel(TAG) {
         LoginSession.clean()
 
         CoroutineScope(dispatcher).launch {
+            userDao.deleteAll()
+            reposDao.deleteAll()
         }
 
         _isLoggedOut.value = true
