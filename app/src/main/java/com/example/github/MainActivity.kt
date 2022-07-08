@@ -12,6 +12,7 @@ import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -44,6 +45,18 @@ class MainActivity: ComponentActivity() {
                     nullable = true
                     defaultValue = defaultUserData
                 })
+
+        private fun showCommonErrorAndPopBack(
+            navController: NavHostController,
+            context: Context) {
+            Toast.makeText(
+                context,
+                context.getString(R.string.common_error),
+                Toast.LENGTH_SHORT
+            ).show()
+
+            navController.popBackStack()
+        }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -81,10 +94,8 @@ class MainActivity: ComponentActivity() {
                             val userData = it.arguments?.get(USER_DATA) as? UserData
                             if (userData != null)
                                 ProfileScreen(navController, userData)
-                            else {
-                                showCommonError(this@MainActivity)
-                                navController.popBackStack()
-                            }
+                            else
+                                showCommonErrorAndPopBack(navController, this@MainActivity)
                         }
 
                         composable(
@@ -99,10 +110,8 @@ class MainActivity: ComponentActivity() {
                             val repoData = it.arguments?.get(REPO_DATA) as? RepoData
                             if (repoData != null)
                                 RepositoryScreen(navController, repoData)
-                            else {
-                                showCommonError(this@MainActivity)
-                                navController.popBackStack()
-                            }
+                            else
+                                showCommonErrorAndPopBack(navController, this@MainActivity)
                         }
 
                         composable(
@@ -112,10 +121,8 @@ class MainActivity: ComponentActivity() {
                             val userData = it.arguments?.get(USER_DATA) as? UserData
                             if (userData != null)
                                 UserScreen(navController, userData)
-                            else {
-                                showCommonError(this@MainActivity)
-                                navController.popBackStack()
-                            }
+                            else
+                                showCommonErrorAndPopBack(navController, this@MainActivity)
                         }
 
                         composable(
@@ -128,14 +135,6 @@ class MainActivity: ComponentActivity() {
                 }
             }
         }
-    }
-
-    private fun showCommonError(context: Context) {
-        Toast.makeText(
-            context,
-            getString(R.string.common_error),
-            Toast.LENGTH_SHORT
-        ).show()
     }
 
     override fun onResume() {
