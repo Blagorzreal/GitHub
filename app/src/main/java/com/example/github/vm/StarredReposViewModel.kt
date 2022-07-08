@@ -19,9 +19,8 @@ class StarredReposViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     starredReposRepositoryModuleFactory: StarredReposRepository.StarredReposRepositoryModuleFactory
 ): ReposViewModel(savedStateHandle, starredReposRepositoryModuleFactory) {
-    companion object {
-        private const val TAG = "Starred repos VM"
-    }
+
+    override val tag = "Starred repos VM"
 
     private val starredReposRepository: StarredReposRepository by lazy {
         starredReposRepositoryModuleFactory.create(savedStateHandle.get<UserData>(Route.USER_DATA) ?: throw Exception())

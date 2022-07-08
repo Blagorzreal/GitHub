@@ -19,11 +19,9 @@ import javax.inject.Inject
 open class ReposViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     reposRepositoryModuleFactory: ReposRepository.ReposRepositoryModuleFactory)
-    : BaseApiViewModel<List<RepoData>, List<RepoModel>>(TAG, RepoModelMapper::repoModelListToRepoDataList) {
+    : BaseApiViewModel<List<RepoData>, List<RepoModel>>(RepoModelMapper::repoModelListToRepoDataList) {
 
-    companion object {
-        private const val TAG = "User VM"
-    }
+    override val tag = "User VM"
 
     private val reposRepository: ReposRepository by lazy {
         reposRepositoryModuleFactory.create(savedStateHandle.get<UserData>(Route.USER_DATA) ?: throw Exception())

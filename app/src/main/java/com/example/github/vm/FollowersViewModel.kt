@@ -18,11 +18,9 @@ import javax.inject.Inject
 class FollowersViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     followersRepositoryFactory: FollowersRepository.FollowersRepositoryModuleFactory
-): BaseApiViewModel<List<UserData>, List<UserModel>>(TAG, UserModelMapper::userModelListToUserDataList) {
+): BaseApiViewModel<List<UserData>, List<UserModel>>(UserModelMapper::userModelListToUserDataList) {
 
-    companion object {
-        private const val TAG = "Followers VM"
-    }
+    override val tag = "Followers VM"
 
     private val followersRepository: FollowersRepository by lazy {
         followersRepositoryFactory.create(savedStateHandle.get<UserData>(Route.USER_DATA) ?: throw Exception())

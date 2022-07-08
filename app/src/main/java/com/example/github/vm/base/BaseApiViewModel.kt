@@ -9,9 +9,8 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 
 abstract class BaseApiViewModel<Data, Model>(
-    override val tag: String,
     protected val mapper: (Model) -> Data
-): BaseViewModel<ResponseResult.ResponseError>(tag, ResponseResult.None) {
+): BaseViewModel<ResponseResult.ResponseError>(ResponseResult.None) {
 
     protected val _data: MutableStateFlow<Data?> = MutableStateFlow(null)
     val data: StateFlow<Data?> = _data

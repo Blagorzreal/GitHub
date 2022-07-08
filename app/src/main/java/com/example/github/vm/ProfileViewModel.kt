@@ -13,7 +13,9 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class ProfileViewModel @Inject constructor(): AbstractViewModel(TAG) {
+class ProfileViewModel @Inject constructor(): AbstractViewModel() {
+
+    override val tag = "Profile VM"
 
     @Inject lateinit var userDao: IUserDao
     @Inject lateinit var reposDao: IReposDao
@@ -21,12 +23,8 @@ class ProfileViewModel @Inject constructor(): AbstractViewModel(TAG) {
     private val _isLoggedOut = MutableStateFlow(false)
     val isLoggedOut: StateFlow<Boolean> = _isLoggedOut
 
-    companion object {
-        private const val TAG = "Profile VM"
-    }
-
     fun logOut() {
-        AppLogger.log(TAG, "Log out")
+        AppLogger.log(tag, "Log out")
 
         LoginSession.clean()
 

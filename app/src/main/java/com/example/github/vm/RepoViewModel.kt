@@ -17,11 +17,9 @@ import javax.inject.Inject
 class RepoViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     repoRepositoryModuleFactory: RepoRepository.RepoRepositoryModuleFactory
-): BaseViewModel<Boolean>(TAG, false) {
+): BaseViewModel<Boolean>(false) {
 
-    companion object {
-        private const val TAG = "Repo repo"
-    }
+    override val tag = "Repo repo"
 
     private val repoRepository: RepoRepository by lazy {
         repoRepositoryModuleFactory.create(savedStateHandle.get<RepoData>(Route.REPO_DATA) ?: throw Exception())

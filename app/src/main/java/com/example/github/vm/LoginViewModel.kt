@@ -18,13 +18,11 @@ import javax.inject.Inject
 
 @HiltViewModel
 class LoginViewModel @Inject constructor()
-    : BaseApiViewModel<UserData, UserModel>(TAG, UserModelMapper::userModelToUserData) {
+    : BaseApiViewModel<UserData, UserModel>(UserModelMapper::userModelToUserData) {
 
     @Inject lateinit var authApi: IAuthApi
 
-    companion object {
-        private const val TAG = "Login VM"
-    }
+    override val tag = "Login VM"
 
     private val _validationError: MutableStateFlow<UsernameValidationError?> = MutableStateFlow(null)
     val validationError: StateFlow<UsernameValidationError?> = _validationError
@@ -33,22 +31,22 @@ class LoginViewModel @Inject constructor()
     val username: StateFlow<String> = _username
 
     fun onUsernameChanged(username: String) {
-        AppLogger.log(TAG, "Username changed to $username")
+        AppLogger.log(tag, "Username changed to $username")
         _username.value = username
 
         if (validationError.value != null) {
-            AppLogger.log(TAG, "Reset username error")
+            AppLogger.log(tag, "Reset username error")
             _validationError.value = null
         }
     }
 
     fun login() {
-        AppLogger.log(TAG, "login")
+        AppLogger.log(tag, "login")
 
         val usernameTrimmed = _username.value.trim().lowercase()
 
         LoginHelper.validateUsername(usernameTrimmed)?.let {
-            AppLogger.log(TAG, "invalid username = $usernameTrimmed", LogType.Warning)
+            AppLogger.log(tag, "invalid username = $usernameTrimmed", LogType.Warning)
             _validationError.value = it
             return
         }

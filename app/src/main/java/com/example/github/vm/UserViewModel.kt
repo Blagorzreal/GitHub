@@ -16,17 +16,15 @@ import javax.inject.Inject
 class UserViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     userRepositoryFactory: UserRepository.UserRepositoryModuleFactory
-    ): BaseApiViewModel<UserData, UserModel>(TAG, UserModelMapper::userModelToUserData) {
+    ): BaseApiViewModel<UserData, UserModel>(UserModelMapper::userModelToUserData) {
+
+    override val tag = "User VM"
 
     private val userRepository: UserRepository by lazy {
         userRepositoryFactory.create(savedStateHandle.get<UserData>(USER_DATA) ?: throw Exception())
     }
 
     val userData = userRepository.userData
-
-    companion object {
-        private const val TAG = "User VM"
-    }
 
     val followers: StateFlow<Long?> = userRepository.followers
     val following: StateFlow<Long?> = userRepository.following

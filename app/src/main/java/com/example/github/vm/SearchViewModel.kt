@@ -19,12 +19,13 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SearchViewModel @Inject constructor(private val searchRepository: SearchRepository)
-    : BaseApiViewModel<SearchData, SearchModel>(TAG, SearchModelMapper::searchModelListToSearchDataList) {
+    : BaseApiViewModel<SearchData, SearchModel>(SearchModelMapper::searchModelListToSearchDataList) {
 
     companion object {
-        private const val TAG = "Search VM"
         private const val USERS_PER_PAGE = 30
     }
+
+    override val tag = "Search VM"
 
     private var nextRemotePage = 1
     private var totalRemotePages = 1
@@ -69,7 +70,7 @@ class SearchViewModel @Inject constructor(private val searchRepository: SearchRe
     val searchText: StateFlow<String> = _searchText
 
     fun onSearchTextChanged(text: String) {
-        AppLogger.log(TAG, "Search text changed to $text")
+        AppLogger.log(tag, "Search text changed to $text")
         _searchText.value = text
     }
 
@@ -77,7 +78,7 @@ class SearchViewModel @Inject constructor(private val searchRepository: SearchRe
         if (isLoading.value)
             return
 
-        AppLogger.log(TAG, "Load page: $nextRemotePage of $totalRemotePages, $nextLocalPage of $totalLocalPages")
+        AppLogger.log(tag, "Load page: $nextRemotePage of $totalRemotePages, $nextLocalPage of $totalLocalPages")
 
         if (searchAvailable) {
             fetchData {
@@ -95,7 +96,7 @@ class SearchViewModel @Inject constructor(private val searchRepository: SearchRe
         if (isLoading.value)
             return
 
-        AppLogger.log(TAG, "Search")
+        AppLogger.log(tag, "Search")
 
         reset()
         loadNextPage()
