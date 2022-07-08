@@ -3,7 +3,6 @@ package com.example.github.ui.navigation
 import androidx.navigation.NavHostController
 import com.example.github.data.LoginSession
 import com.example.github.data.data.UserData
-import com.example.github.ui.view.inclusiveNavigation
 
 sealed class Route(val route: String) {
     object Login: Route("login")
@@ -26,6 +25,15 @@ sealed class Route(val route: String) {
                 navController.navigate(User.route)
 
             navController.currentBackStackEntry?.arguments?.putParcelable(USER_DATA, userData)
+        }
+
+        fun inclusiveNavigation(navController: NavHostController, newDestination: Route, oldDestination: Route, saveOldState: Boolean = false) {
+            navController.navigate(newDestination.route) {
+                popUpTo(oldDestination.route) {
+                    inclusive = true
+                    saveState = saveOldState
+                }
+            }
         }
     }
 }

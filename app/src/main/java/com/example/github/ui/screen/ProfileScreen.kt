@@ -18,6 +18,7 @@ import coil.compose.AsyncImage
 import com.example.github.R
 import com.example.github.data.data.UserData
 import com.example.github.ui.navigation.Route
+import com.example.github.ui.navigation.Route.Companion.inclusiveNavigation
 import com.example.github.ui.view.*
 import com.example.github.vm.ProfileViewModel
 import com.example.github.vm.StarredReposViewModel
