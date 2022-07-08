@@ -5,10 +5,15 @@ import com.example.github.data.remote.ResponseResult
 import com.example.github.data.remote.search.ISearchApi
 import com.example.github.model.SearchModel
 import com.example.github.util.log.AppLogger
+import dagger.Module
+import dagger.hilt.InstallIn
+import dagger.hilt.android.components.ViewModelComponent
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import javax.inject.Inject
 
+@Module
+@InstallIn(ViewModelComponent::class)
 class SearchRepository @Inject constructor(
     private val userDao: IUserDao,
     private val searchApi: ISearchApi) {

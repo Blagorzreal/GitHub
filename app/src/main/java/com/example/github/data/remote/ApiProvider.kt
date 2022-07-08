@@ -1,9 +1,6 @@
 package com.example.github.data.remote
 
 import com.example.github.BuildConfig
-import com.example.github.data.remote.repos.MockedReposApi
-import com.example.github.data.remote.repos.ReposApi
-import com.example.github.isMocked
 import com.example.github.util.log.AppLogger
 import com.example.github.util.log.LogType
 import com.google.gson.GsonBuilder
@@ -45,13 +42,6 @@ class ApiProvider private constructor() {
                 AppLogger.log(tag, "Invalid response", LogType.Warning)
                 ResponseResult.InvalidResponseError
             }
-        }
-
-        val reposApi by lazy {
-            if (isMocked)
-                MockedReposApi()
-            else
-                ReposApi()
         }
     }
 }

@@ -1,10 +1,20 @@
 package com.example.github.data.local.repos
 
+import com.example.github.BuildConfig
 import com.example.github.data.MockedData.Companion.repos
 import com.example.github.model.RepoModel
+import dagger.Module
+import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
+import dagger.multibindings.IntoMap
+import dagger.multibindings.StringKey
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
+import javax.inject.Singleton
 
+@InstallIn(SingletonComponent::class)
+@Module
 class MockedReposDao: IReposDao {
     override fun getAll(ownerId: Long): Flow<List<RepoModel>> = flow { emit(repos) }
 
@@ -31,4 +41,10 @@ class MockedReposDao: IReposDao {
     override suspend fun deleteAll() {
         repos.clear()
     }
+
+    @Provides
+    @Singleton
+    @IntoMap
+    @StringKey(BuildConfig.FLAVOR_MOCKED)
+    fun provideReposDao(): IReposDao = MockedReposDao()
 }

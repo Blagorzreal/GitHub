@@ -13,7 +13,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
 import com.example.github.R
@@ -21,8 +20,6 @@ import com.example.github.data.data.UserData
 import com.example.github.ui.navigation.Route
 import com.example.github.ui.view.*
 import com.example.github.vm.ProfileViewModel
-import com.example.github.vm.factory.UserDataViewModelFactory
-import com.example.github.vm.factory.ViewModelType
 import com.example.github.vm.StarredReposViewModel
 import com.example.github.vm.UserViewModel
 
@@ -32,7 +29,7 @@ fun ProfileScreen(
     userData: UserData,
     profileViewModel: ProfileViewModel = hiltViewModel(),
     userViewModel: UserViewModel = hiltViewModel(),
-    starredReposViewModel: StarredReposViewModel = viewModel(factory = UserDataViewModelFactory(userData, ViewModelType.StarredRepos))) {
+    starredReposViewModel: StarredReposViewModel = hiltViewModel()) {
 
     val ownLazyListState = rememberLazyListState()
     val starredLazyListState = rememberLazyListState()
