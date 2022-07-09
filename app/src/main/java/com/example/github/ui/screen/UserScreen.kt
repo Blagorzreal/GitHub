@@ -12,7 +12,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.example.github.R
-import com.example.github.data.data.UserData
 import com.example.github.ui.view.*
 import com.example.github.vm.UserViewModel
 import com.example.github.vm.ReposViewModel
@@ -20,7 +19,6 @@ import com.example.github.vm.ReposViewModel
 @Composable
 fun UserScreen(
     navController: NavHostController,
-    userData: UserData,
     userViewModel: UserViewModel = hiltViewModel(),
     reposViewModel: ReposViewModel = hiltViewModel()) {
 
@@ -28,7 +26,7 @@ fun UserScreen(
 
     Scaffold(
         topBar = {
-            BackTopAppBar(navController = navController, text = userData.username)
+            BackTopAppBar(navController = navController, text = userViewModel.userData.username)
         },
         content = {
             Column(

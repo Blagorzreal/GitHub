@@ -14,7 +14,6 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.example.github.R
-import com.example.github.data.data.RepoData
 import com.example.github.ui.navigation.Route.Companion.userScreenNavigation
 import com.example.github.ui.view.BackTopAppBar
 import com.example.github.ui.view.Star
@@ -24,12 +23,11 @@ import com.example.github.vm.RepoViewModel
 @Composable
 fun RepositoryScreen(
     navController: NavHostController,
-    repoData: RepoData,
     repoViewModel: RepoViewModel = hiltViewModel()) {
 
     Scaffold(
         topBar = {
-           BackTopAppBar(navController = navController, text = repoData.name)
+           BackTopAppBar(navController = navController, text = repoViewModel.repoData.name)
         },
         content = {
             Column(
@@ -40,10 +38,10 @@ fun RepositoryScreen(
                     modifier = Modifier.fillMaxWidth(), contentAlignment = Alignment.Center
                 ) {
                     Button(
-                        onClick = { userScreenNavigation(navController, repoData.owner) },
+                        onClick = { userScreenNavigation(navController, repoViewModel.repoData.owner) },
                         shape = RoundedCornerShape(50.dp)
                     ) {
-                        Text(text = repoData.owner.username)
+                        Text(text = repoViewModel.repoData.owner.username)
                     }
                 }
 
@@ -58,13 +56,12 @@ fun RepositoryScreen(
     )
 
     HandleError(
-        id = repoData.id,
         errorState = repoViewModel.error.collectAsState(),
         resetError = repoViewModel::resetError)
 }
 
 @Composable
-private fun HandleError(id: Long, errorState: State<Boolean>, resetError: () -> Unit) {
+private fun HandleError(errorState: State<Boolean>, resetError: () -> Unit) {
     val error = errorState.value
     if (error) {
         resetError()

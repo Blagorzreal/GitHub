@@ -95,7 +95,7 @@ class MainActivity: ComponentActivity() {
 
                             val repoData = it.arguments?.get(REPO_DATA) as? RepoData
                             if (repoData != null)
-                                RepositoryScreen(navController, repoData)
+                                RepositoryScreen(navController)
                             else
                                 showCommonErrorAndPopBack(navController, this@MainActivity)
                         }
@@ -106,7 +106,7 @@ class MainActivity: ComponentActivity() {
 
                             val userData = it.arguments?.get(USER_DATA) as? UserData
                             if (userData != null)
-                                UserScreen(navController, userData)
+                                UserScreen(navController)
                             else
                                 showCommonErrorAndPopBack(navController, this@MainActivity)
                         }

@@ -25,6 +25,8 @@ class RepoViewModel @Inject constructor(
         repoRepositoryModuleFactory.create(savedStateHandle.get<RepoData>(Route.REPO_DATA) ?: throw Exception())
     }
 
+    val repoData by lazy { repoRepository.repoData }
+
     val starred: StateFlow<Boolean> = repoRepository.starred
 
     fun updateStarred() {

@@ -24,7 +24,7 @@ class UserViewModel @Inject constructor(
         userRepositoryFactory.create(savedStateHandle.get<UserData>(USER_DATA) ?: throw Exception())
     }
 
-    val userData = userRepository.userData
+    val userData by lazy { userRepository.userData }
 
     val followers: StateFlow<Long?> = userRepository.followers
     val following: StateFlow<Long?> = userRepository.following

@@ -15,7 +15,7 @@ import javax.inject.Inject
 
 @Module
 @InstallIn(ViewModelComponent::class)
-class RepoRepository @AssistedInject constructor (@Assisted private val repoData: RepoData) {
+class RepoRepository @AssistedInject constructor (@Assisted val repoData: RepoData) {
 
     companion object {
         private const val TAG = "Repo repo"
