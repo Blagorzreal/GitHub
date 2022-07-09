@@ -6,6 +6,7 @@ import com.example.github.data.FollowersRepository
 import com.example.github.data.data.UserData
 import com.example.github.model.UserModel
 import com.example.github.ui.navigation.Route
+import com.example.github.util.CommonHelper
 import com.example.github.util.log.AppLogger
 import com.example.github.util.mapper.UserModelMapper
 import com.example.github.vm.base.BaseApiViewModel
@@ -23,7 +24,8 @@ class FollowersViewModel @Inject constructor(
     override val tag = "Followers VM"
 
     private val followersRepository: FollowersRepository by lazy {
-        followersRepositoryFactory.create(savedStateHandle.get<UserData>(Route.USER_DATA) ?: throw Exception())
+        followersRepositoryFactory.create(savedStateHandle.get<UserData>(Route.USER_DATA)
+            ?: throw CommonHelper.missingVMParameterException(tag, Route.USER_DATA))
     }
 
     init {

@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.github.data.RepoRepository
 import com.example.github.data.data.RepoData
 import com.example.github.ui.navigation.Route
+import com.example.github.util.CommonHelper
 import com.example.github.util.log.AppLogger
 import com.example.github.vm.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -22,7 +23,8 @@ class RepoViewModel @Inject constructor(
     override val tag = "Repo repo"
 
     private val repoRepository: RepoRepository by lazy {
-        repoRepositoryModuleFactory.create(savedStateHandle.get<RepoData>(Route.REPO_DATA) ?: throw Exception())
+        repoRepositoryModuleFactory.create(savedStateHandle.get<RepoData>(Route.REPO_DATA)
+            ?: throw CommonHelper.missingVMParameterException(tag, Route.REPO_DATA))
     }
 
     val repoData by lazy { repoRepository.repoData }

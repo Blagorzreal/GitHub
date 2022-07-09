@@ -7,6 +7,7 @@ import com.example.github.data.data.RepoData
 import com.example.github.data.data.UserData
 import com.example.github.model.RepoModel
 import com.example.github.ui.navigation.Route
+import com.example.github.util.CommonHelper
 import com.example.github.util.mapper.RepoModelMapper
 import com.example.github.util.log.AppLogger
 import com.example.github.vm.base.BaseApiViewModel
@@ -24,7 +25,8 @@ open class ReposViewModel @Inject constructor(
     override val tag = "User VM"
 
     private val reposRepository: ReposRepository by lazy {
-        reposRepositoryModuleFactory.create(savedStateHandle.get<UserData>(Route.USER_DATA) ?: throw Exception())
+        reposRepositoryModuleFactory.create(savedStateHandle.get<UserData>(Route.USER_DATA)
+            ?: throw CommonHelper.missingVMParameterException(tag, Route.USER_DATA))
     }
 
     init {

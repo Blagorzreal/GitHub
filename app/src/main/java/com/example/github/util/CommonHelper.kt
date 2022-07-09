@@ -8,6 +8,9 @@ class CommonHelper private constructor() {
         fun showToast(context: Context, message: String, toastLength: Int = Toast.LENGTH_SHORT) =
             Toast.makeText(context, message, toastLength).show()
 
+        fun missingVMParameterException(tag: String, parameter: String)
+            = Exception("$tag: Unable to get $parameter")
+
         fun throwDatabaseModuleException(daoModule: String) {
             throwModuleException("$daoModule database")
         }

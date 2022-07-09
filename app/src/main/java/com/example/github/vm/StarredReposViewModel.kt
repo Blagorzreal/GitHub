@@ -6,6 +6,7 @@ import com.example.github.data.StarredReposRepository
 import com.example.github.data.data.RepoData
 import com.example.github.data.data.UserData
 import com.example.github.ui.navigation.Route
+import com.example.github.util.CommonHelper
 import com.example.github.util.log.AppLogger
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -23,7 +24,8 @@ class StarredReposViewModel @Inject constructor(
     override val tag = "Starred repos VM"
 
     private val starredReposRepository: StarredReposRepository by lazy {
-        starredReposRepositoryModuleFactory.create(savedStateHandle.get<UserData>(Route.USER_DATA) ?: throw Exception())
+        starredReposRepositoryModuleFactory.create(savedStateHandle.get<UserData>(Route.USER_DATA)
+            ?: throw CommonHelper.missingVMParameterException(tag, Route.USER_DATA))
     }
 
     private val _starredRepos: MutableStateFlow<List<RepoData>> = MutableStateFlow(emptyList())
