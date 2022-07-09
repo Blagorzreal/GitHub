@@ -11,5 +11,8 @@ class ErrorHelper private constructor() {
         fun isForbiddenError(responseError: ResponseResult.ResponseError) =
             (responseError is ResponseResult.UnsuccessfulResponseError) &&
                     (responseError.code == Constants.HTTP_FORBIDDEN)
+
+        fun isNoInternetConnectionError(responseError: ResponseResult.ResponseError) =
+            (responseError is ResponseResult.NoInternetConnectionAvailable)
     }
 }

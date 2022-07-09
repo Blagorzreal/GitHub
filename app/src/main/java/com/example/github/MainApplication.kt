@@ -2,11 +2,10 @@ package com.example.github
 
 import android.app.Application
 import com.example.github.data.LoginSession
+import com.example.github.util.NetworkManager
 import com.example.github.util.log.AppLogger
 import com.example.github.util.log.LogType
 import dagger.hilt.android.HiltAndroidApp
-
-const val isMocked = (BuildConfig.FLAVOR == BuildConfig.FLAVOR_MOCKED)
 
 @HiltAndroidApp
 class MainApplication: Application() {
@@ -17,6 +16,7 @@ class MainApplication: Application() {
     override fun onCreate() {
         super.onCreate()
 
+        NetworkManager.init(this)
         LoginSession.init(this)
     }
 

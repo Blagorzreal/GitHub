@@ -1,8 +1,6 @@
 package com.example.github.data.remote.user
 
 import com.example.github.BuildConfig
-import com.example.github.data.local.user.IUserDao
-import com.example.github.data.local.user.MockedUserDao
 import com.example.github.data.remote.ApiProvider
 import com.example.github.data.remote.ResponseResult
 import com.example.github.model.UserModel
@@ -35,7 +33,7 @@ class UserApi: IUserApi {
     }
 
     override suspend fun getUser(username: String): ResponseResult<UserModel> =
-        ApiProvider.requestUnsafe(TAG, userApi.getUser(username))
+        ApiProvider.requestUnsafe(TAG, { userApi.getUser(username) })
 
     @Provides
     @Singleton

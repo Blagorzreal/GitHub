@@ -1,6 +1,7 @@
 package com.example.github.data.remote
 
 import com.example.github.BuildConfig
+import com.example.github.util.NetworkManager
 import com.example.github.util.log.AppLogger
 import com.example.github.util.log.LogType
 import com.google.gson.GsonBuilder
@@ -23,11 +24,15 @@ class ApiProvider private constructor() {
                 .build()
         }
 
-        fun <T> requestUnsafe(
+        suspend fun <T> requestUnsafe(
             tag: String,
-            response: Response<T>,
+            request: suspend () -> Response<T>,
             validateData: ((data: T?) -> Boolean)? = null): ResponseResult<T> {
 
+            if (!NetworkManager.isInternetAvailable)
+                return ResponseResult.NoInternetConnectionAvailable
+
+            val response = request()
             if (!response.isSuccessful) {
                 AppLogger.log(tag, "Bad response: ${response.code()}", LogType.Warning)
                 return ResponseResult.UnsuccessfulResponseError(response.code())

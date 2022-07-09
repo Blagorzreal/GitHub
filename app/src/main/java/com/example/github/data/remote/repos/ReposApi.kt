@@ -34,7 +34,7 @@ class ReposApi: IReposApi {
     }
 
     override suspend fun getRepos(username: String): ResponseResult<List<RepoModel>> =
-        ApiProvider.requestUnsafe(TAG, reposApi.getRepos(username))
+        ApiProvider.requestUnsafe(TAG, { reposApi.getRepos(username) })
 
     @Provides
     @Singleton

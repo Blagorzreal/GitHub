@@ -24,6 +24,7 @@ fun ResponseError(
     val responseErrorMessage = when {
         ErrorHelper.isUsernameNotFoundError(error) -> stringResource(R.string.not_found_error)
         ErrorHelper.isForbiddenError(error) -> stringResource(R.string.forbidden_error)
+        ErrorHelper.isNoInternetConnectionError(error) -> stringResource(R.string.no_internet_connection_error)
         else -> customErrorMessage
     }
 

@@ -34,7 +34,7 @@ class FollowersApi: IFollowersApi {
     }
 
     override suspend fun getFollowers(username: String): ResponseResult<List<UserModel>> =
-        ApiProvider.requestUnsafe(TAG, followersApi.followers(username))
+        ApiProvider.requestUnsafe(TAG, { followersApi.followers(username) })
 
     @Provides
     @Singleton

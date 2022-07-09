@@ -34,7 +34,7 @@ class AuthApi: IAuthApi {
     }
 
     override suspend fun login(username: String): ResponseResult<UserModel> =
-        ApiProvider.requestUnsafe(TAG, authApi.login(username)) {
+        ApiProvider.requestUnsafe(TAG, { authApi.login(username) }) {
             (it?.login?.isNotBlank() == true)
         }
 
