@@ -57,16 +57,16 @@ class NetworkManager private constructor() {
 
             val connectivityManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as? ConnectivityManager
             if (connectivityManager == null)
-                result = true
+                result = false
             else {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                     val networkCapabilities = connectivityManager.activeNetwork
                     result = if (networkCapabilities == null)
-                        true
+                        false
                     else {
                         val actNw = connectivityManager.getNetworkCapabilities(networkCapabilities)
                         if (actNw == null)
-                            true
+                            false
                         else {
                             when {
                                 actNw.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) -> true
@@ -79,7 +79,7 @@ class NetworkManager private constructor() {
                 } else {
                     val activeNetworkInfo = connectivityManager.activeNetworkInfo
                     result = if (activeNetworkInfo == null)
-                        true
+                        false
                     else {
                         when (activeNetworkInfo.type) {
                             ConnectivityManager.TYPE_WIFI -> true
