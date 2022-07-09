@@ -5,6 +5,7 @@ import androidx.room.Room
 import com.example.github.BuildConfig
 import com.example.github.data.local.user.IUserDao
 import com.example.github.data.local.user.UserDataBase
+import com.example.github.util.CommonHelper
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -20,7 +21,7 @@ object UserDatabaseModule {
     @Singleton
     @Provides
     fun provideUserDao(userDaoMap: Map<String, @JvmSuppressWildcards IUserDao>) =
-        userDaoMap[BuildConfig.FLAVOR] ?: throw Exception("Unable to get user dao")
+        userDaoMap[BuildConfig.FLAVOR] ?: CommonHelper.throwDatabaseModuleException("user")
 
     @Singleton
     @Provides

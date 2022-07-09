@@ -2,6 +2,7 @@ package com.example.github.di.remote
 
 import com.example.github.BuildConfig
 import com.example.github.data.remote.search.ISearchApi
+import com.example.github.util.CommonHelper
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -12,5 +13,5 @@ import dagger.hilt.android.components.ViewModelComponent
 object SearchApiModule {
     @Provides
     fun provideSearchApi(searchApiMap: Map<String, @JvmSuppressWildcards ISearchApi>) =
-        searchApiMap[BuildConfig.FLAVOR] ?: throw Exception("Unable to get auth api")
+        searchApiMap[BuildConfig.FLAVOR] ?: CommonHelper.throwApiModuleException("search")
 }

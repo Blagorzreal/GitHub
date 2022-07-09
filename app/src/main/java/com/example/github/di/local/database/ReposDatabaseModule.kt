@@ -5,6 +5,7 @@ import androidx.room.Room
 import com.example.github.BuildConfig
 import com.example.github.data.local.repos.IReposDao
 import com.example.github.data.local.repos.ReposDatabase
+import com.example.github.util.CommonHelper
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -20,7 +21,7 @@ object ReposDatabaseModule {
     @Singleton
     @Provides
     fun provideReposDao(reposDaoMap: Map<String, @JvmSuppressWildcards IReposDao>) =
-        reposDaoMap[BuildConfig.FLAVOR] ?: throw Exception("Unable to get repos dao")
+        reposDaoMap[BuildConfig.FLAVOR] ?: CommonHelper.throwDatabaseModuleException("repos")
 
     @Singleton
     @Provides
