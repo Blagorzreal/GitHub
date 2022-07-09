@@ -1,7 +1,5 @@
 package com.example.github.ui.screen
 
-import android.content.Context
-import android.widget.Toast
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.*
@@ -22,6 +20,7 @@ import com.example.github.R
 import com.example.github.data.data.UserData
 import com.example.github.ui.navigation.Route
 import com.example.github.ui.view.*
+import com.example.github.util.CommonHelper
 import com.example.github.vm.ProfileViewModel
 import com.example.github.vm.StarredReposViewModel
 import com.example.github.vm.UserViewModel
@@ -140,19 +139,12 @@ fun ProfileScreen(
 @Composable
 private fun HandleLogout(navController: NavHostController, isLoggedOutState: State<ProfileViewModel.LogoutState>) {
     if (isLoggedOutState.value !is ProfileViewModel.LogoutState.NotLoggedOut) {
+
         if (isLoggedOutState.value is ProfileViewModel.LogoutState.LoggedOutWithError)
-            showLogoutError(LocalContext.current)
+            CommonHelper.showToast(LocalContext.current, stringResource(R.string.logout_with_error))
 
         LaunchedEffect(true) {
             Route.inclusiveNavigation(navController, Route.Login, Route.Profile)
         }
     }
-}
-
-private fun showLogoutError(context: Context) {
-    Toast.makeText(
-        context,
-        context.getString(R.string.logout_with_error),
-        Toast.LENGTH_SHORT
-    ).show()
 }

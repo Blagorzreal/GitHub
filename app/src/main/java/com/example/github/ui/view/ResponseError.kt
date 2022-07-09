@@ -1,12 +1,12 @@
 package com.example.github.ui.view
 
-import android.widget.Toast
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.State
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import com.example.github.R
 import com.example.github.data.remote.ResponseResult
+import com.example.github.util.CommonHelper
 import com.example.github.util.ErrorHelper
 
 @Composable
@@ -27,5 +27,5 @@ fun ResponseError(
         else -> customErrorMessage
     }
 
-    Toast.makeText(LocalContext.current, responseErrorMessage, Toast.LENGTH_SHORT).show()
+    CommonHelper.showToast(LocalContext.current, responseErrorMessage)
 }

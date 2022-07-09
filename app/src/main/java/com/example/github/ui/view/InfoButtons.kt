@@ -1,6 +1,5 @@
 package com.example.github.ui.view
 
-import android.widget.Toast
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -19,6 +18,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.example.github.R
 import com.example.github.ui.navigation.Route
+import com.example.github.util.CommonHelper
 import com.example.github.vm.UserViewModel
 
 @Composable
@@ -31,7 +31,7 @@ fun InfoButtons(navController: NavHostController, userViewModel: UserViewModel) 
     val context = LocalContext.current
 
     InfoButton(R.string.following, userViewModel.following.collectAsState()) {
-        Toast.makeText(context, context.getString(R.string.following_not_implemented), Toast.LENGTH_SHORT).show()
+        CommonHelper.showToast(context, context.getString(R.string.following_not_implemented))
     }
 }
 

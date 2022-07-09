@@ -1,6 +1,5 @@
 package com.example.github.ui.screen
 
-import android.widget.Toast
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
@@ -19,6 +18,7 @@ import com.example.github.data.data.RepoData
 import com.example.github.ui.navigation.Route.Companion.userScreenNavigation
 import com.example.github.ui.view.BackTopAppBar
 import com.example.github.ui.view.Star
+import com.example.github.util.CommonHelper
 import com.example.github.vm.RepoViewModel
 
 @Composable
@@ -68,11 +68,6 @@ private fun HandleError(id: Long, errorState: State<Boolean>, resetError: () -> 
     val error = errorState.value
     if (error) {
         resetError()
-
-        Toast.makeText(
-            LocalContext.current,
-            stringResource(R.string.starred_update_error, id),
-            Toast.LENGTH_SHORT
-        ).show()
+        CommonHelper.showToast(LocalContext.current, stringResource(R.string.starred_update_error))
     }
 }

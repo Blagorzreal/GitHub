@@ -2,7 +2,6 @@ package com.example.github
 
 import android.content.Context
 import android.os.Bundle
-import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.BackHandler
 import androidx.activity.compose.setContent
@@ -27,6 +26,7 @@ import com.example.github.ui.navigation.Route.Companion.USER_DATA
 import com.example.github.ui.screen.*
 import com.example.github.ui.screen.login.LoginScreen
 import com.example.github.ui.theme.GitHubTheme
+import com.example.github.util.CommonHelper
 import com.example.github.util.log.AppLogger
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -44,12 +44,7 @@ class MainActivity: ComponentActivity() {
                 })
 
         private fun showCommonErrorAndPopBack(navController: NavHostController, context: Context) {
-            Toast.makeText(
-                context,
-                context.getString(R.string.common_error),
-                Toast.LENGTH_SHORT
-            ).show()
-
+            CommonHelper.showToast(context, context.getString(R.string.common_error))
             navController.popBackStack()
         }
     }
