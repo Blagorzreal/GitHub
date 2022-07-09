@@ -24,7 +24,7 @@ import com.example.github.ui.navigation.Route
 import com.example.github.ui.navigation.Route.Companion.REPO_DATA
 import com.example.github.ui.navigation.Route.Companion.USER_DATA
 import com.example.github.ui.screen.*
-import com.example.github.ui.screen.login.LoginScreen
+import com.example.github.ui.screen.LoginScreen
 import com.example.github.ui.theme.GitHubTheme
 import com.example.github.util.CommonHelper
 import com.example.github.util.log.AppLogger

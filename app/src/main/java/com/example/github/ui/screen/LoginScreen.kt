@@ -1,4 +1,4 @@
-package com.example.github.ui.screen.login
+package com.example.github.ui.screen
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.gestures.detectTapGestures
