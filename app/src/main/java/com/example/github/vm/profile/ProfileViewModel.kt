@@ -1,4 +1,4 @@
-package com.example.github.vm
+package com.example.github.vm.profile
 
 import com.example.github.data.LoginSession
 import com.example.github.data.local.repos.IReposDao
@@ -15,21 +15,18 @@ import javax.inject.Inject
 @HiltViewModel
 class ProfileViewModel @Inject constructor(): AbstractViewModel() {
 
-    sealed class LogoutState {
-        object NotLoggedOut: LogoutState()
-        object LoggedOut: LogoutState()
-        object LoggedOutWithError: LogoutState()
-    }
-
     override val tag = "Profile VM"
 
     @Inject lateinit var userDao: IUserDao
     @Inject lateinit var reposDao: IReposDao
 
-    private val _isLoggedOut: MutableStateFlow<LogoutState> = MutableStateFlow(LogoutState.NotLoggedOut)
-    val isLoggedOut: StateFlow<LogoutState> = _isLoggedOut
+    private val _logoutState: MutableStateFlow<LogoutState> = MutableStateFlow(LogoutState.NotLoggedOut)
+    val logoutState: StateFlow<LogoutState> = _logoutState
 
     fun forceLogout() {
+        if (_logoutState.value !is LogoutState.NotLoggedOut)
+            return
+
         logOut(true)
     }
 
@@ -44,8 +41,8 @@ class ProfileViewModel @Inject constructor(): AbstractViewModel() {
         }
 
         if (error)
-            _isLoggedOut.value = LogoutState.LoggedOutWithError
+            _logoutState.value = LogoutState.LoggedOutWithError(false)
         else
-            _isLoggedOut.value = LogoutState.LoggedOut
+            _logoutState.value = LogoutState.LoggedOut
     }
 }

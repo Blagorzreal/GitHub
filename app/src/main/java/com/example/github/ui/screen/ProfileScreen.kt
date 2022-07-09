@@ -21,9 +21,10 @@ import com.example.github.data.data.UserData
 import com.example.github.ui.navigation.Route
 import com.example.github.ui.view.*
 import com.example.github.util.CommonHelper
-import com.example.github.vm.ProfileViewModel
+import com.example.github.vm.profile.ProfileViewModel
 import com.example.github.vm.StarredReposViewModel
 import com.example.github.vm.UserViewModel
+import com.example.github.vm.profile.LogoutState
 
 @Composable
 fun ProfileScreen(
@@ -35,7 +36,7 @@ fun ProfileScreen(
 
     HandleLogout(
         navController = navController,
-        isLoggedOutState = profileViewModel.isLoggedOut.collectAsState())
+        logoutStateState = profileViewModel.logoutState.collectAsState())
 
     if (userData == null) {
         profileViewModel.forceLogout()
@@ -137,11 +138,19 @@ fun ProfileScreen(
 }
 
 @Composable
-private fun HandleLogout(navController: NavHostController, isLoggedOutState: State<ProfileViewModel.LogoutState>) {
-    if (isLoggedOutState.value !is ProfileViewModel.LogoutState.NotLoggedOut) {
+private fun HandleLogout(
+    navController: NavHostController,
+    logoutStateState: State<LogoutState>) {
 
-        if (isLoggedOutState.value is ProfileViewModel.LogoutState.LoggedOutWithError)
-            CommonHelper.showToast(LocalContext.current, stringResource(R.string.logout_with_error))
+    val logoutState = logoutStateState.value
+    if (logoutState !is LogoutState.NotLoggedOut) {
+
+        if (logoutState is LogoutState.LoggedOutWithError) {
+            if (!logoutState.handled) {
+                logoutState.handled = true
+                CommonHelper.showToast(LocalContext.current, stringResource(R.string.logout_with_error))
+            }
+        }
 
         LaunchedEffect(true) {
             Route.inclusiveNavigation(navController, Route.Login, Route.Profile)
