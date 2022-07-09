@@ -13,5 +13,5 @@ import dagger.hilt.android.components.ViewModelComponent
 object FollowersApiModule {
     @Provides
     fun provideFollowersApi(followersApiMap: Map<String, @JvmSuppressWildcards IFollowersApi>) =
-        followersApiMap[BuildConfig.FLAVOR] ?: CommonHelper.throwApiModuleException("followers")
+        followersApiMap[BuildConfig.FLAVOR] ?: throw CommonHelper.throwApiModuleException("followers")
 }

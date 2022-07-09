@@ -13,5 +13,5 @@ import dagger.hilt.android.components.ViewModelComponent
 object ReposApiModule {
     @Provides
     fun provideReposApi(reposApiMap: Map<String, @JvmSuppressWildcards IReposApi>) =
-        reposApiMap[BuildConfig.FLAVOR] ?: CommonHelper.throwApiModuleException("repos")
+        reposApiMap[BuildConfig.FLAVOR] ?: throw CommonHelper.throwApiModuleException("repos")
 }

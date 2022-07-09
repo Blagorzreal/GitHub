@@ -21,7 +21,7 @@ object UserDatabaseModule {
     @Singleton
     @Provides
     fun provideUserDao(userDaoMap: Map<String, @JvmSuppressWildcards IUserDao>) =
-        userDaoMap[BuildConfig.FLAVOR] ?: CommonHelper.throwDatabaseModuleException("user")
+        userDaoMap[BuildConfig.FLAVOR] ?: throw CommonHelper.throwDatabaseModuleException("user")
 
     @Singleton
     @Provides

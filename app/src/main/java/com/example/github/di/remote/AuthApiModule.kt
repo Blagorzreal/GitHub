@@ -13,5 +13,5 @@ import dagger.hilt.android.components.ViewModelComponent
 object AuthApiModule {
     @Provides
     fun provideAuthApi(authApiMap: Map<String, @JvmSuppressWildcards IAuthApi>) =
-        authApiMap[BuildConfig.FLAVOR] ?: CommonHelper.throwApiModuleException("auth")
+        authApiMap[BuildConfig.FLAVOR] ?: throw CommonHelper.throwApiModuleException("auth")
 }

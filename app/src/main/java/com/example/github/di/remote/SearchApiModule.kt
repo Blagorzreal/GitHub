@@ -13,5 +13,5 @@ import dagger.hilt.android.components.ViewModelComponent
 object SearchApiModule {
     @Provides
     fun provideSearchApi(searchApiMap: Map<String, @JvmSuppressWildcards ISearchApi>) =
-        searchApiMap[BuildConfig.FLAVOR] ?: CommonHelper.throwApiModuleException("search")
+        searchApiMap[BuildConfig.FLAVOR] ?: throw CommonHelper.throwApiModuleException("search")
 }

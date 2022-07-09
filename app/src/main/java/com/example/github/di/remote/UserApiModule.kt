@@ -13,5 +13,5 @@ import dagger.hilt.android.components.ViewModelComponent
 object UserApiModule {
     @Provides
     fun provideUserApi(userApiMap: Map<String, @JvmSuppressWildcards IUserApi>) =
-        userApiMap[BuildConfig.FLAVOR] ?: CommonHelper.throwApiModuleException("user")
+        userApiMap[BuildConfig.FLAVOR] ?: throw CommonHelper.throwApiModuleException("user")
 }

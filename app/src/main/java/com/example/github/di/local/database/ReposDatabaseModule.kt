@@ -21,7 +21,7 @@ object ReposDatabaseModule {
     @Singleton
     @Provides
     fun provideReposDao(reposDaoMap: Map<String, @JvmSuppressWildcards IReposDao>) =
-        reposDaoMap[BuildConfig.FLAVOR] ?: CommonHelper.throwDatabaseModuleException("repos")
+        reposDaoMap[BuildConfig.FLAVOR] ?: throw CommonHelper.throwDatabaseModuleException("repos")
 
     @Singleton
     @Provides

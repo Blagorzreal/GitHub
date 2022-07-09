@@ -11,16 +11,10 @@ class CommonHelper private constructor() {
         fun missingVMParameterException(tag: String, parameter: String)
             = Exception("$tag: Unable to get $parameter")
 
-        fun throwDatabaseModuleException(daoModule: String) {
-            throwModuleException("$daoModule database")
-        }
+        fun throwDatabaseModuleException(daoModule: String) = throwModuleException("$daoModule database")
 
-        fun throwApiModuleException(apiModule: String) {
-            throwModuleException("$apiModule api")
-        }
+        fun throwApiModuleException(apiModule: String) = throwModuleException("$apiModule api")
 
-        private fun throwModuleException(module: String) {
-            throw Exception("Unable to get $module")
-        }
+        private fun throwModuleException(module: String) = Exception("Unable to get $module")
     }
 }
