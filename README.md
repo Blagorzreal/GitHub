@@ -23,4 +23,3 @@ There is 1 module that is built as part of the GitHub Android App.
 * Repository "contributors" stuff is not implemented.
 * UserModel shouldn't be embedded into the RepoModel.
 * Fetch data for current screen when "onResume" is called.
-* Search validation (similar to the login username validation) should be implemented.
