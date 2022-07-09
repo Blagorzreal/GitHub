@@ -27,7 +27,6 @@ import com.example.github.ui.navigation.Route.Companion.USER_DATA
 import com.example.github.ui.screen.*
 import com.example.github.ui.screen.login.LoginScreen
 import com.example.github.ui.theme.GitHubTheme
-import com.example.github.ui.view.LogoutLaunchEffect
 import com.example.github.util.log.AppLogger
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -44,16 +43,13 @@ class MainActivity: ComponentActivity() {
                     defaultValue = defaultUserData
                 })
 
-        private fun showCommonError(context: Context) {
+        private fun showCommonErrorAndPopBack(navController: NavHostController, context: Context) {
             Toast.makeText(
                 context,
                 context.getString(R.string.common_error),
                 Toast.LENGTH_SHORT
             ).show()
-        }
 
-        private fun showCommonErrorAndPopBack(navController: NavHostController, context: Context) {
-            showCommonError(context)
             navController.popBackStack()
         }
     }
@@ -90,13 +86,7 @@ class MainActivity: ComponentActivity() {
                                 moveTaskToBack(true)
                             }
 
-                            val userData = it.arguments?.get(USER_DATA) as? UserData
-                            if (userData != null)
-                                ProfileScreen(navController, userData)
-                            else {
-                                showCommonError(this@MainActivity)
-                                LogoutLaunchEffect(navController)
-                            }
+                            ProfileScreen(navController, it.arguments?.get(USER_DATA) as? UserData)
                         }
 
                         composable(

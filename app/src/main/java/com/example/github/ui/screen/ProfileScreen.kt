@@ -1,5 +1,7 @@
 package com.example.github.ui.screen
 
+import android.content.Context
+import android.widget.Toast
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.*
@@ -9,6 +11,7 @@ import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -26,10 +29,19 @@ import com.example.github.vm.UserViewModel
 @Composable
 fun ProfileScreen(
     navController: NavHostController,
-    userData: UserData,
+    userData: UserData?,
     profileViewModel: ProfileViewModel = hiltViewModel(),
     userViewModel: UserViewModel = hiltViewModel(),
     starredReposViewModel: StarredReposViewModel = hiltViewModel()) {
+
+    HandleLogout(
+        navController = navController,
+        isLoggedOutState = profileViewModel.isLoggedOut.collectAsState())
+
+    if (userData == null) {
+        profileViewModel.forceLogout()
+        return
+    }
 
     val ownLazyListState = rememberLazyListState()
     val starredLazyListState = rememberLazyListState()
@@ -123,14 +135,24 @@ fun ProfileScreen(
     UserResponseError(userViewModel = userViewModel)
 
     ReposResponseError(reposViewModel = starredReposViewModel)
-
-    HandleLogout(
-        navController = navController,
-        isLoggedOutState = profileViewModel.isLoggedOut.collectAsState())
 }
 
 @Composable
-private fun HandleLogout(navController: NavHostController, isLoggedOutState: State<Boolean>) {
-    if (isLoggedOutState.value)
-        LogoutLaunchEffect(navController)
+private fun HandleLogout(navController: NavHostController, isLoggedOutState: State<ProfileViewModel.LogoutState>) {
+    if (isLoggedOutState.value !is ProfileViewModel.LogoutState.NotLoggedOut) {
+        if (isLoggedOutState.value is ProfileViewModel.LogoutState.LoggedOutWithError)
+            showLogoutError(LocalContext.current)
+
+        LaunchedEffect(true) {
+            Route.inclusiveNavigation(navController, Route.Login, Route.Profile)
+        }
+    }
+}
+
+private fun showLogoutError(context: Context) {
+    Toast.makeText(
+        context,
+        context.getString(R.string.logout_with_error),
+        Toast.LENGTH_SHORT
+    ).show()
 }

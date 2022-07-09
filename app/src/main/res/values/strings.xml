@@ -22,6 +22,7 @@
     <string name="no_starred_repos_available">No starred repositories available.</string>
     <string name="starred_update_error">Unable to update starred for repo with id = %1$s.</string>
     <string name="logout">Logout</string>
+    <string name="logout_with_error">Missing account data. Please login again.</string>
 
     // UserScreen
     <string name="followers">Followers: %1$s</string>
