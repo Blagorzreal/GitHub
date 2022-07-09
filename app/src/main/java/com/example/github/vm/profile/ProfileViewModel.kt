@@ -1,8 +1,11 @@
 package com.example.github.vm.profile
 
+import androidx.lifecycle.SavedStateHandle
 import com.example.github.data.LoginSession
+import com.example.github.data.data.UserData
 import com.example.github.data.local.repos.IReposDao
 import com.example.github.data.local.user.IUserDao
+import com.example.github.ui.navigation.Route.Companion.USER_DATA
 import com.example.github.util.log.AppLogger
 import com.example.github.vm.base.AbstractViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -13,7 +16,15 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class ProfileViewModel @Inject constructor(): AbstractViewModel() {
+class ProfileViewModel @Inject constructor(savedStateHandle: SavedStateHandle): AbstractViewModel() {
+
+    val userData by lazy {
+        val data = savedStateHandle.get<UserData>(USER_DATA)
+        if (data == null)
+            forceLogout()
+
+        data
+    }
 
     override val tag = "Profile VM"
 
@@ -23,7 +34,7 @@ class ProfileViewModel @Inject constructor(): AbstractViewModel() {
     private val _logoutState: MutableStateFlow<LogoutState> = MutableStateFlow(LogoutState.NotLoggedOut)
     val logoutState: StateFlow<LogoutState> = _logoutState
 
-    fun forceLogout() {
+    private fun forceLogout() {
         if (_logoutState.value !is LogoutState.NotLoggedOut)
             return
 

@@ -17,10 +17,10 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
 import com.example.github.R
-import com.example.github.data.data.UserData
 import com.example.github.ui.navigation.Route
 import com.example.github.ui.view.*
 import com.example.github.util.CommonHelper
+import com.example.github.util.Constants
 import com.example.github.vm.profile.ProfileViewModel
 import com.example.github.vm.StarredReposViewModel
 import com.example.github.vm.UserViewModel
@@ -29,19 +29,9 @@ import com.example.github.vm.profile.LogoutState
 @Composable
 fun ProfileScreen(
     navController: NavHostController,
-    userData: UserData?,
     profileViewModel: ProfileViewModel = hiltViewModel(),
     userViewModel: UserViewModel = hiltViewModel(),
     starredReposViewModel: StarredReposViewModel = hiltViewModel()) {
-
-    HandleLogout(
-        navController = navController,
-        logoutStateState = profileViewModel.logoutState.collectAsState())
-
-    if (userData == null) {
-        profileViewModel.forceLogout()
-        return
-    }
 
     val ownLazyListState = rememberLazyListState()
     val starredLazyListState = rememberLazyListState()
@@ -57,12 +47,12 @@ fun ProfileScreen(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text( text = userData.username) },
+                title = { Text( text = profileViewModel.userData?.username ?: Constants.EMPTY_STRING) },
                 actions = {
                     IconButton(onClick = { showPopup = true }) {
                         AsyncImage(
                             modifier = Modifier.padding(4.dp),
-                            model = userData.avatarUrl,
+                            model = profileViewModel.userData?.avatarUrl,
                             contentDescription = null,
                             contentScale = ContentScale.FillHeight,
                             error = painterResource(R.drawable.ic_avatar)
@@ -135,6 +125,10 @@ fun ProfileScreen(
     UserResponseError(userViewModel = userViewModel)
 
     ReposResponseError(reposViewModel = starredReposViewModel)
+
+    HandleLogout(
+        navController = navController,
+        logoutStateState = profileViewModel.logoutState.collectAsState())
 }
 
 @Composable

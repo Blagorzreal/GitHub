@@ -81,7 +81,7 @@ class MainActivity: ComponentActivity() {
                                 moveTaskToBack(true)
                             }
 
-                            ProfileScreen(navController, it.arguments?.get(USER_DATA) as? UserData)
+                            ProfileScreen(navController)
                         }
 
                         composable(
