@@ -30,6 +30,7 @@ import com.example.github.ui.navigation.Route.Companion.USER_DATA
 import com.example.github.ui.navigation.Route.Companion.inclusiveNavigation
 import com.example.github.ui.theme.Typography
 import com.example.github.ui.view.*
+import com.example.github.util.username.UsernameValidationError
 import com.example.github.vm.LoginViewModel
 
 @Composable

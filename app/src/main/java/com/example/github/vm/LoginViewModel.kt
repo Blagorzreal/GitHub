@@ -4,12 +4,12 @@ import com.example.github.data.LoginSession
 import com.example.github.data.data.UserData
 import com.example.github.data.remote.auth.IAuthApi
 import com.example.github.model.UserModel
-import com.example.github.ui.screen.login.UsernameValidationError
 import com.example.github.util.Constants.Companion.EMPTY_STRING
-import com.example.github.util.LoginHelper
+import com.example.github.util.username.UsernameHelper
 import com.example.github.util.log.AppLogger
 import com.example.github.util.log.LogType
 import com.example.github.util.mapper.UserModelMapper
+import com.example.github.util.username.UsernameValidationError
 import com.example.github.vm.base.BaseApiViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -45,7 +45,7 @@ class LoginViewModel @Inject constructor()
 
         val usernameTrimmed = _username.value.trim().lowercase()
 
-        LoginHelper.validateUsername(usernameTrimmed)?.let {
+        UsernameHelper.validateUsername(usernameTrimmed)?.let {
             AppLogger.log(tag, "invalid username = $usernameTrimmed", LogType.Warning)
             _validationError.value = it
             return

@@ -7,6 +7,8 @@ import com.example.github.data.data.UserData
 import com.example.github.data.remote.ResponseResult
 import com.example.github.model.SearchModel
 import com.example.github.util.Constants
+import com.example.github.util.username.UsernameHelper
+import com.example.github.util.username.UsernameValidationError
 import com.example.github.util.log.AppLogger
 import com.example.github.util.mapper.SearchModelMapper
 import com.example.github.vm.base.BaseApiViewModel
@@ -41,6 +43,9 @@ class SearchViewModel @Inject constructor(private val searchRepository: SearchRe
 
     private val _items: MutableStateFlow<List<UserData>?> = MutableStateFlow(null)
     val items: StateFlow<List<UserData>?> = _items
+
+    private val _validationError: MutableStateFlow<Boolean> = MutableStateFlow(false)
+    val validationError: StateFlow<Boolean> = _validationError
 
     init {
         viewModelScope.launch {
@@ -98,6 +103,12 @@ class SearchViewModel @Inject constructor(private val searchRepository: SearchRe
 
         AppLogger.log(tag, "Search")
 
+        val trimmedUsername = _searchText.value.trim()
+        if (UsernameHelper.validateUsername(trimmedUsername) == UsernameValidationError.BadUsernameValidationError) {
+            _validationError.value = true
+            return
+        }
+
         reset()
         loadNextPage()
     }
@@ -147,5 +158,9 @@ class SearchViewModel @Inject constructor(private val searchRepository: SearchRe
             pages++
 
         return pages
+    }
+
+    fun resetValidationError() {
+        _validationError.value = false
     }
 }

@@ -15,6 +15,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusManager
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
@@ -27,6 +28,7 @@ import com.example.github.data.data.UserData
 import com.example.github.data.remote.ResponseResult
 import com.example.github.ui.navigation.Route.Companion.userScreenNavigation
 import com.example.github.ui.view.*
+import com.example.github.util.CommonHelper
 import com.example.github.vm.FollowersViewModel
 import com.example.github.vm.SearchViewModel
 import com.google.accompanist.swiperefresh.SwipeRefresh
@@ -95,6 +97,11 @@ fun SearchScreen(
         errorState = searchViewModel.error.collectAsState(),
         resetError = searchViewModel::resetError,
         customErrorMessage = stringResource(R.string.unable_to_search)
+    )
+
+    ValidationError(
+        validationErrorState = searchViewModel.validationError.collectAsState(),
+        resetValidationError = searchViewModel::resetValidationError
     )
 }
 
@@ -229,5 +236,16 @@ private fun CommonRow(content: @Composable () -> Unit) {
         horizontalArrangement = Arrangement.Center
     ) {
         content()
+    }
+}
+
+@Composable
+private fun ValidationError(
+    validationErrorState: State<Boolean>,
+    resetValidationError: () -> Unit) {
+
+    if (validationErrorState.value) {
+        resetValidationError()
+        CommonHelper.showToast(LocalContext.current, stringResource(R.string.invalid_username_message))
     }
 }
