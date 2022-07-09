@@ -115,7 +115,7 @@ class MainActivity: ComponentActivity() {
                             route = Route.Search.route,
                             arguments = userDataNavArgument()) {
 
-                            SearchScreen(it.arguments?.get(USER_DATA) as? UserData, navController)
+                            SearchScreen(navController, it.arguments?.get(USER_DATA) as? UserData)
                         }
                     }
                 }

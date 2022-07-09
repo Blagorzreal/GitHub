@@ -34,8 +34,8 @@ import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 
 @Composable
 fun SearchScreen(
-    userData: UserData?,
     navController: NavHostController,
+    userData: UserData?,
     searchViewModel: SearchViewModel = hiltViewModel()
 ) {
     var hideFollowers by rememberSaveable { mutableStateOf(userData == null) }
