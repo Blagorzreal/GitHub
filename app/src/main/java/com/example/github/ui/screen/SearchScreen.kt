@@ -48,9 +48,9 @@ fun SearchScreen(
     else
         null
 
-    OnResumeDisposableEffect(
+    OnStartDisposableEffect(
         owner = LocalLifecycleOwner.current,
-        onResume = {
+        onStart = {
             if (!hideFollowers)
                 followersViewModel?.updateFollowers()
         }

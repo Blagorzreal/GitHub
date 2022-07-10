@@ -23,9 +23,9 @@ fun UserScreen(
     userViewModel: UserViewModel = hiltViewModel(),
     reposViewModel: ReposViewModel = hiltViewModel()) {
 
-    OnResumeDisposableEffect(
+    OnStartDisposableEffect(
         owner = LocalLifecycleOwner.current,
-        onResume = {
+        onStart = {
             userViewModel.updateUser()
             reposViewModel.updateRepos()
         }

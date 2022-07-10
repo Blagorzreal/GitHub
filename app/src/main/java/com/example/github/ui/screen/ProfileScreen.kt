@@ -34,9 +34,9 @@ fun ProfileScreen(
     userViewModel: UserViewModel = hiltViewModel(),
     starredReposViewModel: StarredReposViewModel = hiltViewModel()) {
 
-    OnResumeDisposableEffect(
+    OnStartDisposableEffect(
         owner = LocalLifecycleOwner.current,
-        onResume = {
+        onStart = {
             userViewModel.updateUser()
             starredReposViewModel.updateRepos()
         }

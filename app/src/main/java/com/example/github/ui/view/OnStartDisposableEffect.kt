@@ -7,24 +7,26 @@ import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.LifecycleOwner
 import com.example.github.util.log.AppLogger
 
+private const val tag = "OnStartDisposableEffect"
+
 @Composable
-fun OnResumeDisposableEffect(
+fun OnStartDisposableEffect(
     owner: LifecycleOwner,
-    onResume: () -> Unit,
+    onStart: () -> Unit,
     onDispose: (() -> Unit)? = null) {
 
     DisposableEffect(owner) {
         val observer = LifecycleEventObserver { _, event ->
-            if (event == Lifecycle.Event.ON_RESUME) {
-                AppLogger.log("OnResumeDisposableEffect", "ON_RESUME")
-                onResume()
+            if (event == Lifecycle.Event.ON_START) {
+                AppLogger.log(tag, "ON_START")
+                onStart()
             }
         }
 
         owner.lifecycle.addObserver(observer)
 
         onDispose {
-            AppLogger.log("OnResumeDisposableEffect", "Dispose")
+            AppLogger.log(tag, "Dispose")
             owner.lifecycle.removeObserver(observer)
             onDispose?.invoke()
         }
