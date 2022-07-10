@@ -31,10 +31,6 @@ class UserViewModel @Inject constructor(
     val followers: StateFlow<Long?> = userRepository.followers
     val following: StateFlow<Long?> = userRepository.following
 
-    init {
-        updateUser()
-    }
-
     fun updateUser() {
         AppLogger.log(tag, "Update user")
         fetchData { userRepository.updateUser() }

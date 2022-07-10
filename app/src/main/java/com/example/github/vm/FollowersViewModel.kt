@@ -35,8 +35,6 @@ class FollowersViewModel @Inject constructor(
                 _data.value = mapper(it.followers)
             }
         }
-
-        updateFollowers()
     }
 
     fun updateFollowers() {

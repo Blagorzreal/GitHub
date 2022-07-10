@@ -36,8 +36,6 @@ open class ReposViewModel @Inject constructor(
                 _data.value = mapper(it)
             }
         }
-
-        updateRepos()
     }
 
     fun updateRepos() {

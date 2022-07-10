@@ -17,6 +17,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusManager
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
@@ -46,6 +47,14 @@ fun SearchScreen(
         hiltViewModel()
     else
         null
+
+    OnResumeDisposableEffect(
+        owner = LocalLifecycleOwner.current,
+        onResume = {
+            if (!hideFollowers)
+                followersViewModel?.updateFollowers()
+        }
+    )
 
     val focusManager = LocalFocusManager.current
 

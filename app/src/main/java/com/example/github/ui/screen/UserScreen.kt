@@ -8,6 +8,7 @@ import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
@@ -21,6 +22,14 @@ fun UserScreen(
     navController: NavHostController,
     userViewModel: UserViewModel = hiltViewModel(),
     reposViewModel: ReposViewModel = hiltViewModel()) {
+
+    OnResumeDisposableEffect(
+        owner = LocalLifecycleOwner.current,
+        onResume = {
+            userViewModel.updateUser()
+            reposViewModel.updateRepos()
+        }
+    )
 
     val ownLazyListState = rememberLazyListState()
 
