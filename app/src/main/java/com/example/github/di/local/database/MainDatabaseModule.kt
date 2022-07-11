@@ -3,8 +3,9 @@ package com.example.github.di.local.database
 import android.content.Context
 import androidx.room.Room
 import com.example.github.BuildConfig
+import com.example.github.data.local.MainDatabase
 import com.example.github.data.local.repos.IReposDao
-import com.example.github.data.local.repos.ReposDatabase
+import com.example.github.data.local.user.IUserDao
 import com.example.github.util.CommonHelper
 import dagger.Module
 import dagger.Provides
@@ -25,7 +26,12 @@ object ReposDatabaseModule {
 
     @Singleton
     @Provides
-    fun provideReposDatabase(@ApplicationContext context: Context): ReposDatabase {
-        return Room.databaseBuilder(context, ReposDatabase::class.java, REPOS_TABLE_NAME).build()
+    fun provideUserDao(userDaoMap: Map<String, @JvmSuppressWildcards IUserDao>) =
+        userDaoMap[BuildConfig.FLAVOR] ?: throw CommonHelper.throwDatabaseModuleException("user")
+
+    @Singleton
+    @Provides
+    fun provideMainDatabase(@ApplicationContext context: Context): MainDatabase {
+        return Room.databaseBuilder(context, MainDatabase::class.java, REPOS_TABLE_NAME).build()
     }
 }

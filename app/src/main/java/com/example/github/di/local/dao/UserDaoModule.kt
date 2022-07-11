@@ -1,8 +1,8 @@
 package com.example.github.di.local.dao
 
 import com.example.github.BuildConfig
+import com.example.github.data.local.MainDatabase
 import com.example.github.data.local.user.IUserDao
-import com.example.github.data.local.user.UserDataBase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -18,5 +18,5 @@ class UserDaoModule {
     @Singleton
     @IntoMap
     @StringKey(BuildConfig.FLAVOR_PRODUCTION)
-    fun provideUserDao(userDataBase: UserDataBase): IUserDao = userDataBase.userDao()
+    fun provideUserDao(mainDatabase: MainDatabase): IUserDao = mainDatabase.userDao()
 }
