@@ -22,7 +22,7 @@ open class ReposViewModel @Inject constructor(
     reposRepositoryModuleFactory: ReposRepository.ReposRepositoryModuleFactory)
     : BaseApiViewModel<List<RepoData>, List<RepoModel>>(RepoModelMapper::repoModelListToRepoDataList) {
 
-    override val tag = "User VM"
+    override val tag = "Repos VM"
 
     private val reposRepository: ReposRepository by lazy {
         reposRepositoryModuleFactory.create(savedStateHandle.get<UserData>(Route.USER_DATA)
