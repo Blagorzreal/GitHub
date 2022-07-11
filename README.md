@@ -21,4 +21,3 @@ There is 1 module that is built as part of the GitHub Android App.
 ### TODO
 * User "following" stuff is not implemented.
 * Repository "contributors" stuff is not implemented.
-* UserModel shouldn't be embedded into the RepoModel.
