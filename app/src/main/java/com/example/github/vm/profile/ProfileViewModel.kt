@@ -3,7 +3,7 @@ package com.example.github.vm.profile
 import androidx.lifecycle.SavedStateHandle
 import com.example.github.data.LoginSession
 import com.example.github.data.data.UserData
-import com.example.github.data.local.repos.IReposDao
+import com.example.github.data.local.repo.IRepoDao
 import com.example.github.data.local.user.IUserDao
 import com.example.github.ui.navigation.Route.Companion.USER_DATA
 import com.example.github.util.log.AppLogger
@@ -29,7 +29,7 @@ class ProfileViewModel @Inject constructor(savedStateHandle: SavedStateHandle): 
     override val tag = "Profile VM"
 
     @Inject lateinit var userDao: IUserDao
-    @Inject lateinit var reposDao: IReposDao
+    @Inject lateinit var repoDao: IRepoDao
 
     private val _logoutState: MutableStateFlow<LogoutState> = MutableStateFlow(LogoutState.NotLoggedOut)
     val logoutState: StateFlow<LogoutState> = _logoutState
@@ -48,7 +48,7 @@ class ProfileViewModel @Inject constructor(savedStateHandle: SavedStateHandle): 
 
         CoroutineScope(dispatcher).launch {
             userDao.deleteAll()
-            reposDao.deleteAll()
+            repoDao.deleteAll()
         }
 
         if (error)

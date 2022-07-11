@@ -1,9 +1,9 @@
-package com.example.github.data.local.repos
+package com.example.github.data.local.repo
 
 import com.example.github.model.RepoModel
 import kotlinx.coroutines.flow.Flow
 
-interface IReposDao {
+interface IRepoDao {
     fun getAll(ownerId: Long): Flow<List<RepoModel>>
     fun getAllStarred(): Flow<List<RepoModel>>
     suspend fun insertRepo(repo: RepoModel): Long

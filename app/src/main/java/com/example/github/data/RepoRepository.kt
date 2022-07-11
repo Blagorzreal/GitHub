@@ -1,7 +1,7 @@
 package com.example.github.data
 
 import com.example.github.data.data.RepoData
-import com.example.github.data.local.repos.IReposDao
+import com.example.github.data.local.repo.IRepoDao
 import com.example.github.util.log.AppLogger
 import dagger.Module
 import dagger.assisted.Assisted
@@ -26,7 +26,7 @@ class RepoRepository @AssistedInject constructor (@Assisted val repoData: RepoDa
         fun create(repoData: RepoData): RepoRepository
     }
 
-    @Inject lateinit var reposDao: IReposDao
+    @Inject lateinit var repoDao: IRepoDao
 
     private val _starred: MutableStateFlow<Boolean> = MutableStateFlow(repoData.starred)
     val starred: StateFlow<Boolean> = _starred
@@ -38,7 +38,7 @@ class RepoRepository @AssistedInject constructor (@Assisted val repoData: RepoDa
         AppLogger.log(TAG, "Prepare for repo update with $repoDataId to starred=$starred")
 
         return try {
-            reposDao.updateStarred(repoDataId, if (starred) 1 else 0)
+            repoDao.updateStarred(repoDataId, if (starred) 1 else 0)
 
             repoData.starred = starred
             _starred.value = starred

@@ -1,4 +1,4 @@
-package com.example.github.data.local.repos
+package com.example.github.data.local.repo
 
 import androidx.room.*
 import com.example.github.model.RepoModel
@@ -6,7 +6,7 @@ import com.example.github.util.Constants.Companion.NOT_INSERTED_SINCE_EXISTS
 import kotlinx.coroutines.flow.Flow
 
 @Dao
-interface ReposDao: IReposDao {
+interface RepoDao: IRepoDao {
     @Query("SELECT * FROM RepoModel WHERE owner_id = :ownerId")
     override fun getAll(ownerId: Long): Flow<List<RepoModel>>
 

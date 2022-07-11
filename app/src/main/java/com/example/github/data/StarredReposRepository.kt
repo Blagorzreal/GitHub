@@ -20,5 +20,5 @@ class StarredReposRepository @AssistedInject constructor(@Assisted userData: Use
 
     override val tag = "Starred repos repo"
 
-    val starredRepos by lazy { reposDao.getAllStarred() }
+    val starredRepos by lazy { repoDao.getAllStarred() }
 }

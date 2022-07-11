@@ -4,7 +4,7 @@ import android.content.Context
 import androidx.room.Room
 import com.example.github.BuildConfig
 import com.example.github.data.local.MainDatabase
-import com.example.github.data.local.repos.IReposDao
+import com.example.github.data.local.repo.IRepoDao
 import com.example.github.data.local.user.IUserDao
 import com.example.github.util.CommonHelper
 import dagger.Module
@@ -18,11 +18,11 @@ private const val MAIN_TABLE_NAME = "main"
 
 @InstallIn(SingletonComponent::class)
 @Module
-object ReposDatabaseModule {
+object RepoDatabaseModule {
     @Singleton
     @Provides
-    fun provideReposDao(reposDaoMap: Map<String, @JvmSuppressWildcards IReposDao>) =
-        reposDaoMap[BuildConfig.FLAVOR] ?: throw CommonHelper.throwDatabaseModuleException("repos")
+    fun provideRepoDao(repoDaoMap: Map<String, @JvmSuppressWildcards IRepoDao>) =
+        repoDaoMap[BuildConfig.FLAVOR] ?: throw CommonHelper.throwDatabaseModuleException("repo")
 
     @Singleton
     @Provides

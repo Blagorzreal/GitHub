@@ -1,4 +1,4 @@
-package com.example.github.data.local.repos
+package com.example.github.data.local.repo
 
 import com.example.github.BuildConfig
 import com.example.github.data.MockedData.Companion.repos
@@ -15,7 +15,7 @@ import javax.inject.Singleton
 
 @InstallIn(SingletonComponent::class)
 @Module
-class MockedReposDao: IReposDao {
+class MockedRepoDao: IRepoDao {
     override fun getAll(ownerId: Long): Flow<List<RepoModel>> = flow { emit(repos) }
 
     override fun getAllStarred(): Flow<List<RepoModel>> =
@@ -46,5 +46,5 @@ class MockedReposDao: IReposDao {
     @Singleton
     @IntoMap
     @StringKey(BuildConfig.FLAVOR_MOCKED)
-    fun provideReposDao(): IReposDao = MockedReposDao()
+    fun provideRepoDao(): IRepoDao = MockedRepoDao()
 }
