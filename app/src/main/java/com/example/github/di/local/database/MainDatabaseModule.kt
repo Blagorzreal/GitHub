@@ -14,7 +14,7 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 
-private const val REPOS_TABLE_NAME = "repos"
+private const val MAIN_TABLE_NAME = "main"
 
 @InstallIn(SingletonComponent::class)
 @Module
@@ -32,6 +32,6 @@ object ReposDatabaseModule {
     @Singleton
     @Provides
     fun provideMainDatabase(@ApplicationContext context: Context): MainDatabase {
-        return Room.databaseBuilder(context, MainDatabase::class.java, REPOS_TABLE_NAME).build()
+        return Room.databaseBuilder(context, MainDatabase::class.java, MAIN_TABLE_NAME).build()
     }
 }
