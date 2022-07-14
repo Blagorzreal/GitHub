@@ -5,7 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.github.data.ReposRepository
 import com.example.github.data.data.RepoData
 import com.example.github.data.data.UserData
-import com.example.github.model.RepoModel
+import com.example.github.model.relation.RepoWithOwnerRelation
 import com.example.github.ui.navigation.Route
 import com.example.github.util.CommonHelper
 import com.example.github.util.mapper.RepoModelMapper
@@ -20,7 +20,7 @@ import javax.inject.Inject
 open class ReposViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     reposRepositoryModuleFactory: ReposRepository.ReposRepositoryModuleFactory)
-    : BaseApiViewModel<List<RepoData>, List<RepoModel>>(RepoModelMapper::repoModelListToRepoDataList) {
+    : BaseApiViewModel<List<RepoData>, List<RepoWithOwnerRelation?>>(RepoModelMapper::repoWithOwnerRelationToRepoDataList) {
 
     override val tag = "Repos VM"
 

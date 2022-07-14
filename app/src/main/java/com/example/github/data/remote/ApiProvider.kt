@@ -1,7 +1,9 @@
 package com.example.github.data.remote
 
 import com.example.github.BuildConfig
+import com.example.github.model.relation.RepoWithOwnerRelation
 import com.example.github.util.NetworkManager
+import com.example.github.util.RepoModelDeserializer
 import com.example.github.util.log.AppLogger
 import com.example.github.util.log.LogType
 import com.google.gson.GsonBuilder
@@ -18,10 +20,16 @@ class ApiProvider private constructor() {
 
         val retrofit: Retrofit by lazy {
             Retrofit.Builder()
-                .addConverterFactory(GsonConverterFactory.create(GsonBuilder().create()))
+                .addConverterFactory(createGsonConverterFactory())
                 .client(okHttpClient)
                 .baseUrl(BuildConfig.GITHUB_API_URL)
                 .build()
+        }
+
+        private fun createGsonConverterFactory(): GsonConverterFactory {
+            val gsonBuilder = GsonBuilder()
+            gsonBuilder.registerTypeAdapter(RepoWithOwnerRelation::class.java, RepoModelDeserializer())
+            return GsonConverterFactory.create(gsonBuilder.create())
         }
 
         suspend fun <T> requestUnsafe(

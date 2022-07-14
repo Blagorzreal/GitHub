@@ -8,8 +8,8 @@ import com.example.github.model.UserModel
 data class UserWithFollowersRelation(
     @Embedded val userModel: UserModel,
     @Relation(
-        parentColumn = "owner_id",
-        entityColumn = "owner_id",
+        parentColumn = "id",
+        entityColumn = "id",
         associateBy = Junction(
             value = UserWithFollowersRef::class,
             parentColumn = "id1",

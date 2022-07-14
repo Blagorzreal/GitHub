@@ -12,10 +12,10 @@ interface UserDao: IUserDao {
     @Query("SELECT * FROM UserModel WHERE login LIKE :usernameCriteria ORDER BY login ASC LIMIT :limit OFFSET :offset")
     override suspend fun searchByUsername(usernameCriteria: String, offset: Int, limit: Int): List<UserModel>
 
-    @Query("SELECT COUNT(owner_id) FROM UserModel WHERE login LIKE :usernameCriteria")
+    @Query("SELECT COUNT(id) FROM UserModel WHERE login LIKE :usernameCriteria")
     override suspend fun getColumnCountByUsername(usernameCriteria: String): Int
 
-    @Query("SELECT * FROM UserModel WHERE owner_id = :id")
+    @Query("SELECT * FROM UserModel WHERE id = :id")
     override suspend fun getById(id: Long): UserModel?
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
@@ -34,10 +34,10 @@ interface UserDao: IUserDao {
         }
     }
 
-    @Query("UPDATE UserModel SET followers=:followers, following=:following WHERE owner_id = :id")
+    @Query("UPDATE UserModel SET followers=:followers, following=:following WHERE id = :id")
     override suspend fun updateUserFollowersFollowing(id: Long, followers: Long, following: Long)
 
-    @Query("UPDATE UserModel SET login=:name, avatarUrl=:avatarUrl WHERE owner_id = :id")
+    @Query("UPDATE UserModel SET login=:name, avatarUrl=:avatarUrl WHERE id = :id")
     override suspend fun updateUsernameAvatar(id: Long, name: String, avatarUrl: String?)
 
     @Query("DELETE FROM UserModel")
@@ -54,6 +54,6 @@ interface UserDao: IUserDao {
     }
 
     @Transaction
-    @Query("SELECT * FROM UserModel WHERE owner_id = :ownerId")
-    override fun getFollowers(ownerId: Long): Flow<UserWithFollowersRelation>
+    @Query("SELECT * FROM UserModel WHERE id = :id")
+    override fun getFollowers(id: Long): Flow<UserWithFollowersRelation>
 }

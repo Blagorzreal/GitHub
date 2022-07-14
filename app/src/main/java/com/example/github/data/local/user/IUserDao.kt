@@ -16,5 +16,5 @@ interface IUserDao {
     suspend fun deleteAll()
     suspend fun insertFollowers(userWithFollowersRef: UserWithFollowersRef)
     suspend fun insertUsersAsFollowers(id: Long, followers: List<UserModel>)
-    fun getFollowers(ownerId: Long): Flow<UserWithFollowersRelation>
+    fun getFollowers(id: Long): Flow<UserWithFollowersRelation>
 }

@@ -19,15 +19,6 @@ class MockedData private constructor() {
             UserModel(11, "test11", 4, 11, null)
         )
 
-        val repos = mutableListOf(
-            RepoModel(1, "repo1", users[3]),
-            RepoModel(2, "repo2", users[1]),
-            RepoModel(3, "repo3", users[5], true),
-            RepoModel(4, "repo4", users[5]),
-            RepoModel(5, "repo5", users[8]),
-            RepoModel(6, "repo6", users[3]),
-            RepoModel(7, "repo7", users[3], true),
-            RepoModel(8, "repo8", users[3])
-        )
+        val repos = mutableListOf<RepoModel>()
     }
 }

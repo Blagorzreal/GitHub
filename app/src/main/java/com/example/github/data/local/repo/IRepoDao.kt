@@ -1,11 +1,12 @@
 package com.example.github.data.local.repo
 
 import com.example.github.model.RepoModel
+import com.example.github.model.relation.RepoWithOwnerRelation
 import kotlinx.coroutines.flow.Flow
 
 interface IRepoDao {
-    fun getAll(ownerId: Long): Flow<List<RepoModel>>
-    fun getAllStarred(): Flow<List<RepoModel>>
+    fun getAll(ownerId: Long): Flow<List<RepoWithOwnerRelation>>
+    fun getAllStarred(): Flow<List<RepoWithOwnerRelation>>
     suspend fun insertRepo(repo: RepoModel): Long
     suspend fun insertRepos(repos: List<RepoModel>)
     suspend fun updateName(id: Long, name: String)

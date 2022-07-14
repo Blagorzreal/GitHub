@@ -52,7 +52,7 @@ class MockedUserDao: IUserDao {
     override suspend fun insertUsersAsFollowers(id: Long, followers: List<UserModel>) {
     }
 
-    override fun getFollowers(ownerId: Long): Flow<UserWithFollowersRelation> =
+    override fun getFollowers(id: Long): Flow<UserWithFollowersRelation> =
         flow { emit(UserWithFollowersRelation(users[0], followers)) }
 
     @Provides

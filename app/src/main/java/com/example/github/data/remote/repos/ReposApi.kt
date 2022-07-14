@@ -3,7 +3,7 @@ package com.example.github.data.remote.repos
 import com.example.github.BuildConfig
 import com.example.github.data.remote.ApiProvider
 import com.example.github.data.remote.ResponseResult
-import com.example.github.model.RepoModel
+import com.example.github.model.relation.RepoWithOwnerRelation
 import com.example.github.util.Constants.Companion.USERNAME
 import com.example.github.util.Constants.Companion.USERS
 import dagger.Module
@@ -26,14 +26,14 @@ class ReposApi: IReposApi {
 
     private interface ReposApiRetrofit {
         @GET("/$USERS/{$USERNAME}/repos")
-        suspend fun getRepos(@Path(USERNAME) username: String): Response<List<RepoModel>>
+        suspend fun getRepos(@Path(USERNAME) username: String): Response<List<RepoWithOwnerRelation?>>
     }
 
     private val reposApi: ReposApiRetrofit by lazy {
         ApiProvider.retrofit.create(ReposApiRetrofit::class.java)
     }
 
-    override suspend fun getRepos(username: String): ResponseResult<List<RepoModel>> =
+    override suspend fun getRepos(username: String): ResponseResult<List<RepoWithOwnerRelation?>> =
         ApiProvider.requestUnsafe(TAG, { reposApi.getRepos(username) })
 
     @Provides
