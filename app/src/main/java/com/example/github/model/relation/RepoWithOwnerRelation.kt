@@ -13,13 +13,3 @@ data class RepoWithOwnerRelation(
     )
     val owner: UserModel
 )
-
-/*
-data class OwnerWithReposRelation(
-    @Embedded val owner: UserModel,
-    @Relation(
-        parentColumn = "id",
-        entityColumn = "owner_id",
-    )
-    val repos: List<RepoModel>
-)*/
