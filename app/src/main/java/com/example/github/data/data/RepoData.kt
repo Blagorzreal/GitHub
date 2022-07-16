@@ -17,9 +17,15 @@ data class RepoData(
         other as RepoData
 
         if (id != other.id) return false
+        if (owner != other.owner) return false
 
-        return owner == other.owner
+        return true
     }
 
-    override fun hashCode() = owner.hashCode() + id.hashCode()
+    override fun hashCode(): Int {
+        var result = id.hashCode()
+        result = 31 * result + name.hashCode()
+        result = 31 * result + owner.hashCode()
+        return result
+    }
 }
