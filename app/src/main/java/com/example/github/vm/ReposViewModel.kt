@@ -12,6 +12,8 @@ import com.example.github.util.mapper.RepoModelMapper
 import com.example.github.util.log.AppLogger
 import com.example.github.vm.base.BaseApiViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -24,6 +26,9 @@ open class ReposViewModel @Inject constructor(
 
     override val tag = "Repos VM"
 
+    private val _repos: MutableStateFlow<MutableList<RepoData>> = MutableStateFlow(mutableListOf())
+    val repos: StateFlow<List<RepoData>> = _repos
+
     private val reposRepository: ReposRepository by lazy {
         reposRepositoryModuleFactory.create(savedStateHandle.get<UserData>(Route.USER_DATA)
             ?: throw CommonHelper.missingVMParameterException(tag, Route.USER_DATA))
@@ -33,7 +38,14 @@ open class ReposViewModel @Inject constructor(
         viewModelScope.launch {
             reposRepository.localRepos.collectLatest {
                 AppLogger.log(tag, "Local repos changed: ${it.size}")
-                _data.value = mapper(it)
+
+                mapper(it).forEach { repo ->
+                    val index = _repos.value.indexOf(repo)
+                    if (index >= 0)
+                        _repos.value[index] = repo
+                    else
+                        _repos.value += repo
+                }
             }
         }
     }
@@ -44,7 +56,7 @@ open class ReposViewModel @Inject constructor(
     }
 
     override fun onData(data: List<RepoData>) {
-        if (_data.value.isNullOrEmpty())
-            _data.value = data.sortedBy { it.id }
+        if (_repos.value.isEmpty())
+            _repos.value += data.sortedBy { it.id }
     }
 }

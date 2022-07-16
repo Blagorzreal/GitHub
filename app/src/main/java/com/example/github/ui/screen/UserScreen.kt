@@ -49,7 +49,7 @@ fun UserScreen(
                     headerText = stringResource(R.string.repos),
                     noItemsText = stringResource(R.string.no_repos_available),
                     lazyListState = ownLazyListState,
-                    reposState = reposViewModel.data.collectAsState(),
+                    reposState = reposViewModel.repos.collectAsState(),
                     isLoadingState = reposViewModel.isLoading.collectAsState(),
                     onClick = { repoData ->
                         navigateToRepositoryScreen(navController, repoData)

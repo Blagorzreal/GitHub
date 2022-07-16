@@ -107,7 +107,7 @@ fun ProfileScreen(
                     headerText = stringResource(R.string.own_repos),
                     noItemsText = stringResource(R.string.no_own_repos_available),
                     lazyListState = ownLazyListState,
-                    reposState = starredReposViewModel.data.collectAsState(),
+                    reposState = starredReposViewModel.repos.collectAsState(),
                     isLoadingState = starredReposViewModel.isLoading.collectAsState(),
                     onClick = { repoData ->
                         navigateToRepositoryScreen(navController, repoData)
