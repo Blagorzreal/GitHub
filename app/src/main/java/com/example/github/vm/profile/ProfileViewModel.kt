@@ -47,8 +47,8 @@ class ProfileViewModel @Inject constructor(savedStateHandle: SavedStateHandle): 
         LoginSession.clean()
 
         CoroutineScope(dispatcher).launch {
-            userDao.deleteAll()
             repoDao.deleteAll()
+            userDao.deleteAll()
         }
 
         if (error)

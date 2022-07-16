@@ -1,8 +1,8 @@
 package com.example.github.data.remote.repos
 
 import com.example.github.BuildConfig
+import com.example.github.data.MockedData
 import com.example.github.data.remote.ResponseResult
-import com.example.github.model.relation.RepoWithOwnerRelation
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -14,9 +14,16 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 class MockedReposApi: IReposApi {
-    override suspend fun getRepos(username: String): ResponseResult<List<RepoWithOwnerRelation>> {
-        TODO("Not yet implemented")
-    }
+    override suspend fun getRepos(username: String) =
+        ResponseResult.Success(
+            listOf(
+                MockedData.reposWithOwner[0],
+                MockedData.reposWithOwner[1],
+                MockedData.reposWithOwner[2],
+                MockedData.reposWithOwner[3],
+                MockedData.reposWithOwner[4]
+            )
+        )
 
     @Provides
     @Singleton
