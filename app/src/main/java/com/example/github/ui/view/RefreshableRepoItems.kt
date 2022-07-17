@@ -84,7 +84,7 @@ fun RepoItems(
                     }
                 }
             }
-        } else if ((isLoadingState != null) && !isLoadingState.value) {
+        } else if ((isLoadingState == null) || !isLoadingState.value) {
             item {
                 ItemsHeader(noItemsText)
             }

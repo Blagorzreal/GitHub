@@ -33,6 +33,7 @@ class StarredReposViewModel @Inject constructor(
         viewModelScope.launch {
             starredReposRepository.starredRepos.collectLatest {
                 AppLogger.log(tag, "Starred repos changed: ${it.size}")
+
                 starredRepos.clear()
                 starredRepos.addAll(mapper(it))
             }
