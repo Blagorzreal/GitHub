@@ -1,5 +1,6 @@
 package com.example.github.vm
 
+import androidx.compose.runtime.mutableStateListOf
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import com.example.github.data.ReposRepository
@@ -12,8 +13,6 @@ import com.example.github.util.mapper.RepoModelMapper
 import com.example.github.util.log.AppLogger
 import com.example.github.vm.base.BaseApiViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -26,8 +25,7 @@ open class ReposViewModel @Inject constructor(
 
     override val tag = "Repos VM"
 
-    private val _repos: MutableStateFlow<MutableList<RepoData>> = MutableStateFlow(mutableListOf())
-    val repos: StateFlow<List<RepoData>> = _repos
+    val repos = mutableStateListOf<RepoData>()
 
     private val reposRepository: ReposRepository by lazy {
         reposRepositoryModuleFactory.create(savedStateHandle.get<UserData>(Route.USER_DATA)
@@ -39,13 +37,8 @@ open class ReposViewModel @Inject constructor(
             reposRepository.localRepos.collectLatest {
                 AppLogger.log(tag, "Local repos changed: ${it.size}")
 
-                mapper(it).forEach { repo ->
-                    val index = _repos.value.indexOf(repo)
-                    if (index >= 0)
-                        _repos.value[index] = repo
-                    else
-                        _repos.value += repo
-                }
+                repos.clear()
+                repos.addAll(mapper(it))
             }
         }
     }
@@ -56,7 +49,7 @@ open class ReposViewModel @Inject constructor(
     }
 
     override fun onData(data: List<RepoData>) {
-        if (_repos.value.isEmpty())
-            _repos.value += data.sortedBy { it.id }
+        if (repos.isEmpty())
+            repos.addAll(data.sortedBy { it.id })
     }
 }

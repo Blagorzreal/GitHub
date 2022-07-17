@@ -8,6 +8,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.State
+import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -22,7 +23,7 @@ fun RefreshableRepoItems(
     headerText: String,
     noItemsText: String,
     lazyListState: LazyListState,
-    reposState: State<List<RepoData>?>,
+    reposState: SnapshotStateList<RepoData>,
     isLoadingState: State<Boolean>,
     onClick: (repo: RepoData) -> Unit,
     refresh: () -> Unit) {
@@ -45,23 +46,23 @@ fun RefreshableRepoItems(
 fun RepoItems(
     headerText: String,
     noItemsText: String,
-    reposState: State<List<RepoData>?>,
+    reposState: SnapshotStateList<RepoData>,
     lazyListState: LazyListState,
     onClick: (repo: RepoData) -> Unit,
     isLoadingState: State<Boolean>?
 ) {
-    val repos = reposState.value
-    val isLoadingStateNotAvailable = isLoadingState == null
-
     LazyColumn(modifier = Modifier
         .fillMaxSize()
         .padding(top = 6.dp), state = lazyListState) {
-        if (!repos.isNullOrEmpty()) {
+        if (!reposState.isEmpty()) {
             item {
                 ItemsHeader(text = headerText)
             }
 
-            items(repos) {
+            items(
+                items = reposState,
+                key = { it.id }
+            ) {
                 Column(
                     Modifier
                         .fillMaxWidth()
@@ -78,11 +79,12 @@ fun RepoItems(
                                 .height(30.dp)
                                 .padding(4.dp),
                             onClick = null,
-                            selected = it.starred)
+                            selected = it.starred
+                        )
                     }
                 }
             }
-        } else if ((isLoadingStateNotAvailable || !isLoadingState!!.value) && (repos != null)) {
+        } else if ((isLoadingState != null) && !isLoadingState.value) {
             item {
                 ItemsHeader(noItemsText)
             }

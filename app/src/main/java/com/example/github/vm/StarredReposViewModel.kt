@@ -1,5 +1,6 @@
 package com.example.github.vm
 
+import androidx.compose.runtime.mutableStateListOf
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import com.example.github.data.StarredReposRepository
@@ -28,14 +29,14 @@ class StarredReposViewModel @Inject constructor(
             ?: throw CommonHelper.missingVMParameterException(tag, Route.USER_DATA))
     }
 
-    private val _starredRepos: MutableStateFlow<List<RepoData>> = MutableStateFlow(emptyList())
-    val starredRepos: StateFlow<List<RepoData>> = _starredRepos
+    val starredRepos = mutableStateListOf<RepoData>()
 
     init {
         viewModelScope.launch {
             starredReposRepository.starredRepos.collectLatest {
                 AppLogger.log(tag, "Starred repos changed: ${it.size}")
-                _starredRepos.value = mapper(it)
+                starredRepos.clear()
+                starredRepos.addAll(mapper(it))
             }
         }
     }

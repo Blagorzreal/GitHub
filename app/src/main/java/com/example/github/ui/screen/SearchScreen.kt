@@ -153,7 +153,9 @@ private fun FollowersItems(
                     return@LazyColumn
 
                 if (users.isNotEmpty()) {
-                    items(users) {
+                    items(
+                        items = users,
+                        key = { it.id }) {
                         Column(
                             Modifier
                                 .fillMaxWidth()
@@ -206,7 +208,9 @@ private fun UserItem(
             .padding(top = 6.dp), state = lazyListState
     ) {
         if (users.isNotEmpty()) {
-            items(users) {
+            items(
+                items = users,
+                key = { it.id }) {
                 Column(
                     Modifier
                         .fillMaxWidth()
