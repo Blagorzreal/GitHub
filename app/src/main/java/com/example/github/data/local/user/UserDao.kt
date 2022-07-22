@@ -48,7 +48,12 @@ interface UserDao: IUserDao {
     override suspend fun insertFollowers(userWithFollowersRef: UserWithFollowersRef)
 
     @Transaction
+    @Query("DELETE FROM UserWithFollowersRef WHERE id1 = :id")
+    override suspend fun deleteFollowers(id: Long)
+
+    @Transaction
     override suspend fun insertUsersAsFollowers(id: Long, followers: List<UserModel>) {
+        deleteFollowers(id)
         insertUsers(followers)
         followers.forEach { insertFollowers(UserWithFollowersRef(id, it.id)) }
     }
